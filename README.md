@@ -3,7 +3,7 @@
 [![CodeQL](https://github.com/futugyou/nextjs-backend-server/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/futugyou/nextjs-backend-server/actions/workflows/codeql.yml)
 [![Dependabot](https://github.com/futugyou/nextjs-backend-server/actions/workflows/dependabot-auto.yml/badge.svg?branch=master)](https://github.com/futugyou/nextjs-backend-server/actions/workflows/dependabot-auto.yml)
 [![Vercel Preview Deployment](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-preview.yaml/badge.svg?branch=master)](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-preview.yaml)
-[![Vercel Production Deployment](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-production.yamlbadge.svg?branch=master)](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-production.yaml)
+[![Vercel Production Deployment](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-production.yaml/badge.svg?branch=master)](https://github.com/futugyou/nextjs-backend-server/actions/workflows/vercel-production.yaml)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
