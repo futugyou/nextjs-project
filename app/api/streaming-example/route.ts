@@ -4,7 +4,7 @@ export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 // This method must be named GET
-export async function GET() {
+export const GET = async () => {
     // This encoder will stream your text
     const encoder = new TextEncoder()
     const customReadable = new ReadableStream({

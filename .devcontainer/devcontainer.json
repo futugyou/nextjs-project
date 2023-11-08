@@ -4,7 +4,7 @@
       "cpus": 4
     },
     "waitFor": "onCreateCommand",
-    "updateContentCommand": "npm i -g next && npm install && npm run build",
+    "updateContentCommand": "npm i -g vercel@latest && npm i -g next && npm install && npm run build",
     "postCreateCommand": "",
     "postAttachCommand": {
       "server": "npm run dev"
