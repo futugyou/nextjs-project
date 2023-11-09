@@ -6,9 +6,7 @@
     "waitFor": "onCreateCommand",
     "updateContentCommand": "npm i -g vercel@latest && npm i -g next && npm install && npm run build",
     "postCreateCommand": "",
-    "postAttachCommand": {
-      "server": "npm run dev"
-    },
+    "postAttachCommand": "/bin/bash .devcontainer/setup.sh",
     "customizations": {
       "codespaces": {
         "openFiles": [
@@ -23,7 +21,7 @@
       }
     },
 	"forwardPorts": [
-		3000
+		3000, 3001
 	],
 	"features": {
 		"ghcr.io/devcontainers/features/rust:1": {}
