@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@vercel/edge": "^1.2.1",
-    "@vercel/og": "^0.6.4",
+    "@vercel/og": "^0.6.5",
     "next": "14.2.15",
     "octokit": "^4.1.0",
     "react": "^18",
