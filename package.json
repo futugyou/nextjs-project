@@ -13,12 +13,12 @@
     "@vercel/og": "^0.6.8",
     "next": "14.2.21",
     "octokit": "^5.0.2",
-    "react": "^18",
+    "react": "^19",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/react": "^18",
+    "@types/react": "^19",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
