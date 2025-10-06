@@ -1,30 +1,31 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
-    "hostRequirements": {
-      "cpus": 4
-    },
-    "waitFor": "onCreateCommand",
-    "updateContentCommand": "npm i -g vercel@latest && npm i -g next && npm install && npm run build",
-    "postCreateCommand": "",
-    "postAttachCommand": "/bin/bash .devcontainer/setup.sh",
-    "customizations": {
-      "codespaces": {
-        "openFiles": [
-          "app/page.tsx"
-        ]
-      }
-    },
-    "portsAttributes": {
-      "3000": {
-        "label": "Application",
-        "onAutoForward": "openPreview"
-      }
-    },
-	"forwardPorts": [
-		3000, 3001
-	],
-	"features": {
-		"ghcr.io/devcontainers/features/rust:1": {}
-	}
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1.1.9-22-bullseye",
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "waitFor": "onCreateCommand",
+  "onCreateCommand": "npm install",
+  "updateContentCommand": "npm run build",
+  "postCreateCommand": "npm install -g vercel@latest next",
+  "postAttachCommand": "/bin/bash .devcontainer/setup.sh",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "app/page.tsx"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "forwardPorts": [
+    3000,
+    3001
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/rust:1": {}
   }
-  
+}

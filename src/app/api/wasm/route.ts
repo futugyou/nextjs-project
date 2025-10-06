@@ -36,7 +36,7 @@
 
 
 export function GET(request: Request) {
-     
+    console.log(request.url)
 
     return new Response(
         `

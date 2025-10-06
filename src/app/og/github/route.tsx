@@ -1,15 +1,11 @@
 import { ImageResponse } from 'next/og'
-// App router includes @vercel/og.
-// No need to install it.
 
 export const runtime = 'edge'
 
 export async function GET(request: Request) {
-  // const { searchParams } = new URL(request.url)
-  // const username = searchParams.get('username')
-  const username = 'futugyou'
-  console.log(username)
-  
+  const { searchParams } = new URL(request.url)
+  const username = searchParams.get('username') ?? 'futugyou'
+
   return new ImageResponse(
     (
       <div
@@ -29,6 +25,7 @@ export async function GET(request: Request) {
         <img
           width="256"
           height="256"
+          alt={`${username}'s GitHub avatar`}
           src={`https://github.com/${username}.png`}
           style={{
             borderRadius: 128,

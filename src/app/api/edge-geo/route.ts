@@ -1,7 +1,6 @@
-import { geolocation, ipAddress } from '@vercel/edge'
+import { geolocation, ipAddress } from '@vercel/functions'
+
 export const runtime = 'edge'
-
-
 
 export function GET(request: Request) {
     const { city, country, latitude, longitude, region } = geolocation(request)
