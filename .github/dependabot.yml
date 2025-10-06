@@ -9,3 +9,22 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      react:
+        patterns:
+        - "@react*"
+        - "react*"
+      vercel:
+        patterns:
+        - "@vercel*"
+        - "vercel*"
+      next:
+        patterns:
+        - "@next*"
+        - "next*"
+        
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "04:00"
