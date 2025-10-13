@@ -12,7 +12,7 @@ jobs:
     environment:
       name: Production
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - name: Install Vercel CLI
         run: npm install --global vercel@canary
       - name: Pull Vercel Environment Information
