@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@vercel/functions": "^3.3.3",
+    "@vercel/functions": "^3.3.4",
     "next": "16.0.3",
     "octokit": "^5.0.5",
     "react": "19.2.0",
