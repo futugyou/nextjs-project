@@ -21,7 +21,7 @@ const serviceAdapter = new ExperimentalEmptyAdapter();
 const createCopilotRuntime = (id: string) => {
   return new CopilotRuntime({
     agents: {
-      [id]: new HttpAgent({ url: buildUrl(process.env.NEXT_PUBLIC_BACKEND_URL, id), agentId: id }),
+      [id]: new HttpAgent({ url: buildUrl(process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000", id), agentId: id }),
     },
   });
 };
