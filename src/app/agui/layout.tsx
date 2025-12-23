@@ -3,7 +3,7 @@ import "@copilotkit/react-ui/styles.css";
 
 export default function RootLayout({ children }: {children: React.ReactNode}) {
   return ( 
-        <CopilotKit runtimeUrl="/api/copilotkit" agent="my_agent">
+        <CopilotKit runtimeUrl="/api/copilotkit/light" agent="light">
           {children}
         </CopilotKit> 
   );
