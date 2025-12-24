@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import {
   CopilotKit,
   useHumanInTheLoop,
   useCopilotAction,
+  useFrontendTool
 } from "@copilotkit/react-core";
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
 
@@ -12,6 +14,27 @@ import LightCard from "@/components/light/LightCard";
 import type { GetLightsToolResult } from "@/components/light/LightCard";
 
 export default function LightChat() {
+  const [background, setBackground] = useState<string>("--copilot-kit-background-color");
+
+  useFrontendTool({
+    name: "change_background",
+    description:
+      "Change the background color of the chat. Can be anything that the CSS background attribute accepts. Regular colors, linear of radial gradients etc.",
+    parameters: [
+      {
+        name: "background",
+        type: "string",
+        description: "The background. Prefer gradients. Only use when asked.",
+      },
+    ],
+    handler: ({ background }) => {
+      setBackground(background);
+      return {
+        status: "success",
+        message: `Background changed to ${background}`,
+      };
+    },
+  });
 
   useCopilotAction({
     name: "get_lights",
@@ -85,6 +108,7 @@ export default function LightChat() {
     <div
       className="flex justify-center items-center h-full w-full"
       data-testid="background-container"
+      style={{ background }}
     >
       <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
         <CopilotChat
@@ -98,6 +122,10 @@ export default function LightChat() {
             {
               title: "Turn off the lights and go to sleep.",
               message: "Turn off all the lights.",
+            },
+            {
+              title: "Change background",
+              message: "Change the background to something new.",
             },
           ]}
         />
