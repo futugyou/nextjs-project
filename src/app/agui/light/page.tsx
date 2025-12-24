@@ -3,13 +3,41 @@
 import {
   CopilotKit,
   useHumanInTheLoop,
-  useLangGraphInterrupt,
+  useCopilotAction,
 } from "@copilotkit/react-core";
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
 
 import ActionButton from "@/components/ActionButton";
+import LightCard from "@/components/light/LightCard";
+import type { GetLightsToolResult } from "@/components/light/LightCard";
 
-export default function Page() {
+export default function LightChat() {
+
+  useCopilotAction({
+    name: "get_lights",
+    available: "disabled",
+    render: ({ args, result, status }) => {
+      if (status !== "complete") {
+        return (
+          <div className=" bg-[#667eea] text-white p-4 rounded-lg max-w-md">
+            <span className="animate-spin">⚙️ Retrieving light...</span>
+          </div>
+        );
+      }
+
+      const lightResult: GetLightsToolResult = {
+        items: result?.items || [],
+      };
+
+
+      return (
+        <LightCard
+          result={lightResult}
+          status={status || "complete"}
+        />
+      );
+    },
+  });
 
   useHumanInTheLoop({
     name: "change_state",
@@ -29,7 +57,7 @@ export default function Page() {
       },
     ],
     render: ({ args, respond, status }) => {
-            if (!respond) return <></>;
+      if (!respond) return <></>;
       return (
         <div className="flex justify-center gap-4">
           <ActionButton
