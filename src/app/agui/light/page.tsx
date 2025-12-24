@@ -13,7 +13,7 @@ import ActionButton from "@/components/ActionButton";
 import LightCard from "@/components/light/LightCard";
 import type { GetLightsToolResult } from "@/components/light/LightCard";
 
-export default function LightChat() {
+const LightChat = () => {
   const [background, setBackground] = useState<string>("--copilot-kit-background-color");
 
   useFrontendTool({
@@ -133,3 +133,5 @@ export default function LightChat() {
     </div>
   );
 }
+
+export default LightChat;
