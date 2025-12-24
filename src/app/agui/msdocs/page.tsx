@@ -15,7 +15,6 @@ const MsdocsChat = () => {
     <div
       className="flex justify-center items-center h-full w-full"
       data-testid="background-container"
-      style={{ background }}
     >
       <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
         <CopilotChat
