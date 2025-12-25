@@ -7,9 +7,24 @@ import {
   useCopilotAction,
   useFrontendTool
 } from "@copilotkit/react-core";
-import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
+import { CopilotChat, CopilotSidebar, ComponentsMap } from "@copilotkit/react-ui";
 
 const MsdocsChat = () => {
+  const customMarkdownTagRenderers: ComponentsMap<{ "reference-chip": { href: string } }> = {
+    // You can make up your own tags, or use existing, valid HTML ones!
+    "reference-chip": ({ children, href }) => {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-fit border rounded-xl py-1 px-2 text-xs" // Classes list trimmed for brevity
+        >
+          {children}
+        </a>
+      );
+    },
+  };
 
   return (
     <div
@@ -34,6 +49,7 @@ const MsdocsChat = () => {
               message: "How to deploy Aspire project to Kubernetes? Please provide a brief explanation and include a link to the relevant documentation.",
             },
           ]}
+          markdownTagRenderers={customMarkdownTagRenderers as unknown as ComponentsMap<Record<string, object>>}
         />
       </div>
     </div>
