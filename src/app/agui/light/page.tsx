@@ -52,7 +52,6 @@ const LightChat = () => {
         items: result?.items || [],
       };
 
-
       return (
         <LightCard
           result={lightResult}

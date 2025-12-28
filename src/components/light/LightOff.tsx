@@ -1,6 +1,10 @@
-const LightOff = () => {
+const LightOff = ({ className }: { className: string }) => {
+    if (className === "") {
+        className = "w-full h-full object-contain"
+    }
+
     return (
-        <svg version="1.0" id="LightOff" width="800px" height="800px" viewBox="0 0 64 64" enable-background="new 0 0 64 64">
+        <svg className={className} version="1.0" id="LightOff" width="100%" height="100%" viewBox="0 0 64 64" enableBackground="new 0 0 64 64">
             <g>
                 <path fill="#231F20" d="M32,0C18.745,0,8,10.746,8,24c0,9.843,5.928,18.297,14.406,22h19.188C50.072,42.297,56,33.843,56,24
 		C56,10.746,45.255,0,32,0z M41,26c-0.553,0-1-0.447-1-1c0-1.104-0.896-2-2-2s-2,0.896-2,2v19h-2V25c0-1.104-0.896-2-2-2

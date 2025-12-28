@@ -1,6 +1,10 @@
-const LightOn = () => {
+const LightOn = ({ className }: { className: string }) => {
+    if (className === "") {
+        className = "w-full h-full object-contain"
+    }
+
     return (
-        <svg version="1.0" id="LightOn" width="800px" height="800px" viewBox="0 0 64 64" enable-background="new 0 0 64 64">
+        <svg className={className} version="1.0" id="LightOn" width="100%" height="100%" viewBox="0 0 64 64" enableBackground="new 0 0 64 64">
             <g>
                 <path fill="#F9EBB2" d="M41.15,44H36V25c0-1.104,0.896-2,2-2s2,0.896,2,2c0,0.553,0.447,1,1,1s1-0.447,1-1c0-2.209-1.791-4-4-4
 		c-1.201,0-2.267,0.541-3,1.381C34.267,21.541,33.201,21,32,21s-2.267,0.541-3,1.381C28.267,21.541,27.201,21,26,21
