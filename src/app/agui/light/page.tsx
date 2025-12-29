@@ -16,22 +16,25 @@ import LightCardContainer from "@/components/light/LightCardContainer";
 const LightChat = () => {
   const [background, setBackground] = useState<string>("--copilot-kit-background-color");
 
-  useCopilotChatSuggestions({
-    suggestions: [
-      {
-        title: "get light`s states",
-        message: "Get the status of all the lights.",
-      },
-      {
-        title: "Turn off the lights and go to sleep.",
-        message: "Turn off all the lights.",
-      },
-      {
-        title: "Change background",
-        message: "Change the background to something new.",
-      },
-    ]
-  });
+  // Not currently in use; StaticSuggestionsConfigInput (suggestions) is no longer rendered after its first use.
+  // `available` is not useful for suggestions, as they do not belong to a specific type(DynamicSuggestionsConfigInput).
+  // useCopilotChatSuggestions({
+  //   available: "always",
+  //   suggestions: [
+  //     {
+  //       title: "get light`s states",
+  //       message: "Get the status of all the lights.",
+  //     },
+  //     {
+  //       title: "Turn off the lights and go to sleep.",
+  //       message: "Turn off all the lights.",
+  //     },
+  //     {
+  //       title: "Change background",
+  //       message: "Change the background to something new.",
+  //     },
+  //   ]
+  // });
 
   useFrontendTool({
     name: "change_background",
@@ -111,20 +114,20 @@ const LightChat = () => {
         <CopilotChat
           className="h-full rounded-2xl max-w-6xl mx-auto"
           labels={{ initial: "Hi, I'm an agent. Want to chat?" }}
-          // suggestions={[
-          //   {
-          //     title: "get light`s states",
-          //     message: "Get the status of all the lights.",
-          //   },
-          //   {
-          //     title: "Turn off the lights and go to sleep.",
-          //     message: "Turn off all the lights.",
-          //   },
-          //   {
-          //     title: "Change background",
-          //     message: "Change the background to something new.",
-          //   },
-          // ]}
+          suggestions={[
+            {
+              title: "get light`s states",
+              message: "Get the status of all the lights.",
+            },
+            {
+              title: "Turn off the lights and go to sleep.",
+              message: "Turn off all the lights.",
+            },
+            {
+              title: "Change background",
+              message: "Change the background to something new.",
+            },
+          ]}
         />
       </div>
     </div>

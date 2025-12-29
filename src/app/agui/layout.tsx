@@ -15,7 +15,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       runtimeUrl={`/api/copilotkit/${pathSegment}`}
       agent={pathSegment}
     >
-      <CopilotStatus></CopilotStatus>
+      {/* TODO: It will report a "Hydration failed" error, so I've commented it out for now. */}
+      {/* <CopilotStatus agentId={pathSegment}></CopilotStatus> */}
       {children}
     </CopilotKit>
   );
