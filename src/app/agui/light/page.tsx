@@ -4,14 +4,13 @@ import { useState } from "react";
 import {
   CopilotKit,
   useHumanInTheLoop,
-  useCopilotAction,
+  useRenderToolCall,
   useFrontendTool
 } from "@copilotkit/react-core";
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
 
 import ActionButton from "@/components/ActionButton";
-import LightCard from "@/components/light/LightCard";
-import type { GetLightsToolResult } from "@/components/light/LightCard";
+import LightCardContainer from "@/components/light/LightCardContainer";
 
 const LightChat = () => {
   const [background, setBackground] = useState<string>("--copilot-kit-background-color");
@@ -36,29 +35,10 @@ const LightChat = () => {
     },
   });
 
-  useCopilotAction({
+  useRenderToolCall({
     name: "get_lights",
     available: "disabled",
-    render: ({ args, result, status }) => {
-      if (status !== "complete") {
-        return (
-          <div className=" bg-[#667eea] text-white p-4 rounded-lg max-w-md">
-            <span className="animate-spin">⚙️ Retrieving light...</span>
-          </div>
-        );
-      }
-
-      const lightResult: GetLightsToolResult = {
-        items: result?.items || [],
-      };
-
-      return (
-        <LightCard
-          result={lightResult}
-          status={status || "complete"}
-        />
-      );
-    },
+    render: (props) => <LightCardContainer result={props.result} status={props.status} />,
   });
 
   useHumanInTheLoop({
