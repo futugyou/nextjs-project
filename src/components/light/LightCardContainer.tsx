@@ -1,8 +1,12 @@
 
 import LightCard from "@/components/light/LightCard";
-import type { GetLightsToolResult } from "@/components/light/LightCard";
+import type { LightInfo } from "@/components/light/LightCard";
 
-const LightCardContainer = ({ result, status }: { result: any; status: string }) => {
+export interface GetLightsToolResult {
+    items: LightInfo[];
+}
+
+const LightCardContainer = ({ result, status, tip }: { result: GetLightsToolResult; status: string, tip: string }) => {
     if (status !== "complete") {
         return (
             <div className="bg-[#667eea] text-white p-4 rounded-lg max-w-md">
@@ -11,11 +15,20 @@ const LightCardContainer = ({ result, status }: { result: any; status: string })
         );
     }
 
-    const lightResult: GetLightsToolResult = {
-        items: result?.items || [],
-    };
+    const lightItems = (result.items ?? []).map((item) => {
+        return (
+            <LightCard item={item} key={item.id}></LightCard>
+        )
+    })
 
-    return <LightCard result={lightResult} status={status} />;
+    return <div className="bg-[#667eea] text-white p-4 rounded-lg max-w-md">
+        <div>
+            <span className="animate-spin">⚙️ Call from {tip} ...</span>
+        </div>
+        <div className="space-y-3 mb-6">
+            {lightItems}
+        </div>
+    </div>;
 };
 
 

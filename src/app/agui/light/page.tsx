@@ -38,7 +38,7 @@ const LightChat = () => {
   useRenderToolCall({
     name: "get_lights",
     available: "disabled",
-    render: (props) => <LightCardContainer result={props.result} status={props.status} />,
+    render: (props) => <LightCardContainer result={props.result} status={props.status} tip="useRenderToolCall"/>,
   });
 
   useHumanInTheLoop({
