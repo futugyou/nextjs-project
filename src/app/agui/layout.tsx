@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 
 import { CopilotKit } from "@copilotkit/react-core";
 import "@copilotkit/react-ui/styles.css";
+import CopilotStatus from "@/components/CopilotStatus";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       runtimeUrl={`/api/copilotkit/${pathSegment}`}
       agent={pathSegment}
     >
+      <CopilotStatus></CopilotStatus>
       {children}
     </CopilotKit>
   );
