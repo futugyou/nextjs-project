@@ -5,7 +5,8 @@ import {
   CopilotKit,
   useHumanInTheLoop,
   useRenderToolCall,
-  useFrontendTool
+  useFrontendTool,
+  useCopilotChatSuggestions
 } from "@copilotkit/react-core";
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
 
@@ -14,6 +15,23 @@ import LightCardContainer from "@/components/light/LightCardContainer";
 
 const LightChat = () => {
   const [background, setBackground] = useState<string>("--copilot-kit-background-color");
+
+  useCopilotChatSuggestions({
+    suggestions: [
+      {
+        title: "get light`s states",
+        message: "Get the status of all the lights.",
+      },
+      {
+        title: "Turn off the lights and go to sleep.",
+        message: "Turn off all the lights.",
+      },
+      {
+        title: "Change background",
+        message: "Change the background to something new.",
+      },
+    ]
+  });
 
   useFrontendTool({
     name: "change_background",
@@ -38,7 +56,7 @@ const LightChat = () => {
   useRenderToolCall({
     name: "get_lights",
     available: "disabled",
-    render: (props) => <LightCardContainer result={props.result} status={props.status} tip="useRenderToolCall"/>,
+    render: (props) => <LightCardContainer result={props.result} status={props.status} tip="useRenderToolCall" />,
   });
 
   useHumanInTheLoop({
@@ -93,20 +111,20 @@ const LightChat = () => {
         <CopilotChat
           className="h-full rounded-2xl max-w-6xl mx-auto"
           labels={{ initial: "Hi, I'm an agent. Want to chat?" }}
-          suggestions={[
-            {
-              title: "get light`s states",
-              message: "Get the status of all the lights.",
-            },
-            {
-              title: "Turn off the lights and go to sleep.",
-              message: "Turn off all the lights.",
-            },
-            {
-              title: "Change background",
-              message: "Change the background to something new.",
-            },
-          ]}
+          // suggestions={[
+          //   {
+          //     title: "get light`s states",
+          //     message: "Get the status of all the lights.",
+          //   },
+          //   {
+          //     title: "Turn off the lights and go to sleep.",
+          //     message: "Turn off all the lights.",
+          //   },
+          //   {
+          //     title: "Change background",
+          //     message: "Change the background to something new.",
+          //   },
+          // ]}
         />
       </div>
     </div>
