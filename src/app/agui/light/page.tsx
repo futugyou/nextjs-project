@@ -6,12 +6,14 @@ import {
   useHumanInTheLoop,
   useRenderToolCall,
   useFrontendTool,
-  useCopilotChatSuggestions
+  useCopilotChatSuggestions,
+  useCoAgentStateRender,
 } from "@copilotkit/react-core";
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
 
 import ActionButton from "@/components/ActionButton";
 import LightCardContainer from "@/components/light/LightCardContainer";
+import type { GetLightsToolResult } from "@/components/light/LightCardContainer";
 
 const LightChat = () => {
   const [background, setBackground] = useState<string>("--copilot-kit-background-color");
@@ -35,6 +37,19 @@ const LightChat = () => {
   //     },
   //   ]
   // });
+
+  // `useCoAgentStateRender` will not be triggered because the background agent does not emit the relevant event.
+  // Currently, MAF's method of emitting events is too cumbersome.
+  useCoAgentStateRender<GetLightsToolResult>({
+    name: "ligth",
+    nodeName: "light_current_state",
+    render: ({ status, state, nodeName }) => {
+      console.log("useCoAgentStateRender", status, state, nodeName);
+      return (
+        <LightCardContainer result={state} status={status} tip="useCoAgentStateRender" />
+      );
+    },
+  });
 
   useFrontendTool({
     name: "change_background",
