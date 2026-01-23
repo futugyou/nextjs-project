@@ -3,6 +3,7 @@
 import "./style.css"
 
 import React, { useState, useEffect, useRef } from "react"
+import { usePathname } from 'next/navigation'
 import { Role, TextMessage } from "@copilotkit/runtime-client-gql"
 import { CopilotKit, useCoAgent, useCopilotChat } from "@copilotkit/react-core"
 import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui"
@@ -15,13 +16,16 @@ import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui"
 // 
 // data: {"type":"RUN_ERROR","message":"Run ended without emitting a terminal event","code":"INCOMPLETE_STREAM"}
 export default function SharedState() {
+  const pathname = usePathname()
+  const pathSegment = pathname.split('/')[2]
+
   const chatTitle = "AI Recipe Assistant"
   const chatDescription = "Ask me to craft recipes"
   const initialLabel = "Hi 👋 How can I help with your recipe?"
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
-      <Recipe />
+      <Recipe path={pathSegment} />
       <CopilotSidebar
         defaultOpen={true}
         labels={{
@@ -99,9 +103,9 @@ const INITIAL_STATE: RecipeAgentState = {
   },
 }
 
-function Recipe() {
+function Recipe({ path }: { path: string }) {
   const { state: agentState, setState: setAgentState } = useCoAgent<RecipeAgentState>({
-    name: "recipe",
+    name: path,
     initialState: INITIAL_STATE,
   })
 
