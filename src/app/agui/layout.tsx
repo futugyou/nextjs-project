@@ -18,8 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       agent={pathSegment}
       publicLicenseKey={process.env.NEXT_PUBLIC_COPILOTKIT_LICENSE_KEY}
     >
-      {/* TODO: It will report a "Hydration failed" error, so I've commented it out for now. */}
-      {/* <CopilotStatus agentId={pathSegment}></CopilotStatus> */}
+      <CopilotStatus agentId={pathSegment}></CopilotStatus>
       {children}
     </CopilotKit>
   )
