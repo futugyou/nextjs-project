@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  allowedDevOrigins: ['*.cloudstudio.club'],
+  allowedDevOrigins: ['*.cloudstudio.club','*.github.dev','*.cloudstudio.work'],
 };
 
 export default nextConfig;
