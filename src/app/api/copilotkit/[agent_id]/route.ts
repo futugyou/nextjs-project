@@ -3,7 +3,7 @@ import {
   ExperimentalEmptyAdapter,
   copilotRuntimeNextJSAppRouterEndpoint,
 } from "@copilotkit/runtime"
-import { HttpAgent } from "@ag-ui/client"
+import { HttpAgent, AbstractAgent } from "@ag-ui/client"
 import { NextRequest } from "next/server"
 
 const buildUrl = (base: string, path: string): string => {
@@ -29,8 +29,9 @@ const createCopilotRuntime = (id: string) => {
 // 3. Build a Next.js API route that handles the CopilotKit runtime requests.
 export const POST = async (req: NextRequest, ctx: RouteContext<'/api/copilotkit/[agent_id]'>) => {
   let { agent_id } = await ctx.params
-  console.log(agent_id)
   const runtime = createCopilotRuntime(agent_id)
+  const myAgent = (await runtime.params?.agents as unknown as Record<string, AbstractAgent>)[agent_id];
+  console.log(myAgent.agentId)
 
   const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
     runtime,
