@@ -22,6 +22,9 @@ updates:
         patterns:
         - "@next*"
         - "next*"
+      copilotkit:
+        patterns:
+        - "@copilotkit*"
         
   - package-ecosystem: "github-actions"
     directory: "/"
