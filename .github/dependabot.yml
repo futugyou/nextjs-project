@@ -25,6 +25,9 @@ updates:
       copilotkit:
         patterns:
         - "@copilotkit*"
+      radix-ui:
+        patterns:
+        - "@radix-ui*"
         
   - package-ecosystem: "github-actions"
     directory: "/"

@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@ag-ui/client": "^0.0.46",
+    "@ag-ui/client": "^0.0.47",
     "@copilotkit/react-core": "^1.52.1",
     "@copilotkit/react-ui": "^1.52.1",
     "@copilotkit/runtime": "^1.52.1",
@@ -18,7 +18,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
-    "lucide-react": "^0.575.0",
+    "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "next-themes": "^0.4.6",
     "octokit": "^5.0.5",
