@@ -2,9 +2,9 @@ import {
   CopilotRuntime,
   ExperimentalEmptyAdapter,
   copilotRuntimeNextJSAppRouterEndpoint,
-} from "@copilotkit/runtime"
-import { HttpAgent, AbstractAgent } from "@ag-ui/client"
-import { NextRequest } from "next/server"
+} from '@copilotkit/runtime'
+import { HttpAgent, AbstractAgent } from '@ag-ui/client'
+import { NextRequest } from 'next/server'
 
 const buildUrl = (base: string, path: string): string => {
   const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base
@@ -21,7 +21,10 @@ const serviceAdapter = new ExperimentalEmptyAdapter()
 const createCopilotRuntime = (id: string) => {
   return new CopilotRuntime({
     agents: {
-      [id]: new HttpAgent({ url: buildUrl(process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000", id), agentId: id }),
+      [id]: new HttpAgent({
+        url: buildUrl(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000', id),
+        agentId: id,
+      }),
     } as any,
   })
 }
@@ -30,7 +33,9 @@ const createCopilotRuntime = (id: string) => {
 export const POST = async (req: NextRequest, ctx: RouteContext<'/api/copilotkit/[agent_id]'>) => {
   let { agent_id } = await ctx.params
   const runtime = createCopilotRuntime(agent_id)
-  const myAgent = (await runtime.params?.agents as unknown as Record<string, AbstractAgent>)[agent_id];
+  const myAgent = ((await runtime.params?.agents) as unknown as Record<string, AbstractAgent>)[
+    agent_id
+  ]
   console.log(myAgent.agentId)
 
   const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({

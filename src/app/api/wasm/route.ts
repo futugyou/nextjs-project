@@ -34,15 +34,15 @@
 //     return new Response(hexFormat(value))
 // }
 
-
 export function GET(request: Request) {
-    console.log(request.url)
+  console.log(request.url)
 
-    return new Response(
-        `
+  return new Response(
+    `
             <h1>Your </h1> 
         `,
-        {
-            headers: { 'content-type': 'text/html' },
-        })
+    {
+      headers: { 'content-type': 'text/html' },
+    },
+  )
 }

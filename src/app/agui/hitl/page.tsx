@@ -1,40 +1,41 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import {
   CopilotKit,
   useHumanInTheLoop,
   useRenderToolCall,
   useFrontendTool,
   useCopilotChatSuggestions,
-  useCoAgentStateRender
-} from "@copilotkit/react-core";
-import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
+  useCoAgentStateRender,
+} from '@copilotkit/react-core'
+import { CopilotChat, CopilotSidebar } from '@copilotkit/react-ui'
 
-import LightCardContainer from "@/components/light/LightCardContainer";
-import type { GetLightsToolResult } from "@/components/light/LightCardContainer";
+import LightCardContainer from '@/components/light/LightCardContainer'
+import type { GetLightsToolResult } from '@/components/light/LightCardContainer'
 
 // Based on the official example, I want to understand how the data is generated.
 // https://docs.copilotkit.ai/microsoft-agent-framework/human-in-the-loop
 interface Step {
-  description: string;
-  status: "disabled" | "enabled" | "executing";
+  description: string
+  status: 'disabled' | 'enabled' | 'executing'
 }
 
 // Shared UI Components
 const StepContainer = ({ theme, children }: { theme?: string; children: React.ReactNode }) => (
   <div data-testid="select-steps" className="flex">
     <div
-      className={`relative rounded-xl w-[600px] p-6 shadow-lg backdrop-blur-sm ${theme === "dark"
-        ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700/50 shadow-2xl"
-        : "bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 border border-gray-200/80"
-        }`}
+      className={`relative rounded-xl w-[600px] p-6 shadow-lg backdrop-blur-sm ${
+        theme === 'dark'
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700/50 shadow-2xl'
+          : 'bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 border border-gray-200/80'
+      }`}
     >
       {children}
     </div>
   </div>
-);
+)
 
 const StepHeader = ({
   theme,
@@ -43,11 +44,11 @@ const StepHeader = ({
   status,
   showStatus = false,
 }: {
-  theme?: string;
-  enabledCount: number;
-  totalCount: number;
-  status?: string;
-  showStatus?: boolean;
+  theme?: string
+  enabledCount: number
+  totalCount: number
+  status?: string
+  showStatus?: boolean
 }) => (
   <div className="mb-5">
     <div className="flex items-center justify-between mb-3">
@@ -55,28 +56,29 @@ const StepHeader = ({
         Select Steps
       </h2>
       <div className="flex items-center gap-3">
-        <div className={`text-sm ${theme === "dark" ? "text-slate-400" : "text-gray-500"}`}>
+        <div className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
           {enabledCount}/{totalCount} Selected
         </div>
         {showStatus && (
           <div
-            className={`text-xs px-2 py-1 rounded-full font-medium ${status === "executing"
-              ? theme === "dark"
-                ? "bg-blue-900/30 text-blue-300 border border-blue-500/30"
-                : "bg-blue-50 text-blue-600 border border-blue-200"
-              : theme === "dark"
-                ? "bg-slate-700 text-slate-300"
-                : "bg-gray-100 text-gray-600"
-              }`}
+            className={`text-xs px-2 py-1 rounded-full font-medium ${
+              status === 'executing'
+                ? theme === 'dark'
+                  ? 'bg-blue-900/30 text-blue-300 border border-blue-500/30'
+                  : 'bg-blue-50 text-blue-600 border border-blue-200'
+                : theme === 'dark'
+                  ? 'bg-slate-700 text-slate-300'
+                  : 'bg-gray-100 text-gray-600'
+            }`}
           >
-            {status === "executing" ? "Ready" : "Waiting"}
+            {status === 'executing' ? 'Ready' : 'Waiting'}
           </div>
         )}
       </div>
     </div>
 
     <div
-      className={`relative h-2 rounded-full overflow-hidden ${theme === "dark" ? "bg-slate-700" : "bg-gray-200"}`}
+      className={`relative h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-700' : 'bg-gray-200'}`}
     >
       <div
         className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500 ease-out"
@@ -84,7 +86,7 @@ const StepHeader = ({
       />
     </div>
   </div>
-);
+)
 
 const StepItem = ({
   step,
@@ -93,40 +95,42 @@ const StepItem = ({
   onToggle,
   disabled = false,
 }: {
-  step: { description: string; status: string };
-  theme?: string;
-  status?: string;
-  onToggle: () => void;
-  disabled?: boolean;
+  step: { description: string; status: string }
+  theme?: string
+  status?: string
+  onToggle: () => void
+  disabled?: boolean
 }) => (
   <div
-    className={`flex items-center p-3 rounded-lg transition-all duration-300 ${step.status === "enabled"
-      ? theme === "dark"
-        ? "bg-gradient-to-r from-blue-900/20 to-purple-900/10 border border-blue-500/30"
-        : "bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/60"
-      : theme === "dark"
-        ? "bg-slate-800/30 border border-slate-600/30"
-        : "bg-gray-50/50 border border-gray-200/40"
-      }`}
+    className={`flex items-center p-3 rounded-lg transition-all duration-300 ${
+      step.status === 'enabled'
+        ? theme === 'dark'
+          ? 'bg-gradient-to-r from-blue-900/20 to-purple-900/10 border border-blue-500/30'
+          : 'bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/60'
+        : theme === 'dark'
+          ? 'bg-slate-800/30 border border-slate-600/30'
+          : 'bg-gray-50/50 border border-gray-200/40'
+    }`}
   >
     <label data-testid="step-item" className="flex items-center cursor-pointer w-full">
       <div className="relative">
         <input
           type="checkbox"
-          checked={step.status === "enabled"}
+          checked={step.status === 'enabled'}
           onChange={onToggle}
           className="sr-only"
           disabled={disabled}
         />
         <div
-          className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200 ${step.status === "enabled"
-            ? "bg-gradient-to-br from-blue-500 to-purple-600 border-blue-500"
-            : theme === "dark"
-              ? "border-slate-400 bg-slate-700"
-              : "border-gray-300 bg-white"
-            } ${disabled ? "opacity-60" : ""}`}
+          className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200 ${
+            step.status === 'enabled'
+              ? 'bg-gradient-to-br from-blue-500 to-purple-600 border-blue-500'
+              : theme === 'dark'
+                ? 'border-slate-400 bg-slate-700'
+                : 'border-gray-300 bg-white'
+          } ${disabled ? 'opacity-60' : ''}`}
         >
-          {step.status === "enabled" && (
+          {step.status === 'enabled' && (
             <svg
               className="w-3 h-3 text-white"
               fill="none"
@@ -145,18 +149,19 @@ const StepItem = ({
       </div>
       <span
         data-testid="step-text"
-        className={`ml-3 font-medium transition-all duration-300 ${step.status !== "enabled" && status != "inProgress"
-          ? `line-through ${theme === "dark" ? "text-slate-500" : "text-gray-400"}`
-          : theme === "dark"
-            ? "text-white"
-            : "text-gray-800"
-          } ${disabled ? "opacity-60" : ""}`}
+        className={`ml-3 font-medium transition-all duration-300 ${
+          step.status !== 'enabled' && status != 'inProgress'
+            ? `line-through ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`
+            : theme === 'dark'
+              ? 'text-white'
+              : 'text-gray-800'
+        } ${disabled ? 'opacity-60' : ''}`}
       >
         {step.description}
       </span>
     </label>
   </div>
-);
+)
 
 const ActionButton = ({
   variant,
@@ -165,112 +170,115 @@ const ActionButton = ({
   onClick,
   children,
 }: {
-  variant: "primary" | "secondary" | "success" | "danger";
-  theme?: string;
-  disabled?: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
+  variant: 'primary' | 'secondary' | 'success' | 'danger'
+  theme?: string
+  disabled?: boolean
+  onClick: () => void
+  children: React.ReactNode
 }) => {
-  const baseClasses = "px-6 py-3 rounded-lg font-semibold transition-all duration-200";
-  const enabledClasses = "hover:scale-105 shadow-md hover:shadow-lg";
-  const disabledClasses = "opacity-50 cursor-not-allowed";
+  const baseClasses = 'px-6 py-3 rounded-lg font-semibold transition-all duration-200'
+  const enabledClasses = 'hover:scale-105 shadow-md hover:shadow-lg'
+  const disabledClasses = 'opacity-50 cursor-not-allowed'
 
   const variantClasses = {
     primary:
-      "bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white shadow-lg hover:shadow-xl",
+      'bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white shadow-lg hover:shadow-xl',
     secondary:
-      theme === "dark"
-        ? "bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 hover:border-slate-500"
-        : "bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 hover:border-gray-400",
+      theme === 'dark'
+        ? 'bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 hover:border-slate-500'
+        : 'bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 hover:border-gray-400',
     success:
-      "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl",
+      'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl',
     danger:
-      "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl",
-  };
+      'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl',
+  }
 
   return (
     <button
-      className={`${baseClasses} ${disabled ? disabledClasses : enabledClasses} ${disabled && variant === "secondary"
-        ? "bg-gray-200 text-gray-500"
-        : disabled && variant === "success"
-          ? "bg-gray-400"
-          : variantClasses[variant]
-        }`}
+      className={`${baseClasses} ${disabled ? disabledClasses : enabledClasses} ${
+        disabled && variant === 'secondary'
+          ? 'bg-gray-200 text-gray-500'
+          : disabled && variant === 'success'
+            ? 'bg-gray-400'
+            : variantClasses[variant]
+      }`}
       disabled={disabled}
       onClick={onClick}
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
 const DecorativeElements = ({
   theme,
-  variant = "default",
+  variant = 'default',
 }: {
-  theme?: string;
-  variant?: "default" | "success" | "danger";
+  theme?: string
+  variant?: 'default' | 'success' | 'danger'
 }) => (
   <>
     <div
-      className={`absolute top-3 right-3 w-16 h-16 rounded-full blur-xl ${variant === "success"
-        ? theme === "dark"
-          ? "bg-gradient-to-br from-green-500/10 to-emerald-500/10"
-          : "bg-gradient-to-br from-green-200/30 to-emerald-200/30"
-        : variant === "danger"
-          ? theme === "dark"
-            ? "bg-gradient-to-br from-red-500/10 to-pink-500/10"
-            : "bg-gradient-to-br from-red-200/30 to-pink-200/30"
-          : theme === "dark"
-            ? "bg-gradient-to-br from-blue-500/10 to-purple-500/10"
-            : "bg-gradient-to-br from-blue-200/30 to-purple-200/30"
-        }`}
+      className={`absolute top-3 right-3 w-16 h-16 rounded-full blur-xl ${
+        variant === 'success'
+          ? theme === 'dark'
+            ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10'
+            : 'bg-gradient-to-br from-green-200/30 to-emerald-200/30'
+          : variant === 'danger'
+            ? theme === 'dark'
+              ? 'bg-gradient-to-br from-red-500/10 to-pink-500/10'
+              : 'bg-gradient-to-br from-red-200/30 to-pink-200/30'
+            : theme === 'dark'
+              ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10'
+              : 'bg-gradient-to-br from-blue-200/30 to-purple-200/30'
+      }`}
     />
     <div
-      className={`absolute bottom-3 left-3 w-12 h-12 rounded-full blur-xl ${variant === "default"
-        ? theme === "dark"
-          ? "bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-          : "bg-gradient-to-br from-purple-200/30 to-pink-200/30"
-        : "opacity-50"
-        }`}
+      className={`absolute bottom-3 left-3 w-12 h-12 rounded-full blur-xl ${
+        variant === 'default'
+          ? theme === 'dark'
+            ? 'bg-gradient-to-br from-purple-500/10 to-pink-500/10'
+            : 'bg-gradient-to-br from-purple-200/30 to-pink-200/30'
+          : 'opacity-50'
+      }`}
     />
   </>
-);
+)
 
 const HITLChat = () => {
   useHumanInTheLoop({
-    name: "generate_task_steps",
-    description: "Generates a list of steps for the user to perform",
+    name: 'generate_task_steps',
+    description: 'Generates a list of steps for the user to perform',
     parameters: [
       {
-        name: "steps",
-        type: "object[]",
+        name: 'steps',
+        type: 'object[]',
         attributes: [
           {
-            name: "description",
-            type: "string",
+            name: 'description',
+            type: 'string',
           },
           {
-            name: "status",
-            type: "string",
-            enum: ["enabled", "disabled", "executing"],
+            name: 'status',
+            type: 'string',
+            enum: ['enabled', 'disabled', 'executing'],
           },
         ],
       },
     ],
-    available: "enabled",
+    available: 'enabled',
     render: ({ args, respond, status }) => {
-      return <StepsFeedback args={args} respond={respond} status={status} />;
+      return <StepsFeedback args={args} respond={respond} status={status} />
     },
-  });
+  })
 
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
         <CopilotChat
           suggestions={[
-            { title: "Simple plan", message: "Please plan a trip to mars in 5 steps." },
-            { title: "Complex plan", message: "Please plan a pastra dish in 10 steps." },
+            { title: 'Simple plan', message: 'Please plan a trip to mars in 5 steps.' },
+            { title: 'Complex plan', message: 'Please plan a pastra dish in 10 steps.' },
           ]}
           className="h-full rounded-2xl max-w-6xl mx-auto"
           labels={{
@@ -280,50 +288,50 @@ const HITLChat = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const StepsFeedback = ({ args, respond, status }: { args: any; respond: any; status: any }) => {
-  const { theme } = useTheme();
-  const [localSteps, setLocalSteps] = useState<Step[]>([]);
-  const [accepted, setAccepted] = useState<boolean | null>(null);
+  const { theme } = useTheme()
+  const [localSteps, setLocalSteps] = useState<Step[]>([])
+  const [accepted, setAccepted] = useState<boolean | null>(null)
 
   useEffect(() => {
-    if (status === "executing" && localSteps.length === 0) {
-      setLocalSteps(args.steps);
+    if (status === 'executing' && localSteps.length === 0) {
+      setLocalSteps(args.steps)
     }
-  }, [status, args.steps, localSteps]);
+  }, [status, args.steps, localSteps])
 
   if (args.steps === undefined || args.steps.length === 0) {
-    return <></>;
+    return <></>
   }
 
-  const steps = localSteps.length > 0 ? localSteps : args.steps;
-  const enabledCount = steps.filter((step: any) => step.status === "enabled").length;
+  const steps = localSteps.length > 0 ? localSteps : args.steps
+  const enabledCount = steps.filter((step: any) => step.status === 'enabled').length
 
   const handleStepToggle = (index: number) => {
     setLocalSteps((prevSteps) =>
       prevSteps.map((step, i) =>
         i === index
-          ? { ...step, status: step.status === "enabled" ? "disabled" : "enabled" }
+          ? { ...step, status: step.status === 'enabled' ? 'disabled' : 'enabled' }
           : step,
       ),
-    );
-  };
+    )
+  }
 
   const handleReject = () => {
     if (respond) {
-      setAccepted(false);
-      respond({ accepted: false });
+      setAccepted(false)
+      respond({ accepted: false })
     }
-  };
+  }
 
   const handleConfirm = () => {
     if (respond) {
-      setAccepted(true);
-      respond({ accepted: true, steps: localSteps.filter((step) => step.status === "enabled") });
+      setAccepted(true)
+      respond({ accepted: true, steps: localSteps.filter((step) => step.status === 'enabled') })
     }
-  };
+  }
 
   return (
     <StepContainer theme={theme}>
@@ -343,7 +351,7 @@ const StepsFeedback = ({ args, respond, status }: { args: any; respond: any; sta
             theme={theme}
             status={status}
             onToggle={() => handleStepToggle(index)}
-            disabled={status !== "executing"}
+            disabled={status !== 'executing'}
           />
         ))}
       </div>
@@ -353,7 +361,7 @@ const StepsFeedback = ({ args, respond, status }: { args: any; respond: any; sta
           <ActionButton
             variant="secondary"
             theme={theme}
-            disabled={status !== "executing"}
+            disabled={status !== 'executing'}
             onClick={handleReject}
           >
             <span className="mr-2">✗</span>
@@ -362,14 +370,15 @@ const StepsFeedback = ({ args, respond, status }: { args: any; respond: any; sta
           <ActionButton
             variant="success"
             theme={theme}
-            disabled={status !== "executing"}
+            disabled={status !== 'executing'}
             onClick={handleConfirm}
           >
             <span className="mr-2">✓</span>
             Confirm
             <span
-              className={`ml-2 px-2 py-1 rounded-full text-xs font-bold ${theme === "dark" ? "bg-green-800/50" : "bg-green-600/20"
-                }`}
+              className={`ml-2 px-2 py-1 rounded-full text-xs font-bold ${
+                theme === 'dark' ? 'bg-green-800/50' : 'bg-green-600/20'
+              }`}
             >
               {enabledCount}
             </span>
@@ -381,27 +390,28 @@ const StepsFeedback = ({ args, respond, status }: { args: any; respond: any; sta
       {accepted !== null && (
         <div className="flex justify-center">
           <div
-            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 ${accepted
-              ? theme === "dark"
-                ? "bg-green-900/30 text-green-300 border border-green-500/30"
-                : "bg-green-50 text-green-700 border border-green-200"
-              : theme === "dark"
-                ? "bg-red-900/30 text-red-300 border border-red-500/30"
-                : "bg-red-50 text-red-700 border border-red-200"
-              }`}
+            className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 ${
+              accepted
+                ? theme === 'dark'
+                  ? 'bg-green-900/30 text-green-300 border border-green-500/30'
+                  : 'bg-green-50 text-green-700 border border-green-200'
+                : theme === 'dark'
+                  ? 'bg-red-900/30 text-red-300 border border-red-500/30'
+                  : 'bg-red-50 text-red-700 border border-red-200'
+            }`}
           >
-            <span className="text-lg">{accepted ? "✓" : "✗"}</span>
-            {accepted ? "Accepted" : "Rejected"}
+            <span className="text-lg">{accepted ? '✓' : '✗'}</span>
+            {accepted ? 'Accepted' : 'Rejected'}
           </div>
         </div>
       )}
 
       <DecorativeElements
         theme={theme}
-        variant={accepted === true ? "success" : accepted === false ? "danger" : "default"}
+        variant={accepted === true ? 'success' : accepted === false ? 'danger' : 'default'}
       />
     </StepContainer>
-  );
-};
+  )
+}
 
-export default HITLChat;
+export default HITLChat

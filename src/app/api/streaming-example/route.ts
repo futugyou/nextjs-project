@@ -5,19 +5,19 @@ export const dynamic = 'force-dynamic'
 
 // This method must be named GET
 export const GET = async () => {
-    // This encoder will stream your text
-    const encoder = new TextEncoder()
-    const customReadable = new ReadableStream({
-        start(controller) {
-            // Start encoding 'Basic Streaming Test',
-            // and add the resulting stream to the queue
-            controller.enqueue(encoder.encode('Basic Streaming Test'))
-            // Prevent anything else being added to the stream
-            controller.close()
-        },
-    })
+  // This encoder will stream your text
+  const encoder = new TextEncoder()
+  const customReadable = new ReadableStream({
+    start(controller) {
+      // Start encoding 'Basic Streaming Test',
+      // and add the resulting stream to the queue
+      controller.enqueue(encoder.encode('Basic Streaming Test'))
+      // Prevent anything else being added to the stream
+      controller.close()
+    },
+  })
 
-    return new Response(customReadable, {
-        headers: { 'Content-Type': 'text/html charset=utf-8' },
-    })
+  return new Response(customReadable, {
+    headers: { 'Content-Type': 'text/html charset=utf-8' },
+  })
 }

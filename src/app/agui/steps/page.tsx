@@ -1,27 +1,27 @@
-"use client"
+'use client'
 
-import React from "react"
-import { useCoAgentStateRender } from "@copilotkit/react-core"
-import { CopilotChat } from "@copilotkit/react-ui"
-import { useTheme } from "next-themes"
+import React from 'react'
+import { useCoAgentStateRender } from '@copilotkit/react-core'
+import { CopilotChat } from '@copilotkit/react-ui'
+import { useTheme } from 'next-themes'
 
 interface AgentState {
   steps: {
     description: string
-    status: "pending" | "completed"
+    status: 'pending' | 'completed'
   }[]
 }
 
 const StepsChat = () => {
   const { theme } = useTheme()
   useCoAgentStateRender<AgentState>({
-    name: "steps",
+    name: 'steps',
     render: ({ state }) => {
       if (!state.steps || state.steps.length === 0) {
         return null
       }
 
-      const completedCount = state.steps.filter((step) => step.status === "completed").length
+      const completedCount = state.steps.filter((step) => step.status === 'completed').length
       const progressPercentage = (completedCount / state.steps.length) * 100
 
       return (
@@ -29,9 +29,9 @@ const StepsChat = () => {
           <div
             data-testid="task-progress"
             className={`relative rounded-xl w-[700px] p-6 shadow-lg backdrop-blur-sm ${
-              theme === "dark"
-                ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700/50 shadow-2xl"
-                : "bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 border border-gray-200/80"
+              theme === 'dark'
+                ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white border border-slate-700/50 shadow-2xl'
+                : 'bg-gradient-to-br from-white via-gray-50 to-white text-gray-800 border border-gray-200/80'
             }`}
           >
             {/* Header */}
@@ -40,14 +40,14 @@ const StepsChat = () => {
                 <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Task Progress
                 </h3>
-                <div className={`text-sm ${theme === "dark" ? "text-slate-400" : "text-gray-500"}`}>
+                <div className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
                   {completedCount}/{state.steps.length} Complete
                 </div>
               </div>
 
               {/* Progress Bar */}
               <div
-                className={`relative h-2 rounded-full overflow-hidden ${theme === "dark" ? "bg-slate-700" : "bg-gray-200"}`}
+                className={`relative h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-700' : 'bg-gray-200'}`}
               >
                 <div
                   className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out"
@@ -55,7 +55,7 @@ const StepsChat = () => {
                 />
                 <div
                   className={`absolute top-0 left-0 h-full w-full bg-gradient-to-r from-transparent to-transparent animate-pulse ${
-                    theme === "dark" ? "via-white/20" : "via-white/40"
+                    theme === 'dark' ? 'via-white/20' : 'via-white/40'
                   }`}
                 />
               </div>
@@ -64,36 +64,36 @@ const StepsChat = () => {
             {/* Steps */}
             <div className="space-y-2">
               {state.steps.map((step, index) => {
-                const isCompleted = step.status === "completed"
+                const isCompleted = step.status === 'completed'
                 const isCurrentPending =
-                  step.status === "pending" &&
-                  index === state.steps.findIndex((s) => s.status === "pending")
-                const isFuturePending = step.status === "pending" && !isCurrentPending
+                  step.status === 'pending' &&
+                  index === state.steps.findIndex((s) => s.status === 'pending')
+                const isFuturePending = step.status === 'pending' && !isCurrentPending
 
                 return (
                   <div
                     key={index}
                     className={`relative flex items-center p-2.5 rounded-lg transition-all duration-500 ${
                       isCompleted
-                        ? theme === "dark"
-                          ? "bg-gradient-to-r from-green-900/30 to-emerald-900/20 border border-green-500/30"
-                          : "bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60"
+                        ? theme === 'dark'
+                          ? 'bg-gradient-to-r from-green-900/30 to-emerald-900/20 border border-green-500/30'
+                          : 'bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60'
                         : isCurrentPending
-                          ? theme === "dark"
-                            ? "bg-gradient-to-r from-blue-900/40 to-purple-900/30 border border-blue-500/50 shadow-lg shadow-blue-500/20"
-                            : "bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/60 shadow-md shadow-blue-200/50"
-                          : theme === "dark"
-                            ? "bg-slate-800/50 border border-slate-600/30"
-                            : "bg-gray-50/50 border border-gray-200/60"
+                          ? theme === 'dark'
+                            ? 'bg-gradient-to-r from-blue-900/40 to-purple-900/30 border border-blue-500/50 shadow-lg shadow-blue-500/20'
+                            : 'bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/60 shadow-md shadow-blue-200/50'
+                          : theme === 'dark'
+                            ? 'bg-slate-800/50 border border-slate-600/30'
+                            : 'bg-gray-50/50 border border-gray-200/60'
                     }`}
                   >
                     {/* Connector Line */}
                     {index < state.steps.length - 1 && (
                       <div
                         className={`absolute left-5 top-full w-0.5 h-2 bg-gradient-to-b ${
-                          theme === "dark"
-                            ? "from-slate-500 to-slate-600"
-                            : "from-gray-300 to-gray-400"
+                          theme === 'dark'
+                            ? 'from-slate-500 to-slate-600'
+                            : 'from-gray-300 to-gray-400'
                         }`}
                       />
                     )}
@@ -102,16 +102,16 @@ const StepsChat = () => {
                     <div
                       className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-2 ${
                         isCompleted
-                          ? theme === "dark"
-                            ? "bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/30"
-                            : "bg-gradient-to-br from-green-500 to-emerald-600 shadow-md shadow-green-200"
+                          ? theme === 'dark'
+                            ? 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/30'
+                            : 'bg-gradient-to-br from-green-500 to-emerald-600 shadow-md shadow-green-200'
                           : isCurrentPending
-                            ? theme === "dark"
-                              ? "bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/30"
-                              : "bg-gradient-to-br from-blue-500 to-purple-600 shadow-md shadow-blue-200"
-                            : theme === "dark"
-                              ? "bg-slate-700 border border-slate-600"
-                              : "bg-gray-300 border border-gray-400"
+                            ? theme === 'dark'
+                              ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-blue-500/30'
+                              : 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-md shadow-blue-200'
+                            : theme === 'dark'
+                              ? 'bg-slate-700 border border-slate-600'
+                              : 'bg-gray-300 border border-gray-400'
                       }`}
                     >
                       {isCompleted ? (
@@ -129,16 +129,16 @@ const StepsChat = () => {
                         data-testid="task-step-text"
                         className={`font-semibold transition-all duration-300 text-sm ${
                           isCompleted
-                            ? theme === "dark"
-                              ? "text-green-300"
-                              : "text-green-700"
+                            ? theme === 'dark'
+                              ? 'text-green-300'
+                              : 'text-green-700'
                             : isCurrentPending
-                              ? theme === "dark"
-                                ? "text-blue-300 text-base"
-                                : "text-blue-700 text-base"
-                              : theme === "dark"
-                                ? "text-slate-400"
-                                : "text-gray-500"
+                              ? theme === 'dark'
+                                ? 'text-blue-300 text-base'
+                                : 'text-blue-700 text-base'
+                              : theme === 'dark'
+                                ? 'text-slate-400'
+                                : 'text-gray-500'
                         }`}
                       >
                         {step.description}
@@ -146,7 +146,7 @@ const StepsChat = () => {
                       {isCurrentPending && (
                         <div
                           className={`text-sm mt-1 animate-pulse ${
-                            theme === "dark" ? "text-blue-400" : "text-blue-600"
+                            theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
                           }`}
                         >
                           Processing...
@@ -158,9 +158,9 @@ const StepsChat = () => {
                     {isCurrentPending && (
                       <div
                         className={`absolute inset-0 rounded-lg bg-gradient-to-r animate-pulse ${
-                          theme === "dark"
-                            ? "from-blue-500/10 to-purple-500/10"
-                            : "from-blue-100/50 to-purple-100/50"
+                          theme === 'dark'
+                            ? 'from-blue-500/10 to-purple-500/10'
+                            : 'from-blue-100/50 to-purple-100/50'
                         }`}
                       />
                     )}
@@ -172,16 +172,16 @@ const StepsChat = () => {
             {/* Decorative Elements */}
             <div
               className={`absolute top-3 right-3 w-16 h-16 rounded-full blur-xl ${
-                theme === "dark"
-                  ? "bg-gradient-to-br from-blue-500/10 to-purple-500/10"
-                  : "bg-gradient-to-br from-blue-200/30 to-purple-200/30"
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10'
+                  : 'bg-gradient-to-br from-blue-200/30 to-purple-200/30'
               }`}
             />
             <div
               className={`absolute bottom-3 left-3 w-12 h-12 rounded-full blur-xl ${
-                theme === "dark"
-                  ? "bg-gradient-to-br from-green-500/10 to-emerald-500/10"
-                  : "bg-gradient-to-br from-green-200/30 to-emerald-200/30"
+                theme === 'dark'
+                  ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10'
+                  : 'bg-gradient-to-br from-green-200/30 to-emerald-200/30'
               }`}
             />
           </div>
@@ -201,12 +201,12 @@ const StepsChat = () => {
           }}
           suggestions={[
             {
-              title: "Simple plan",
-              message: "Please build a plan to go to mars in 5 steps.",
+              title: 'Simple plan',
+              message: 'Please build a plan to go to mars in 5 steps.',
             },
             {
-              title: "Complex plan",
-              message: "Please build a plan to go to make pizza in 10 steps.",
+              title: 'Complex plan',
+              message: 'Please build a plan to go to make pizza in 10 steps.',
             },
           ]}
         />
@@ -245,7 +245,7 @@ function SpinnerIcon() {
 function ClockIcon({ theme }: { theme?: string }) {
   return (
     <svg
-      className={`w-3 h-3 ${theme === "dark" ? "text-slate-400" : "text-gray-600"}`}
+      className={`w-3 h-3 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-600'}`}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

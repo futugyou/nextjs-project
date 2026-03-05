@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
-import React from "react"
-import { useCopilotAction } from "@copilotkit/react-core"
-import { CopilotChat } from "@copilotkit/react-ui"
+import React from 'react'
+import { useCopilotAction } from '@copilotkit/react-core'
+import { CopilotChat } from '@copilotkit/react-ui'
 
 const WeatherChat = () => {
   useCopilotAction({
-    name: "get_weather",
-    available: "disabled",
-    parameters: [{ name: "location", type: "string", required: true }],
+    name: 'get_weather',
+    available: 'disabled',
+    parameters: [{ name: 'location', type: 'string', required: true }],
     render: ({ args, result, status }) => {
-      if (status !== "complete") {
+      if (status !== 'complete') {
         return (
           <div className=" bg-[#667eea] text-white p-4 rounded-lg max-w-md">
             <span className="animate-spin">⚙️ Retrieving weather...</span>
@@ -20,7 +20,7 @@ const WeatherChat = () => {
 
       const weatherResult: WeatherToolResult = {
         temperature: result?.temperature || 0,
-        conditions: result?.conditions || "clear",
+        conditions: result?.conditions || 'clear',
         humidity: result?.humidity || 0,
         windSpeed: result?.wind_speed || 0,
         feelsLike: result?.feels_like || result?.temperature || 0,
@@ -33,7 +33,7 @@ const WeatherChat = () => {
           location={args.location}
           themeColor={themeColor}
           result={weatherResult}
-          status={status || "complete"}
+          status={status || 'complete'}
         />
       )
     },
@@ -44,18 +44,18 @@ const WeatherChat = () => {
       <div className="h-full w-full md:w-8/10 md:h-8/10 rounded-lg">
         <CopilotChat
           className="h-full rounded-2xl max-w-6xl mx-auto"
-          labels={{ initial: "Hi! I can look up the weather for you. Just ask!" }}
+          labels={{ initial: 'Hi! I can look up the weather for you. Just ask!' }}
           suggestions={[
             {
-              title: "Weather in San Francisco",
+              title: 'Weather in San Francisco',
               message: "What's the weather like in San Francisco?",
             },
             {
-              title: "Weather in New York",
-              message: "Tell me about the weather in New York.",
+              title: 'Weather in New York',
+              message: 'Tell me about the weather in New York.',
             },
             {
-              title: "Weather in Tokyo",
+              title: 'Weather in Tokyo',
               message: "How's the weather in Tokyo today?",
             },
           ]}
@@ -75,19 +75,19 @@ interface WeatherToolResult {
 
 function getThemeColor(conditions: string): string {
   const conditionLower = conditions.toLowerCase()
-  if (conditionLower.includes("clear") || conditionLower.includes("sunny")) {
-    return "#667eea"
+  if (conditionLower.includes('clear') || conditionLower.includes('sunny')) {
+    return '#667eea'
   }
-  if (conditionLower.includes("rain") || conditionLower.includes("storm")) {
-    return "#4A5568"
+  if (conditionLower.includes('rain') || conditionLower.includes('storm')) {
+    return '#4A5568'
   }
-  if (conditionLower.includes("cloud")) {
-    return "#718096"
+  if (conditionLower.includes('cloud')) {
+    return '#718096'
   }
-  if (conditionLower.includes("snow")) {
-    return "#63B3ED"
+  if (conditionLower.includes('snow')) {
+    return '#63B3ED'
   }
-  return "#764ba2"
+  return '#764ba2'
 }
 
 function WeatherCard({
@@ -99,7 +99,7 @@ function WeatherCard({
   location?: string
   themeColor: string
   result: WeatherToolResult
-  status: "inProgress" | "executing" | "complete"
+  status: 'inProgress' | 'executing' | 'complete'
 }) {
   return (
     <div
@@ -122,7 +122,7 @@ function WeatherCard({
           <div className="text-3xl font-bold text-white">
             <span className="">{result.temperature}° C</span>
             <span className="text-sm text-white/50">
-              {" / "}
+              {' / '}
               {((result.temperature * 9) / 5 + 32).toFixed(1)}° F
             </span>
           </div>
@@ -153,23 +153,23 @@ function WeatherCard({
 function WeatherIcon({ conditions }: { conditions: string }) {
   if (!conditions) return null
 
-  if (conditions.toLowerCase().includes("clear") || conditions.toLowerCase().includes("sunny")) {
+  if (conditions.toLowerCase().includes('clear') || conditions.toLowerCase().includes('sunny')) {
     return <SunIcon />
   }
 
   if (
-    conditions.toLowerCase().includes("rain") ||
-    conditions.toLowerCase().includes("drizzle") ||
-    conditions.toLowerCase().includes("snow") ||
-    conditions.toLowerCase().includes("thunderstorm")
+    conditions.toLowerCase().includes('rain') ||
+    conditions.toLowerCase().includes('drizzle') ||
+    conditions.toLowerCase().includes('snow') ||
+    conditions.toLowerCase().includes('thunderstorm')
   ) {
     return <RainIcon />
   }
 
   if (
-    conditions.toLowerCase().includes("fog") ||
-    conditions.toLowerCase().includes("cloud") ||
-    conditions.toLowerCase().includes("overcast")
+    conditions.toLowerCase().includes('fog') ||
+    conditions.toLowerCase().includes('cloud') ||
+    conditions.toLowerCase().includes('overcast')
   ) {
     return <CloudIcon />
   }

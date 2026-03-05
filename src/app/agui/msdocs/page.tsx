@@ -1,18 +1,18 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 import {
   CopilotKit,
   useHumanInTheLoop,
   useCopilotAction,
-  useFrontendTool
-} from "@copilotkit/react-core";
-import { CopilotChat, CopilotSidebar, ComponentsMap } from "@copilotkit/react-ui";
+  useFrontendTool,
+} from '@copilotkit/react-core'
+import { CopilotChat, CopilotSidebar, ComponentsMap } from '@copilotkit/react-ui'
 
 const MsdocsChat = () => {
-  const customMarkdownTagRenderers: ComponentsMap<{ "reference-chip": { href: string } }> = {
+  const customMarkdownTagRenderers: ComponentsMap<{ 'reference-chip': { href: string } }> = {
     // You can make up your own tags, or use existing, valid HTML ones!
-    "reference-chip": ({ children, href }) => {
+    'reference-chip': ({ children, href }) => {
       return (
         <a
           href={href}
@@ -22,9 +22,9 @@ const MsdocsChat = () => {
         >
           {children}
         </a>
-      );
+      )
     },
-  };
+  }
 
   return (
     <div
@@ -37,23 +37,28 @@ const MsdocsChat = () => {
           labels={{ initial: "Hi, I'm an agent. Want to chat?" }}
           suggestions={[
             {
-              title: "create storage account",
-              message: "How do I create an Azure storage account using the Azure CLI? Please provide a brief explanation and include a link to the relevant documentation.",
+              title: 'create storage account',
+              message:
+                'How do I create an Azure storage account using the Azure CLI? Please provide a brief explanation and include a link to the relevant documentation.',
             },
             {
-              title: "aspire usage",
-              message: "How to use Aspire to organize projects? Please provide a brief explanation and include a link to the relevant documentation.",
+              title: 'aspire usage',
+              message:
+                'How to use Aspire to organize projects? Please provide a brief explanation and include a link to the relevant documentation.',
             },
             {
-              title: "deploy aspire to k8s?",
-              message: "How to deploy Aspire project to Kubernetes? Please provide a brief explanation and include a link to the relevant documentation.",
+              title: 'deploy aspire to k8s?',
+              message:
+                'How to deploy Aspire project to Kubernetes? Please provide a brief explanation and include a link to the relevant documentation.',
             },
           ]}
-          markdownTagRenderers={customMarkdownTagRenderers as unknown as ComponentsMap<Record<string, object>>}
+          markdownTagRenderers={
+            customMarkdownTagRenderers as unknown as ComponentsMap<Record<string, object>>
+          }
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default MsdocsChat;
+export default MsdocsChat

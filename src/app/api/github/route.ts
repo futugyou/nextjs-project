@@ -6,18 +6,18 @@ import type { NextRequest } from 'next/server'
 export const runtime = 'edge' // 'nodejs' is the default
 
 export async function GET(request: NextRequest) {
-    console.log(request.url)
+  console.log(request.url)
 
-    const account = await getAccountPermission()
-    const repositories = await getRepository()
+  const account = await getAccountPermission()
+  const repositories = await getRepository()
 
-    return NextResponse.json(
-        {
-            account,
-            repositories
-        },
-        {
-            status: 200,
-        },
-    )
+  return NextResponse.json(
+    {
+      account,
+      repositories,
+    },
+    {
+      status: 200,
+    },
+  )
 }

@@ -1,16 +1,15 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 import {
   CopilotKit,
   useHumanInTheLoop,
   useCopilotAction,
-  useFrontendTool
-} from "@copilotkit/react-core";
-import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
+  useFrontendTool,
+} from '@copilotkit/react-core'
+import { CopilotChat, CopilotSidebar } from '@copilotkit/react-ui'
 
 const CodeChat = () => {
-
   return (
     <div
       className="flex justify-center items-center h-full w-full"
@@ -22,18 +21,18 @@ const CodeChat = () => {
           labels={{ initial: "Hi, I'm an agent. Want to chat?" }}
           suggestions={[
             {
-              title: "feibonaci",
-              message: "write a function to calculate the nth fibonacci number",
+              title: 'feibonaci',
+              message: 'write a function to calculate the nth fibonacci number',
             },
             {
-              title: "double-checked locking",
-              message: "Implement double-checked locking in .NET",
+              title: 'double-checked locking',
+              message: 'Implement double-checked locking in .NET',
             },
           ]}
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default CodeChat;
+export default CodeChat

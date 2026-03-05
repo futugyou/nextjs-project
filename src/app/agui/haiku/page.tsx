@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { useCopilotAction } from "@copilotkit/react-core"
-import { CopilotSidebar } from "@copilotkit/react-ui"
+import React, { useState } from 'react'
+import { useCopilotAction } from '@copilotkit/react-core'
+import { CopilotSidebar } from '@copilotkit/react-ui'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from '@/components/ui/carousel'
 
 interface Haiku {
   japanese: string[]
@@ -22,14 +22,14 @@ export default function ToolBasedGenerativeUI() {
   const chatProps = {
     defaultOpen: true,
     labels: {
-      title: "Haiku Generator",
+      title: 'Haiku Generator',
       initial: "I'm a haiku generator 👋. How can I help you?",
     },
     clickOutsideToClose: false,
     suggestions: [
-      { title: "Nature Haiku", message: "Write me a haiku about nature." },
-      { title: "Ocean Haiku", message: "Create a haiku about the ocean." },
-      { title: "Spring Haiku", message: "Generate a haiku about spring." },
+      { title: 'Nature Haiku', message: 'Write me a haiku about nature.' },
+      { title: 'Ocean Haiku', message: 'Create a haiku about the ocean.' },
+      { title: 'Spring Haiku', message: 'Generate a haiku about spring.' },
     ],
   }
 
@@ -42,56 +42,56 @@ export default function ToolBasedGenerativeUI() {
 }
 
 const VALID_IMAGE_NAMES = [
-  "Osaka_Castle_Turret_Stone_Wall_Pine_Trees_Daytime.jpg",
-  "Tokyo_Skyline_Night_Tokyo_Tower_Mount_Fuji_View.jpg",
-  "Itsukushima_Shrine_Miyajima_Floating_Torii_Gate_Sunset_Long_Exposure.jpg",
-  "Takachiho_Gorge_Waterfall_River_Lush_Greenery_Japan.jpg",
-  "Bonsai_Tree_Potted_Japanese_Art_Green_Foliage.jpeg",
-  "Shirakawa-go_Gassho-zukuri_Thatched_Roof_Village_Aerial_View.jpg",
-  "Ginkaku-ji_Silver_Pavilion_Kyoto_Japanese_Garden_Pond_Reflection.jpg",
-  "Senso-ji_Temple_Asakusa_Cherry_Blossoms_Kimono_Umbrella.jpg",
-  "Cherry_Blossoms_Sakura_Night_View_City_Lights_Japan.jpg",
-  "Mount_Fuji_Lake_Reflection_Cherry_Blossoms_Sakura_Spring.jpg",
+  'Osaka_Castle_Turret_Stone_Wall_Pine_Trees_Daytime.jpg',
+  'Tokyo_Skyline_Night_Tokyo_Tower_Mount_Fuji_View.jpg',
+  'Itsukushima_Shrine_Miyajima_Floating_Torii_Gate_Sunset_Long_Exposure.jpg',
+  'Takachiho_Gorge_Waterfall_River_Lush_Greenery_Japan.jpg',
+  'Bonsai_Tree_Potted_Japanese_Art_Green_Foliage.jpeg',
+  'Shirakawa-go_Gassho-zukuri_Thatched_Roof_Village_Aerial_View.jpg',
+  'Ginkaku-ji_Silver_Pavilion_Kyoto_Japanese_Garden_Pond_Reflection.jpg',
+  'Senso-ji_Temple_Asakusa_Cherry_Blossoms_Kimono_Umbrella.jpg',
+  'Cherry_Blossoms_Sakura_Night_View_City_Lights_Japan.jpg',
+  'Mount_Fuji_Lake_Reflection_Cherry_Blossoms_Sakura_Spring.jpg',
 ]
 
 function HaikuDisplay() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [haikus, setHaikus] = useState<Haiku[]>([
     {
-      japanese: ["仮の句よ", "まっさらながら", "花を呼ぶ"],
-      english: ["A placeholder verse—", "even in a blank canvas,", "it beckons flowers."],
+      japanese: ['仮の句よ', 'まっさらながら', '花を呼ぶ'],
+      english: ['A placeholder verse—', 'even in a blank canvas,', 'it beckons flowers.'],
       image_name: null,
-      gradient: "",
+      gradient: '',
     },
   ])
 
   useCopilotAction(
     {
-      name: "generate_haiku",
+      name: 'generate_haiku',
       parameters: [
         {
-          name: "japanese",
-          type: "string[]",
+          name: 'japanese',
+          type: 'string[]',
           required: true,
-          description: "3 lines of haiku in Japanese",
+          description: '3 lines of haiku in Japanese',
         },
         {
-          name: "english",
-          type: "string[]",
+          name: 'english',
+          type: 'string[]',
           required: true,
-          description: "3 lines of haiku translated to English",
+          description: '3 lines of haiku translated to English',
         },
         {
-          name: "image_name",
-          type: "string",
+          name: 'image_name',
+          type: 'string',
           required: true,
-          description: `One relevant image name from: ${VALID_IMAGE_NAMES.join(", ")}`,
+          description: `One relevant image name from: ${VALID_IMAGE_NAMES.join(', ')}`,
         },
         {
-          name: "gradient",
-          type: "string",
+          name: 'gradient',
+          type: 'string',
           required: true,
-          description: "CSS Gradient color for the background",
+          description: 'CSS Gradient color for the background',
         },
       ],
       followUp: false,
@@ -100,14 +100,14 @@ function HaikuDisplay() {
           japanese: japanese || [],
           english: english || [],
           image_name: image_name || null,
-          gradient: gradient || "",
+          gradient: gradient || '',
         }
         setHaikus((prev) => [
           newHaiku,
-          ...prev.filter((h) => h.english[0] !== "A placeholder verse—"),
+          ...prev.filter((h) => h.english[0] !== 'A placeholder verse—'),
         ])
         setActiveIndex(0)
-        return "Haiku generated!"
+        return 'Haiku generated!'
       },
       render: ({ args }) => {
         if (!args.japanese) return <></>

@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 import {
   CopilotKit,
   useHumanInTheLoop,
@@ -8,15 +8,15 @@ import {
   useFrontendTool,
   useCopilotChatSuggestions,
   useCoAgentStateRender,
-} from "@copilotkit/react-core";
-import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui";
+} from '@copilotkit/react-core'
+import { CopilotChat, CopilotSidebar } from '@copilotkit/react-ui'
 
-import ActionButton from "@/components/ActionButton";
-import LightCardContainer from "@/components/light/LightCardContainer";
-import type { GetLightsToolResult } from "@/components/light/LightCardContainer";
+import ActionButton from '@/components/ActionButton'
+import LightCardContainer from '@/components/light/LightCardContainer'
+import type { GetLightsToolResult } from '@/components/light/LightCardContainer'
 
 const LightChat = () => {
-  const [background, setBackground] = useState<string>("--copilot-kit-background-color");
+  const [background, setBackground] = useState<string>('--copilot-kit-background-color')
 
   // Not currently in use; StaticSuggestionsConfigInput (suggestions) is no longer rendered after its first use.
   // `available` is not useful for suggestions, as they do not belong to a specific type(DynamicSuggestionsConfigInput).
@@ -41,66 +41,66 @@ const LightChat = () => {
   // `useCoAgentStateRender` will not be triggered because the background agent does not emit the relevant event.
   // Currently, MAF's method of emitting events is too cumbersome.
   useCoAgentStateRender<GetLightsToolResult>({
-    name: "ligth",
-    nodeName: "light_current_state",
+    name: 'ligth',
+    nodeName: 'light_current_state',
     render: ({ status, state, nodeName }) => {
-      console.log("useCoAgentStateRender", status, state, nodeName);
-      return (
-        <LightCardContainer result={state} status={status} tip="useCoAgentStateRender" />
-      );
+      console.log('useCoAgentStateRender', status, state, nodeName)
+      return <LightCardContainer result={state} status={status} tip="useCoAgentStateRender" />
     },
-  });
+  })
 
   useFrontendTool({
-    name: "change_background",
+    name: 'change_background',
     description:
-      "Change the background color of the chat. Can be anything that the CSS background attribute accepts. Regular colors, linear of radial gradients etc.",
+      'Change the background color of the chat. Can be anything that the CSS background attribute accepts. Regular colors, linear of radial gradients etc.',
     parameters: [
       {
-        name: "background",
-        type: "string",
-        description: "The background. Prefer gradients. Only use when asked.",
+        name: 'background',
+        type: 'string',
+        description: 'The background. Prefer gradients. Only use when asked.',
       },
     ],
     handler: ({ background }) => {
-      setBackground(background);
+      setBackground(background)
       return {
-        status: "success",
+        status: 'success',
         message: `Background changed to ${background}`,
-      };
+      }
     },
-  });
+  })
 
   useRenderToolCall({
-    name: "get_lights",
-    available: "disabled",
-    render: (props) => <LightCardContainer result={props.result} status={props.status} tip="useRenderToolCall" />,
-  });
+    name: 'get_lights',
+    available: 'disabled',
+    render: (props) => (
+      <LightCardContainer result={props.result} status={props.status} tip="useRenderToolCall" />
+    ),
+  })
 
   useHumanInTheLoop({
-    name: "change_state",
-    description: "Changes the state of the light",
+    name: 'change_state',
+    description: 'Changes the state of the light',
     parameters: [
       {
-        name: "id",
-        type: "string",
-        description: "the light id",
+        name: 'id',
+        type: 'string',
+        description: 'the light id',
         required: true,
       },
       {
-        name: "is_on",
-        type: "boolean",
-        description: "light status, `true` means open the light, `false` means close the light",
+        name: 'is_on',
+        type: 'boolean',
+        description: 'light status, `true` means open the light, `false` means close the light',
         required: true,
       },
     ],
     render: ({ args, respond, status }) => {
-      if (!respond) return <></>;
+      if (!respond) return <></>
       return (
         <div className="flex justify-center gap-4">
           <ActionButton
             variant="secondary"
-            disabled={status !== "executing"}
+            disabled={status !== 'executing'}
             onClick={() => respond(`DENIED`)}
           >
             <span className="mr-2">✗</span>
@@ -108,16 +108,16 @@ const LightChat = () => {
           </ActionButton>
           <ActionButton
             variant="success"
-            disabled={status !== "executing"}
+            disabled={status !== 'executing'}
             onClick={() => respond(`APPROVED`)}
           >
             <span className="mr-2">✓</span>
             Confirm
           </ActionButton>
         </div>
-      );
+      )
     },
-  });
+  })
 
   return (
     <div
@@ -131,22 +131,22 @@ const LightChat = () => {
           labels={{ initial: "Hi, I'm an agent. Want to chat?" }}
           suggestions={[
             {
-              title: "get light`s states",
-              message: "Get the status of all the lights.",
+              title: 'get light`s states',
+              message: 'Get the status of all the lights.',
             },
             {
-              title: "Turn off the lights and go to sleep.",
-              message: "Turn off all the lights.",
+              title: 'Turn off the lights and go to sleep.',
+              message: 'Turn off all the lights.',
             },
             {
-              title: "Change background",
-              message: "Change the background to something new.",
+              title: 'Change background',
+              message: 'Change the background to something new.',
             },
           ]}
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default LightChat;
+export default LightChat

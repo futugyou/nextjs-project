@@ -10,9 +10,7 @@
   "postAttachCommand": "/bin/bash .devcontainer/setup.sh",
   "customizations": {
     "codespaces": {
-      "openFiles": [
-        "app/page.tsx"
-      ]
+      "openFiles": ["app/page.tsx"]
     }
   },
   "portsAttributes": {
@@ -21,10 +19,7 @@
       "onAutoForward": "openPreview"
     }
   },
-  "forwardPorts": [
-    3000,
-    3001
-  ],
+  "forwardPorts": [3000, 3001],
   "features": {
     "ghcr.io/devcontainers/features/rust:1": {}
   }

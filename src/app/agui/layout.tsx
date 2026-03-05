@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import "./style.css"
-import "@copilotkit/react-ui/styles.css"
+import './style.css'
+import '@copilotkit/react-ui/styles.css'
 
 import { usePathname } from 'next/navigation'
 
-import { CopilotKit } from "@copilotkit/react-core"
-import CopilotStatus from "@/components/CopilotStatus"
+import { CopilotKit } from '@copilotkit/react-core'
+import CopilotStatus from '@/components/CopilotStatus'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

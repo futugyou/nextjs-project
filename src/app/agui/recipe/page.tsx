@@ -1,27 +1,27 @@
-"use client"
+'use client'
 
-import "./style.css"
+import './style.css'
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { Role, TextMessage } from "@copilotkit/runtime-client-gql"
-import { CopilotKit, useCoAgent, useCopilotChat } from "@copilotkit/react-core"
-import { CopilotChat, CopilotSidebar } from "@copilotkit/react-ui"
+import { Role, TextMessage } from '@copilotkit/runtime-client-gql'
+import { CopilotKit, useCoAgent, useCopilotChat } from '@copilotkit/react-core'
+import { CopilotChat, CopilotSidebar } from '@copilotkit/react-ui'
 
 // Based on the official example, I want to understand how the data is generated.
 // https://docs.copilotkit.ai/microsoft-agent-framework/shared-state/in-app-agent-read
 // at last it get an error:
 // Agent execution failed: Error: Cannot send 'RUN_FINISHED' while text messages are still active: 007b5e7e-7db9-401d-8da1-021b282b5397
 // at ignore-listed frames
-// 
+//
 // data: {"type":"RUN_ERROR","message":"Run ended without emitting a terminal event","code":"INCOMPLETE_STREAM"}
 export default function SharedState() {
   const pathname = usePathname()
   const pathSegment = pathname.split('/')[2]
 
-  const chatTitle = "AI Recipe Assistant"
-  const chatDescription = "Ask me to craft recipes"
-  const initialLabel = "Hi 👋 How can I help with your recipe?"
+  const chatTitle = 'AI Recipe Assistant'
+  const chatDescription = 'Ask me to craft recipes'
+  const initialLabel = 'Hi 👋 How can I help with your recipe?'
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
@@ -39,17 +39,17 @@ export default function SharedState() {
 }
 
 enum SkillLevel {
-  BEGINNER = "Beginner",
-  INTERMEDIATE = "Intermediate",
-  ADVANCED = "Advanced",
+  BEGINNER = 'Beginner',
+  INTERMEDIATE = 'Intermediate',
+  ADVANCED = 'Advanced',
 }
 
 enum CookingTime {
-  FiveMin = "5 min",
-  FifteenMin = "15 min",
-  ThirtyMin = "30 min",
-  FortyFiveMin = "45 min",
-  SixtyPlusMin = "60+ min",
+  FiveMin = '5 min',
+  FifteenMin = '15 min',
+  ThirtyMin = '30 min',
+  FortyFiveMin = '45 min',
+  SixtyPlusMin = '60+ min',
 }
 
 const cookingTimeValues = [
@@ -61,13 +61,13 @@ const cookingTimeValues = [
 ]
 
 enum SpecialPreferences {
-  HighProtein = "High Protein",
-  LowCarb = "Low Carb",
-  Spicy = "Spicy",
-  BudgetFriendly = "Budget-Friendly",
-  OnePotMeal = "One-Pot Meal",
-  Vegetarian = "Vegetarian",
-  Vegan = "Vegan",
+  HighProtein = 'High Protein',
+  LowCarb = 'Low Carb',
+  Spicy = 'Spicy',
+  BudgetFriendly = 'Budget-Friendly',
+  OnePotMeal = 'One-Pot Meal',
+  Vegetarian = 'Vegetarian',
+  Vegan = 'Vegan',
 }
 
 interface Ingredient {
@@ -91,15 +91,15 @@ interface RecipeAgentState {
 
 const INITIAL_STATE: RecipeAgentState = {
   recipe: {
-    title: "Make Your Recipe",
+    title: 'Make Your Recipe',
     skill_level: SkillLevel.INTERMEDIATE,
     cooking_time: CookingTime.FortyFiveMin,
     special_preferences: [],
     ingredients: [
-      { icon: "🥕", name: "Carrots", amount: "3 large, grated" },
-      { icon: "🌾", name: "All-Purpose Flour", amount: "2 cups" },
+      { icon: '🥕', name: 'Carrots', amount: '3 large, grated' },
+      { icon: '🌾', name: 'All-Purpose Flour', amount: '2 cups' },
     ],
-    instructions: ["Preheat oven to 350°F (175°C)"],
+    instructions: ['Preheat oven to 350°F (175°C)'],
   },
 }
 
@@ -143,12 +143,12 @@ function Recipe({ path }: { path: string }) {
       const recipeValue = (recipe as any)[key]
 
       // Check if agentValue is a string and replace \n with actual newlines
-      if (typeof agentValue === "string") {
-        agentValue = agentValue.replace(/\\n/g, "\n")
+      if (typeof agentValue === 'string') {
+        agentValue = agentValue.replace(/\\n/g, '\n')
       }
 
       if (JSON.stringify(agentValue) !== JSON.stringify(recipeValue)) {
-        (newRecipeState as any)[key] = agentValue
+        ;(newRecipeState as any)[key] = agentValue
         newChangedKeys.push(key)
       }
     }
@@ -197,7 +197,7 @@ function Recipe({ path }: { path: string }) {
   const addIngredient = () => {
     // Pick a random food emoji from our valid list
     updateRecipe({
-      ingredients: [...recipe.ingredients, { icon: "🍴", name: "", amount: "" }],
+      ingredients: [...recipe.ingredients, { icon: '🍴', name: '', amount: '' }],
     })
   }
 
@@ -219,14 +219,14 @@ function Recipe({ path }: { path: string }) {
   const addInstruction = () => {
     const newIndex = recipe.instructions.length
     updateRecipe({
-      instructions: [...recipe.instructions, ""],
+      instructions: [...recipe.instructions, ''],
     })
     // Set the new instruction as the editing one
     setEditingInstructionIndex(newIndex)
 
     // Focus the new instruction after render
     setTimeout(() => {
-      const textareas = document.querySelectorAll(".instructions-container textarea")
+      const textareas = document.querySelectorAll('.instructions-container textarea')
       const newTextarea = textareas[textareas.length - 1] as HTMLTextAreaElement
       if (newTextarea) {
         newTextarea.focus()
@@ -250,22 +250,19 @@ function Recipe({ path }: { path: string }) {
   const getProperIcon = (icon: string | undefined): string => {
     // If icon is undefined  return the default
     if (!icon) {
-      return "🍴"
+      return '🍴'
     }
 
     return icon
   }
 
   return (
-    <form
-      data-testid="recipe-card"
-      className="recipe-card"
-    >
+    <form data-testid="recipe-card" className="recipe-card">
       {/* Recipe Title */}
       <div className="recipe-header">
         <input
           type="text"
-          value={recipe.title || ""}
+          value={recipe.title || ''}
           onChange={handleTitleChange}
           className="recipe-title-input"
         />
@@ -280,11 +277,11 @@ function Recipe({ path }: { path: string }) {
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xmlcharset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e\")",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 0px center",
-                backgroundSize: "12px",
-                appearance: "none",
-                WebkitAppearance: "none",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0px center',
+                backgroundSize: '12px',
+                appearance: 'none',
+                WebkitAppearance: 'none',
               }}
             >
               {cookingTimeValues.map((time) => (
@@ -304,11 +301,11 @@ function Recipe({ path }: { path: string }) {
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xmlcharset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e\")",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 0px center",
-                backgroundSize: "12px",
-                appearance: "none",
-                WebkitAppearance: "none",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0px center',
+                backgroundSize: '12px',
+                appearance: 'none',
+                WebkitAppearance: 'none',
               }}
             >
               {Object.values(SkillLevel).map((level) => (
@@ -323,7 +320,7 @@ function Recipe({ path }: { path: string }) {
 
       {/* Dietary Preferences */}
       <div className="section-container relative">
-        {changedKeysRef.current.includes("special_preferences") && <Ping />}
+        {changedKeysRef.current.includes('special_preferences') && <Ping />}
         <h2 className="section-title">Dietary Preferences</h2>
         <div className="dietary-options">
           {Object.values(SpecialPreferences).map((option) => (
@@ -343,7 +340,7 @@ function Recipe({ path }: { path: string }) {
 
       {/* Ingredients */}
       <div className="section-container relative">
-        {changedKeysRef.current.includes("ingredients") && <Ping />}
+        {changedKeysRef.current.includes('ingredients') && <Ping />}
         <div className="section-header">
           <h2 className="section-title">Ingredients</h2>
           <button
@@ -362,15 +359,15 @@ function Recipe({ path }: { path: string }) {
               <div className="ingredient-content">
                 <input
                   type="text"
-                  value={ingredient.name || ""}
-                  onChange={(e) => updateIngredient(index, "name", e.target.value)}
+                  value={ingredient.name || ''}
+                  onChange={(e) => updateIngredient(index, 'name', e.target.value)}
                   placeholder="Ingredient name"
                   className="ingredient-name-input"
                 />
                 <input
                   type="text"
-                  value={ingredient.amount || ""}
-                  onChange={(e) => updateIngredient(index, "amount", e.target.value)}
+                  value={ingredient.amount || ''}
+                  onChange={(e) => updateIngredient(index, 'amount', e.target.value)}
                   placeholder="Amount"
                   className="ingredient-amount-input"
                 />
@@ -390,7 +387,7 @@ function Recipe({ path }: { path: string }) {
 
       {/* Instructions */}
       <div className="section-container relative">
-        {changedKeysRef.current.includes("instructions") && <Ping />}
+        {changedKeysRef.current.includes('instructions') && <Ping />}
         <div className="section-header">
           <h2 className="section-title">Instructions</h2>
           <button type="button" className="add-step-button" onClick={addInstruction}>
@@ -408,17 +405,18 @@ function Recipe({ path }: { path: string }) {
 
               {/* Instruction Content */}
               <div
-                className={`instruction-content ${editingInstructionIndex === index
-                  ? "instruction-content-editing"
-                  : "instruction-content-default"
-                  }`}
+                className={`instruction-content ${
+                  editingInstructionIndex === index
+                    ? 'instruction-content-editing'
+                    : 'instruction-content-default'
+                }`}
                 onClick={() => setEditingInstructionIndex(index)}
               >
                 <textarea
                   className="instruction-textarea"
-                  value={instruction || ""}
+                  value={instruction || ''}
                   onChange={(e) => updateInstruction(index, e.target.value)}
-                  placeholder={!instruction ? "Enter cooking instruction..." : ""}
+                  placeholder={!instruction ? 'Enter cooking instruction...' : ''}
                   onFocus={() => setEditingInstructionIndex(index)}
                   onBlur={(e) => {
                     // Only blur if clicking outside this instruction
@@ -431,10 +429,11 @@ function Recipe({ path }: { path: string }) {
                 {/* Delete Button (only visible on hover) */}
                 <button
                   type="button"
-                  className={`instruction-delete-btn ${editingInstructionIndex === index
-                    ? "instruction-delete-btn-editing"
-                    : "instruction-delete-btn-default"
-                    } remove-button`}
+                  className={`instruction-delete-btn ${
+                    editingInstructionIndex === index
+                      ? 'instruction-delete-btn-editing'
+                      : 'instruction-delete-btn-default'
+                  } remove-button`}
                   onClick={(e) => {
                     e.stopPropagation() // Prevent triggering parent onClick
                     removeInstruction(index)
@@ -453,13 +452,13 @@ function Recipe({ path }: { path: string }) {
       <div className="action-container">
         <button
           data-testid="improve-button"
-          className={isLoading ? "improve-button loading" : "improve-button"}
+          className={isLoading ? 'improve-button loading' : 'improve-button'}
           type="button"
           onClick={() => {
             if (!isLoading) {
               appendMessage(
                 new TextMessage({
-                  content: "Improve the recipe",
+                  content: 'Improve the recipe',
                   role: Role.User,
                 }),
               )
@@ -467,7 +466,7 @@ function Recipe({ path }: { path: string }) {
           }}
           disabled={isLoading}
         >
-          {isLoading ? "Please Wait..." : "Improve with AI"}
+          {isLoading ? 'Please Wait...' : 'Improve with AI'}
         </button>
       </div>
     </form>
@@ -482,4 +481,3 @@ function Ping() {
     </span>
   )
 }
-
