@@ -14,6 +14,19 @@ export default function GameIndexPage() {
       description: 'Strategy game, the player who connects five in a row wins.',
       icon: '⚪',
     },
+    {
+      name: '2048',
+      slug: '2048',
+      description: 'Slide the tiles and try to create a tile with the number 2048.',
+      icon: '🔢',
+    },
+
+    {
+      name: 'Minesweeper',
+      slug: 'minesweeper',
+      description: 'Uncover all the safe squares without detonating any mines.',
+      icon: '💣',
+    },
   ]
 
   return (

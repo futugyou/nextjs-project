@@ -9,6 +9,8 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
   const games = [
     { name: 'Snake', slug: 'snake', icon: '🐍' },
     { name: 'Gomoku', slug: 'gomoku', icon: '⚪' },
+    { name: '2048', slug: '2048', icon: '🔢' },
+    { name: 'Minesweeper', slug: 'minesweeper', icon: '💣' },
   ]
 
   return (
