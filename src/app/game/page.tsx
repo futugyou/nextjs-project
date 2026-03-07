@@ -27,6 +27,12 @@ export default function GameIndexPage() {
       description: 'Uncover all the safe squares without detonating any mines.',
       icon: '💣',
     },
+    {
+      name: 'Tetris',
+      slug: 'tetris',
+      description: 'A classic puzzle game where you stack falling blocks.',
+      icon: '🧩',
+    },
   ]
 
   return (

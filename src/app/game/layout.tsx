@@ -11,6 +11,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     { name: 'Gomoku', slug: 'gomoku', icon: '⚪' },
     { name: '2048', slug: '2048', icon: '🔢' },
     { name: 'Minesweeper', slug: 'minesweeper', icon: '💣' },
+    { name: 'Tetris', slug: 'tetris', icon: '🧩' },
   ]
 
   return (
