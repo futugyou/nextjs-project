@@ -51,6 +51,12 @@ export default function GameIndexPage() {
       description: 'A strategy game where players take turns placing discs on a board.',
       icon: '⚫',
     },
+    {
+      name: 'Chinese Chess',
+      slug: 'xiangqi',
+      description: 'A traditional Chinese strategy game played on a grid.',
+      icon: '🐎',
+    },
   ]
 
   return (
