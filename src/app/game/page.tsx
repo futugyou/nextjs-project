@@ -33,6 +33,13 @@ export default function GameIndexPage() {
       description: 'A classic puzzle game where you stack falling blocks.',
       icon: '🧩',
     },
+
+    {
+      name: 'wordle',
+      slug: 'wordle',
+      description: 'A word guessing game where you have six attempts to guess a five-letter word.',
+      icon: '🔤',
+    },
   ]
 
   return (
