@@ -45,6 +45,12 @@ export default function GameIndexPage() {
       description: 'A matching game where you need to find pairs of identical cards.',
       icon: '🧠',
     },
+    {
+      name: 'Othello',
+      slug: 'othello',
+      description: 'A strategy game where players take turns placing discs on a board.',
+      icon: '⚫',
+    },
   ]
 
   return (

@@ -14,6 +14,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     { name: 'Tetris', slug: 'tetris', icon: '🧩' },
     { name: 'Wordle', slug: 'wordle', icon: '🔤' },
     { name: 'Memory Match', slug: 'memory', icon: '🧠' },
+    { name: 'Othello', slug: 'othello', icon: '⚫' },
   ]
 
   return (
