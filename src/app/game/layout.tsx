@@ -16,6 +16,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     { name: 'Memory Match', slug: 'memory', icon: '🧠' },
     { name: 'Othello', slug: 'othello', icon: '⚫' },
     { name: 'Chinese Chess', slug: 'xiangqi', icon: '🐎' },
+    { name: 'Klotski', slug: 'klotski', icon: '🏃' },
   ]
 
   return (

@@ -57,6 +57,12 @@ export default function GameIndexPage() {
       description: 'A traditional Chinese strategy game played on a grid.',
       icon: '🐎',
     },
+    {
+      name: 'Klotski',
+      slug: 'klotski',
+      description: 'A sliding block puzzle game where you need to move blocks to create a path.',
+      icon: '🏃',
+    },
   ]
 
   return (
