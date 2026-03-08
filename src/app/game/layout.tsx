@@ -2,28 +2,16 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { GAMES } from '@/lib/games'
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-
-  const games = [
-    { name: 'Snake', slug: 'snake', icon: '🐍' },
-    { name: 'Gomoku', slug: 'gomoku', icon: '⚪' },
-    { name: '2048', slug: '2048', icon: '🔢' },
-    { name: 'Minesweeper', slug: 'minesweeper', icon: '💣' },
-    { name: 'Tetris', slug: 'tetris', icon: '🧩' },
-    { name: 'Wordle', slug: 'wordle', icon: '🔤' },
-    { name: 'Memory Match', slug: 'memory', icon: '🧠' },
-    { name: 'Othello', slug: 'othello', icon: '⚫' },
-    { name: 'Chinese Chess', slug: 'xiangqi', icon: '🐎' },
-    { name: 'Klotski', slug: 'klotski', icon: '🏃' },
-  ]
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm sticky top-0 h-screen">
         <div className="p-6">
-          <Link href="/" className="group flex items-center gap-2">
+          <Link href="/game" className="group flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform">
               G
             </div>
@@ -38,7 +26,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             Game Library
           </p>
 
-          {games.map((game) => {
+          {GAMES.map((game) => {
             const href = `/game/${game.slug}`
             const isActive = pathname === href
 
