@@ -144,8 +144,10 @@ export function XiangqiGame() {
       setIsAIThinking(false)
     }, delay)
 
-    return () => clearTimeout(timer)
-  }, [currentTurn, board, winner, difficulty, isAIThinking, executeMove])
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [currentTurn, board, winner, difficulty, executeMove])
 
   // 悔棋（撤销最近两步：玩家+AI）
   const handleUndo = useCallback(() => {
@@ -260,13 +262,13 @@ export function XiangqiGame() {
         </div>
 
         {/* 侧边栏 */}
-        <aside className="w-full lg:w-64 lg:min-h-[600px] flex flex-col">
+        <aside className="w-full lg:w-64 lg:min-h-150 flex flex-col">
           {/* 玩家标识（桌面端） */}
           <div className="hidden lg:flex flex-col gap-2 mb-4">
             <div className="flex items-center gap-2">
               <span
                 className={cn(
-                  'w-3 h-3 rounded-full bg-foreground flex-shrink-0',
+                  'w-3 h-3 rounded-full bg-foreground shrink-0',
                   currentTurn === 'black' && !winner ? 'ring-2 ring-accent ring-offset-1' : '',
                 )}
               />
@@ -288,7 +290,7 @@ export function XiangqiGame() {
             <div className="flex items-center gap-2 mt-auto">
               <span
                 className={cn(
-                  'w-3 h-3 rounded-full bg-piece-red flex-shrink-0',
+                  'w-3 h-3 rounded-full bg-piece-red shrink-0',
                   currentTurn === 'red' && !winner ? 'ring-2 ring-accent ring-offset-1' : '',
                 )}
               />
