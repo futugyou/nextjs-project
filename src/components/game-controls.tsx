@@ -39,7 +39,7 @@ export default function GameControls({
   const difficulties: Difficulty[] = ['beginner', 'intermediate', 'advanced']
 
   return (
-    <div className="w-full max-w-[600px] mx-auto flex flex-col gap-4">
+    <div className="w-full max-w-150 mx-auto flex flex-col gap-4">
       {/* Score & Status */}
       <div className="bg-card border border-border rounded-xl p-4 shadow-md">
         <div className="flex items-center justify-between mb-3">

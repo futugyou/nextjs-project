@@ -23,7 +23,7 @@ const LightCard = ({ item }: { item: LightInfo }) => {
             </p>
           </div>
           <div className="text-sm text-white capitalize">{item.is_on ? 'on' : 'off'}</div>
-          <div className="w-[80px] h-[80px]">
+          <div className="w-20 h-20">
             {item.is_on ? (
               <LightOn className="w-full h-full object-contain" />
             ) : (

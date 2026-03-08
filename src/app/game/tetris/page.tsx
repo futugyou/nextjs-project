@@ -456,7 +456,7 @@ export default function TetrisGame() {
   const nextPiecePreview = renderNextPiece()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
       <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
         {/* Main Game Board */}
         <div className="relative">
@@ -494,7 +494,7 @@ export default function TetrisGame() {
                     <p className="text-xl text-white mb-4">最终得分: {score}</p>
                     <button
                       onClick={startGame}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+                      className="px-6 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
                     >
                       重新开始
                     </button>
@@ -506,12 +506,12 @@ export default function TetrisGame() {
                   </>
                 ) : (
                   <>
-                    <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-6">
+                    <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 mb-6">
                       俄罗斯方块
                     </h2>
                     <button
                       onClick={startGame}
-                      className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-lg hover:from-cyan-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/30"
+                      className="px-8 py-4 bg-linear-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-lg hover:from-cyan-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/30"
                     >
                       开始游戏
                     </button>

@@ -196,7 +196,7 @@ export default function OthelloGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center justify-center p-4">
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">黑白棋</h1>
@@ -273,7 +273,7 @@ export default function OthelloGame() {
       <div className="relative">
         <div className="bg-emerald-800 p-2 md:p-3 rounded-xl shadow-2xl">
           <div
-            className="grid gap-[2px] bg-white/20"
+            className="grid gap-0.5 bg-white/20"
             style={{
               gridTemplateColumns: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
             }}
@@ -308,8 +308,8 @@ export default function OthelloGame() {
                           ${isFlipping ? 'animate-flip' : ''}
                           ${
                             cell === 'black'
-                              ? 'bg-gradient-to-br from-slate-700 via-slate-900 to-black border border-slate-600'
-                              : 'bg-gradient-to-br from-white via-slate-100 to-slate-200 border border-slate-300'
+                              ? 'bg-linear-to-br from-slate-700 via-slate-900 to-black border border-slate-600'
+                              : 'bg-linear-to-br from-white via-slate-100 to-slate-200 border border-slate-300'
                           }
                         `}
                         style={{
@@ -360,7 +360,7 @@ export default function OthelloGame() {
       {/* Game Over Overlay */}
       {gameOver && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-700 animate-in zoom-in-95 duration-300">
+          <div className="bg-linear-to-br from-slate-800 to-slate-900 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-700 animate-in zoom-in-95 duration-300">
             <div className="mb-4">
               <Trophy className="w-16 h-16 mx-auto text-yellow-400" />
             </div>

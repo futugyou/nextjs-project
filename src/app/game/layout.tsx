@@ -15,7 +15,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform">
               G
             </div>
-            <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+            <h2 className="text-xl font-bold bg-linear-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
               Arcade Hub
             </h2>
           </Link>
@@ -73,7 +73,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
         </nav>
 
         <div className="p-4 mt-auto">
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 text-white text-xs">
+          <div className="p-4 rounded-2xl bg-linear-to-br from-slate-800 to-slate-900 text-white text-xs">
             <p className="font-bold mb-1 opacity-90">Pro Tip:</p>
             <p className="opacity-70 leading-relaxed">按下 ESC 键可以快速退出当前游戏。</p>
           </div>

@@ -99,7 +99,7 @@ export default function MemoryMatchGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Widget Container */}
         <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-2xl overflow-hidden">
@@ -117,7 +117,7 @@ export default function MemoryMatchGame() {
                 </div>
                 <button
                   onClick={initializeGame}
-                  className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
+                  className="px-4 py-2 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
                 >
                   重新开始
                 </button>
@@ -142,8 +142,8 @@ export default function MemoryMatchGame() {
                       ${
                         isRevealed
                           ? card.isMatched
-                            ? 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border-emerald-500/50 scale-95'
-                            : 'bg-gradient-to-br from-violet-500/20 to-indigo-500/20 border-violet-500/50'
+                            ? 'bg-linear-to-br from-emerald-500/20 to-teal-500/20 border-emerald-500/50 scale-95'
+                            : 'bg-linear-to-br from-violet-500/20 to-indigo-500/20 border-violet-500/50'
                           : 'bg-slate-700/50 border-slate-600/50 hover:bg-slate-600/50 hover:border-slate-500/50 hover:scale-105 cursor-pointer'
                       }
                       border-2 flex items-center justify-center
@@ -197,7 +197,7 @@ export default function MemoryMatchGame() {
             {/* Progress Bar */}
             <div className="mt-3 h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-violet-500 to-emerald-500 rounded-full transition-all duration-500"
+                className="h-full bg-linear-to-r from-violet-500 to-emerald-500 rounded-full transition-all duration-500"
                 style={{
                   width: `${(cards.filter((c) => c.isMatched).length / 16) * 100}%`,
                 }}
@@ -210,7 +210,7 @@ export default function MemoryMatchGame() {
         {isWon && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 text-center shadow-2xl animate-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
                 <Star className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">恭喜你！</h2>
@@ -219,7 +219,7 @@ export default function MemoryMatchGame() {
               </p>
               <button
                 onClick={initializeGame}
-                className="px-6 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
+                className="px-6 py-3 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
               >
                 再玩一次
               </button>

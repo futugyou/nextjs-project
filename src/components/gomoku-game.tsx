@@ -220,7 +220,7 @@ export default function GomokuGame() {
       className="min-h-screen bg-background flex flex-col items-center py-6 px-4"
       tabIndex={0}
     >
-      <div className="flex flex-col lg:flex-row items-start gap-6 w-full max-w-[1000px]">
+      <div className="flex flex-col lg:flex-row items-start gap-6 w-full max-w-250">
         {/* Controls - top on mobile, side on desktop */}
         <div className="w-full lg:w-[320px] order-2 lg:order-1">
           <GameControls

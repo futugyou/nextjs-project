@@ -340,7 +340,7 @@ export default function GomokuBoard({
   )
 
   return (
-    <div ref={containerRef} className="w-full max-w-[600px] mx-auto">
+    <div ref={containerRef} className="w-full max-w-150 mx-auto">
       <canvas
         ref={canvasRef}
         style={{ width: canvasSize, height: canvasSize }}

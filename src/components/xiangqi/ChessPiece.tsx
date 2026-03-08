@@ -38,7 +38,7 @@ export function ChessPiece({ piece, isSelected, isLastMove, onClick, size = 48 }
       {/* 外圈装饰 */}
       <span
         className={cn(
-          'absolute inset-[3px] rounded-full border opacity-40',
+          'absolute inset-0.75 rounded-full border opacity-40',
           isRed ? 'border-piece-red' : 'border-piece-black',
         )}
       />

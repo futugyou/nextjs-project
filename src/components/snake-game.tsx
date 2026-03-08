@@ -329,7 +329,7 @@ export function SnakeGame() {
   return (
     <div className="flex flex-col items-center gap-6">
       {/* Stats Bar */}
-      <div className="flex items-center justify-between w-full max-w-[400px] px-2">
+      <div className="flex items-center justify-between w-full max-w-100 px-2">
         <div className="flex flex-col">
           <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
             Score
@@ -436,7 +436,7 @@ export function SnakeGame() {
       </div>
 
       {/* Level Progress */}
-      <div className="w-full max-w-[400px]">
+      <div className="w-full max-w-100">
         <div className="flex justify-between text-xs text-muted-foreground mb-1 font-mono">
           <span>Level {gameState.level}</span>
           <span>Next: {50 - (gameState.score % 50)} pts</span>

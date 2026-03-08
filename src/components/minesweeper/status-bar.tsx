@@ -38,7 +38,7 @@ function SegmentDisplay({
   return (
     <div
       className={cn(
-        'flex items-center gap-2 min-w-[80px] px-3 py-1.5 rounded-md bg-secondary/60',
+        'flex items-center gap-2 min-w-20 px-3 py-1.5 rounded-md bg-secondary/60',
         className,
       )}
     >

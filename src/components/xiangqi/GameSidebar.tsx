@@ -143,9 +143,7 @@ export function GameSidebar({
                     key={i}
                     className="flex items-center gap-1 text-sm rounded px-1 py-0.5 hover:bg-secondary/50"
                   >
-                    <span className="text-muted-foreground text-xs w-6 flex-shrink-0">
-                      {i + 1}.
-                    </span>
+                    <span className="text-muted-foreground text-xs w-6 shrink-0">{i + 1}.</span>
                     <span
                       className={cn(
                         'flex-1 text-xs font-mono px-1 py-0.5 rounded',
