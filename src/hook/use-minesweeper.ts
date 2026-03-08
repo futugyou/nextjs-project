@@ -191,13 +191,9 @@ export function useMinesweeper(difficulty: Difficulty) {
 
         let workingBoard = prevBoard.map((r) => r.map((c) => ({ ...c })))
 
-        // First click: place mines and start timer
-        if (firstClickRef.current) {
-          firstClickRef.current = false
+        if (gameStatus === 'idle') {
           workingBoard = placeMines(workingBoard, rows, cols, mines, row, col)
           workingBoard = calculateNeighbors(workingBoard, rows, cols)
-          startTimer()
-          setGameStatus('playing')
         }
 
         // Hit a mine
@@ -229,6 +225,11 @@ export function useMinesweeper(difficulty: Difficulty) {
 
         return filledBoard
       })
+
+      if (gameStatus === 'idle') {
+        setGameStatus('playing')
+        startTimer()
+      }
     },
     [gameStatus, rows, cols, mines, startTimer, stopTimer],
   )
