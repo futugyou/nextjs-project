@@ -28,8 +28,23 @@ interface Level {
 
 const LEVELS: Level[] = [
   {
+    name: '兵分三路',
+    description: '全竖向长将布局，空间分布均匀',
+    pieces: [
+      { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
+      { type: 'general-v', col: 0, row: 0, w: 1, h: 2 },
+      { type: 'general-v', col: 3, row: 0, w: 1, h: 2 },
+      { type: 'general-v', col: 0, row: 2, w: 1, h: 2 },
+      { type: 'general-v', col: 3, row: 2, w: 1, h: 2 },
+      { type: 'soldier', col: 1, row: 2, w: 1, h: 1 },
+      { type: 'soldier', col: 2, row: 2, w: 1, h: 1 },
+      { type: 'soldier', col: 1, row: 3, w: 1, h: 1 },
+      { type: 'soldier', col: 2, row: 3, w: 1, h: 1 },
+    ],
+  },
+  {
     name: '横刀立马',
-    description: '最经典布局，需81步',
+    description: '经典闸门布局，需通过横将置换空间',
     pieces: [
       { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
       { type: 'general-v', col: 0, row: 0, w: 1, h: 2 },
@@ -44,35 +59,19 @@ const LEVELS: Level[] = [
     ],
   },
   {
-    name: '指挥若定',
-    description: '变形布局，另辟蹊径',
+    name: '层层设防',
+    description: '双重横向封锁，难度系数极高',
     pieces: [
       { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
+      { type: 'general-h', col: 1, row: 2, w: 2, h: 1 },
+      { type: 'general-h', col: 1, row: 3, w: 2, h: 1 },
       { type: 'general-v', col: 0, row: 0, w: 1, h: 2 },
       { type: 'general-v', col: 3, row: 0, w: 1, h: 2 },
-      { type: 'general-h', col: 1, row: 2, w: 2, h: 1 },
-      { type: 'general-v', col: 0, row: 2, w: 1, h: 2 },
-      { type: 'general-v', col: 3, row: 2, w: 1, h: 2 },
-      { type: 'soldier', col: 1, row: 3, w: 1, h: 1 },
-      { type: 'soldier', col: 2, row: 3, w: 1, h: 1 },
+      { type: 'general-v', col: 0, row: 3, w: 1, h: 2 },
       { type: 'soldier', col: 1, row: 4, w: 1, h: 1 },
       { type: 'soldier', col: 2, row: 4, w: 1, h: 1 },
-    ],
-  },
-  {
-    name: '齐头并进',
-    description: '两路并发，难度加大',
-    pieces: [
-      { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
-      { type: 'general-h', col: 0, row: 0, w: 1, h: 2 },
-      { type: 'general-h', col: 3, row: 0, w: 1, h: 2 },
-      { type: 'general-h', col: 1, row: 2, w: 2, h: 1 },
-      { type: 'general-v', col: 0, row: 2, w: 1, h: 2 },
-      { type: 'general-v', col: 3, row: 2, w: 1, h: 2 },
-      { type: 'soldier', col: 0, row: 4, w: 1, h: 1 },
-      { type: 'soldier', col: 1, row: 3, w: 1, h: 1 },
-      { type: 'soldier', col: 2, row: 3, w: 1, h: 1 },
-      { type: 'soldier', col: 3, row: 4, w: 1, h: 1 },
+      { type: 'soldier', col: 3, row: 2, w: 1, h: 1 },
+      { type: 'soldier', col: 3, row: 3, w: 1, h: 1 },
     ],
   },
 ]
