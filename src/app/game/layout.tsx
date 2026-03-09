@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GAMES } from '@/lib/games'
+import { useGameStorage } from '@/hook/use-game-record'
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const { allStats } = useGameStorage()
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
@@ -21,14 +23,30 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           </Link>
         </div>
 
-        <nav className="flex-1 px-4 space-y-1">
-          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">
+        <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
+          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
+            Dashboard
+          </p>
+          <Link
+            href="/game/records"
+            className={`flex items-center px-3 py-2.5 rounded-xl transition-all mb-6 ${
+              pathname === '/game/records'
+                ? 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200'
+                : 'text-slate-600 hover:bg-slate-100'
+            }`}
+          >
+            <span className="mr-3 text-lg">📊</span>
+            <span className="font-semibold text-sm">战绩统计</span>
+          </Link>
+
+          <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
             Game Library
           </p>
 
           {GAMES.map((game) => {
             const href = `/game/${game.slug}`
             const isActive = pathname === href
+            const bestScore = allStats[game.slug]?.bestRecord?.score
 
             return (
               <Link
@@ -48,7 +66,12 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
                 >
                   {game.icon}
                 </span>
-                <span className="font-semibold text-sm">{game.name}</span>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-sm leading-none">{game.name}</span>
+                  {bestScore !== undefined && !isActive && (
+                    <span className="text-[10px] opacity-50 mt-1">Best: {bestScore}</span>
+                  )}
+                </div>
 
                 {isActive ? (
                   <div className="ml-auto w-1.5 h-1.5 bg-white rounded-full opacity-80" />
@@ -72,7 +95,14 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           })}
         </nav>
 
-        <div className="p-4 mt-auto">
+        <div className="p-4 space-y-3">
+          <div className="p-3 rounded-xl bg-blue-50 border border-blue-100">
+            <p className="text-[10px] text-blue-500 font-bold uppercase">Total Games Played</p>
+            <p className="text-lg font-bold text-blue-700">
+              {Object.values(allStats).reduce((acc, curr) => acc + curr.history.length, 0)}
+            </p>
+          </div>
+
           <div className="p-4 rounded-2xl bg-linear-to-br from-slate-800 to-slate-900 text-white text-xs">
             <p className="font-bold mb-1 opacity-90">Pro Tip:</p>
             <p className="opacity-70 leading-relaxed">按下 ESC 键可以快速退出当前游戏。</p>
