@@ -18,11 +18,14 @@ export interface GameStats {
 }
 
 export const useGameStorage = (gameSlug?: string) => {
-  const [allStats, setAllStats] = useState<Record<string, any>>(() => {
-    if (typeof window === 'undefined') return {}
+  const [allStats, setAllStats] = useState<Record<string, any>>({})
+
+  useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? JSON.parse(saved) : {}
-  })
+    if (saved) {
+      setAllStats(JSON.parse(saved))
+    }
+  }, [])
 
   const saveRecord = useCallback(
     (score: number, duration: number, completed: boolean) => {
@@ -64,9 +67,5 @@ export const useGameStorage = (gameSlug?: string) => {
 
   const currentGameData = gameSlug ? allStats[gameSlug] : null
 
-  return {
-    saveRecord,
-    currentGameData,
-    allStats,
-  }
+  return { saveRecord, currentGameData, allStats }
 }

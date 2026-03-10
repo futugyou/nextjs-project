@@ -144,7 +144,7 @@ export default function Page() {
             <p className="text-3xl font-bold text-white">Game Over!</p>
             <p className="text-xl text-slate-300">Final Score: {score}</p>
             <Button
-              onClick={resetGame}
+              onClick={handleReset}
               className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
