@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 const STORAGE_KEY = 'mini_games_records'
 const MAX_HISTORY_PER_GAME = 10
@@ -18,45 +18,49 @@ export interface GameStats {
 }
 
 export const useGameStorage = (gameSlug?: string) => {
-  const [allStats, setAllStats] = useState<Record<string, GameStats>>({})
-
-  useEffect(() => {
+  const [allStats, setAllStats] = useState<Record<string, any>>(() => {
+    if (typeof window === 'undefined') return {}
     const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) {
-      setAllStats(JSON.parse(saved))
-    }
-  }, [])
+    return saved ? JSON.parse(saved) : {}
+  })
 
-  const saveRecord = (score: number, duration: number, completed: boolean) => {
-    if (!gameSlug) return
+  const saveRecord = useCallback(
+    (score: number, duration: number, completed: boolean) => {
+      if (!gameSlug) return
 
-    const newRecord: GameRecord = {
-      id: Date.now().toString(),
-      gameSlug,
-      score,
-      duration,
-      completed,
-      timestamp: Date.now(),
-    }
+      const newRecord = {
+        id: Date.now().toString(),
+        gameSlug,
+        score,
+        duration,
+        completed,
+        timestamp: Date.now(),
+      }
 
-    const updatedStats = { ...allStats }
-    const currentGameStats = updatedStats[gameSlug] || { history: [] }
+      setAllStats((prevStats) => {
+        const currentGameStats = prevStats[gameSlug] || { history: [] }
 
-    const newHistory = [newRecord, ...currentGameStats.history].slice(0, MAX_HISTORY_PER_GAME)
+        const newHistory = [newRecord, ...currentGameStats.history].slice(0, 10)
 
-    let newBest = currentGameStats.bestRecord
-    if (!newBest || score > newBest.score) {
-      newBest = newRecord
-    }
+        let newBest = currentGameStats.bestRecord
+        if (!newBest || score > newBest.score) {
+          newBest = newRecord
+        }
 
-    updatedStats[gameSlug] = {
-      bestRecord: newBest,
-      history: newHistory,
-    }
+        const updated = {
+          ...prevStats,
+          [gameSlug]: {
+            bestRecord: newBest,
+            history: newHistory,
+          },
+        }
 
-    setAllStats(updatedStats)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedStats))
-  }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+        return updated
+      })
+    },
+    [gameSlug],
+  )
 
   const currentGameData = gameSlug ? allStats[gameSlug] : null
 
