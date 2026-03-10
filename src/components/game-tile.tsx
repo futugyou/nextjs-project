@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { Tile } from '@/hook/use-game-2048'
+import { useEffect, useState } from 'react'
 
 const TILE_COLORS: Record<number, { bg: string; text: string }> = {
   2: { bg: 'bg-amber-100', text: 'text-slate-700' },
@@ -34,9 +35,17 @@ interface GameTileProps {
 }
 
 export function GameTile({ tile, cellSize, gap }: GameTileProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const { bg, text } = getTileStyle(tile.value)
   const x = tile.col * (cellSize + gap)
   const y = tile.row * (cellSize + gap)
+
+  if (!isMounted) return null
 
   return (
     <motion.div
