@@ -6,15 +6,31 @@ import { useGame2048, type Direction } from '@/hook/use-game-2048'
 import { GameTile } from '@/components/game-tile'
 import { Button } from '@/components/ui/button'
 import { RotateCcw, Trophy } from 'lucide-react'
+import { useGameStorage } from '@/hook/use-game-record'
 
 const CELL_SIZE = 80
 const GAP = 12
 const BOARD_SIZE = CELL_SIZE * 4 + GAP * 3
 
 export default function Page() {
-  const { tiles, score, bestScore, gameOver, won, move, resetGame } = useGame2048()
+  const { tiles, score, gameOver, won, move, resetGame } = useGame2048()
+  const { saveRecord, currentGameData } = useGameStorage('2048')
   const boardRef = useRef<HTMLDivElement>(null)
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null)
+
+  const startTime = useRef(Date.now())
+
+  useEffect(() => {
+    if (gameOver) {
+      const duration = Math.floor((Date.now() - startTime.current) / 1000)
+      saveRecord(score, duration, won)
+    }
+  }, [gameOver, score, won, saveRecord])
+
+  const handleReset = () => {
+    startTime.current = Date.now()
+    resetGame()
+  }
 
   // Keyboard controls
   useEffect(() => {
@@ -80,7 +96,9 @@ export default function Page() {
                 Best Score
               </p>
             </div>
-            <p className="text-2xl font-bold text-amber-400">{bestScore}</p>
+            <p className="text-2xl font-bold text-amber-400">
+              {currentGameData?.bestRecord?.score || 0}
+            </p>
           </div>
         </div>
 

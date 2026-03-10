@@ -16,7 +16,6 @@ export interface Tile {
 export interface GameState {
   tiles: Tile[]
   score: number
-  bestScore: number
   gameOver: boolean
   won: boolean
 }
@@ -163,28 +162,13 @@ export function useGame2048() {
     addRandomTile(grid)
     addRandomTile(grid)
 
-    let bestScore = 0
-    if (typeof window !== 'undefined') {
-      bestScore = parseInt(localStorage.getItem('2048-best-score') || '0', 10)
-    }
-
     return {
       tiles: gridToTiles(grid),
       score: 0,
-      bestScore,
       gameOver: false,
       won: false,
     }
   })
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedBest = parseInt(localStorage.getItem('2048-best-score') || '0', 10)
-      if (savedBest !== gameState.bestScore) {
-        setGameState((prev) => ({ ...prev, bestScore: savedBest }))
-      }
-    }
-  }, [])
 
   const move = useCallback((direction: Direction) => {
     setGameState((prev) => {
@@ -201,15 +185,9 @@ export function useGame2048() {
       const isWon = checkWin(newTiles)
       const isGameOver = !canMove(newGrid)
 
-      const newBestScore = Math.max(newScore, prev.bestScore)
-      if (typeof window !== 'undefined' && newBestScore > prev.bestScore) {
-        localStorage.setItem('2048-best-score', newBestScore.toString())
-      }
-
       return {
         tiles: newTiles,
         score: newScore,
-        bestScore: newBestScore,
         gameOver: isGameOver,
         won: isWon || prev.won,
       }
@@ -221,15 +199,9 @@ export function useGame2048() {
     addRandomTile(grid)
     addRandomTile(grid)
 
-    let bestScore = 0
-    if (typeof window !== 'undefined') {
-      bestScore = parseInt(localStorage.getItem('2048-best-score') || '0', 10)
-    }
-
     setGameState({
       tiles: gridToTiles(grid),
       score: 0,
-      bestScore,
       gameOver: false,
       won: false,
     })
