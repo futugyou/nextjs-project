@@ -1,9 +1,11 @@
 'use client'
+
 import React, { useMemo } from 'react'
 import { Trophy, Clock, Calendar, BarChart3 } from 'lucide-react'
 import { GameStats, useGameStorage } from '@/hook/use-game-record'
 import { GAMES } from '@/lib/games'
 import { SharePoster } from '@/components/share-poster'
+import { formatDuration, getRelativeTime } from '@/lib/utils'
 
 export default function RecordsPage() {
   const { allStats } = useGameStorage()
@@ -94,23 +96,42 @@ export default function RecordsPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <p className="text-xs font-semibold text-gray-400 mb-2">最近历史</p>
-                    <div className="flex gap-1.5">
-                      {stats.history.slice(0, 5).map((record) => (
-                        <div
-                          key={record.id}
-                          title={`分数: ${record.score}`}
-                          className={`h-8 flex-1 rounded-md flex items-center justify-center text-[10px] font-mono ${
-                            record.completed
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-100 text-gray-500'
-                          }`}
-                        >
-                          {record.score}
+                  <div className="space-y-2 mt-4">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">
+                      最近挑战
+                    </p>
+                    {stats.history.slice(0, 5).map((record) => (
+                      <div
+                        key={record.id}
+                        className="flex items-center justify-between p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors group/item"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`text-sm ${record.completed ? 'filter-none' : 'grayscale opacity-70'}`}
+                          >
+                            {record.completed ? '🏆' : '💥'}
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="text-[11px] font-medium text-gray-700 leading-none">
+                              {record.completed ? '挑战成功' : '遗憾失败'}
+                            </span>
+                            <span className="text-[9px] text-gray-400 mt-1">
+                              {getRelativeTime(record.timestamp)}
+                            </span>
+                          </div>
                         </div>
-                      ))}
-                    </div>
+
+                        <div className="text-right flex flex-col items-end">
+                          <span className="text-sm font-bold text-gray-900 leading-none">
+                            {record.score.toLocaleString()}
+                          </span>
+                          <span className="text-[9px] text-gray-400 mt-1 flex items-center gap-0.5">
+                            <Clock size={8} className="inline" />
+                            {formatDuration(record.duration)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="pt-3 border-t border-gray-50 flex justify-between items-center text-[11px] text-gray-400">
