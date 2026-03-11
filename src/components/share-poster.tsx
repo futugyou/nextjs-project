@@ -1,100 +1,105 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { toPng } from 'html-to-image'
-import { Share2, Download, X } from 'lucide-react'
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import { GameStats } from '@/hook/use-game-record'
 import { Game } from '@/lib/games'
+import { Download, Share2 } from 'lucide-react'
+import { toPng } from 'html-to-image'
+
+const GAME_THEMES: Record<string, string> = {
+  tetris: 'from-blue-600 via-blue-500 to-indigo-600',
+  snake: 'from-emerald-600 via-green-500 to-teal-600',
+  'memory-card': 'from-purple-600 via-pink-500 to-rose-500',
+  sudoku: 'from-amber-500 via-orange-500 to-red-600',
+  default: 'from-slate-700 via-slate-600 to-slate-800',
+}
 
 export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) => {
   const posterRef = useRef<HTMLDivElement>(null)
+  const themeClass = GAME_THEMES[game.slug] || GAME_THEMES.default
 
   const handleDownload = async () => {
-    if (posterRef.current) {
-      const dataUrl = await toPng(posterRef.current, { quality: 0.95, cacheBust: true })
-      const link = document.createElement('a')
-      link.download = `${game.name}-战绩海报.png`
-      link.href = dataUrl
-      link.click()
-    }
+    if (!posterRef.current) return
+    const dataUrl = await toPng(posterRef.current, {
+      quality: 1,
+      pixelRatio: 2,
+    })
+    const link = document.createElement('a')
+    link.download = `${game.name}-成就海报.png`
+    link.href = dataUrl
+    link.click()
   }
 
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <button className="flex items-center gap-1 text-xs text-indigo-600 font-medium hover:underline">
-          <Share2 size={12} /> 分享成就
+        <button className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+          <Share2 size={16} />
         </button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300 z-50" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm focus:outline-none z-50">
+        <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-sm z-100 animate-in fade-in" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-90 z-101 focus:outline-none">
+          <VisuallyHidden.Root>
+            <Dialog.Title>{game.name} 战绩分享海报</Dialog.Title>
+            <Dialog.Description>展示你在该游戏中的最高分和统计数据</Dialog.Description>
+          </VisuallyHidden.Root>
+
           <div
             ref={posterRef}
-            className="bg-white overflow-hidden rounded-3xl shadow-2xl relative aspect-3/4 flex flex-col"
+            className={`relative aspect-3/4.5 w-full overflow-hidden rounded-4xl bg-linear-to-br ${themeClass} p-8 text-white shadow-2xl`}
           >
-            <div className="absolute inset-0 bg-linear-to-b from-indigo-600 via-purple-500 to-pink-500 opacity-90" />
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{ backgroundImage: `url("data:image/svg+xml,...")` }}
+            />
 
-            <div className="relative z-10 p-8 flex-1 flex flex-col text-white">
-              <div className="flex justify-between items-start">
-                <div className="text-4xl font-black tracking-tighter italic">GAME OVER.</div>
-                <div className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs border border-white/30">
-                  {new Date().toLocaleDateString()}
+            <div className="relative z-10 h-full flex flex-col">
+              <div className="flex justify-between items-center">
+                <span className="font-mono text-xs tracking-widest opacity-80 uppercase">
+                  Achievement
+                </span>
+                <div className="h-2 w-2 rounded-full bg-white animate-pulse" />
+              </div>
+
+              <div className="mt-12 text-center">
+                <div className="text-6xl mb-4 inline-block drop-shadow-2xl">{game.icon}</div>
+                <h2 className="text-2xl font-black tracking-tight uppercase">{game.name}</h2>
+              </div>
+
+              <div className="mt-auto mb-10 text-center">
+                <p className="text-[10px] uppercase tracking-[0.2em] opacity-70 mb-2">
+                  Personal Best
+                </p>
+                <div className="text-7xl font-black italic tracking-tighter drop-shadow-md">
+                  {stats.bestRecord?.score || 0}
                 </div>
               </div>
 
-              <div className="mt-12 flex flex-col items-center">
-                <span className="text-6xl mb-4 drop-shadow-lg">{game.icon}</span>
-                <h2 className="text-2xl font-bold uppercase tracking-widest">{game.name}</h2>
-                <div className="h-1 w-12 bg-white/50 my-4 rounded-full" />
-              </div>
-
-              <div className="mt-auto space-y-6 text-center">
+              <div className="grid grid-cols-2 gap-4 border-t border-white/20 pt-6 text-center">
                 <div>
-                  <p className="text-white/70 text-xs uppercase tracking-widest mb-1">
-                    Highest Score
-                  </p>
-                  <p className="text-6xl font-black leading-none tracking-tight">
-                    {stats.bestRecord?.score || 0}
-                  </p>
+                  <p className="text-[9px] opacity-60 uppercase mb-1">Total Played</p>
+                  <p className="text-lg font-bold">{stats.history.length}</p>
                 </div>
-
-                <div className="grid grid-cols-2 border-t border-white/20 pt-6">
-                  <div>
-                    <p className="text-white/60 text-[10px] uppercase">游玩次数</p>
-                    <p className="font-bold">{stats.history.length} Games</p>
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-[10px] uppercase">最高段位</p>
-                    <p className="font-bold">王者玩家</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-4">
-                <div className="text-[10px] text-white/50 text-left leading-tight">
-                  扫描挑战我的记录
-                  <br />
-                  来自你的趣玩小站
-                </div>
-                <div className="w-10 h-10 bg-white rounded-md p-1">
-                  <div className="w-full h-full bg-gray-900 rounded-sm" />
+                <div>
+                  <p className="text-[9px] opacity-60 uppercase mb-1">Rank</p>
+                  <p className="text-lg font-bold">传说级别</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 flex gap-3 px-4">
+          <div className="mt-6 flex flex-col gap-3">
             <button
               onClick={handleDownload}
-              className="flex-1 bg-white text-gray-900 font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+              className="w-full bg-white text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-transform"
             >
-              <Download size={18} /> 保存到相册
+              <Download size={20} /> 保存精美海报
             </button>
             <Dialog.Close asChild>
-              <button className="bg-white/20 text-white p-3 rounded-xl hover:bg-white/30">
-                <X size={20} />
+              <button className="mx-auto text-white/60 text-sm hover:text-white transition-colors">
+                暂不分享，返回页面
               </button>
             </Dialog.Close>
           </div>
