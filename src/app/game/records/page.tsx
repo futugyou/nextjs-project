@@ -1,8 +1,9 @@
 'use client'
 import React, { useMemo } from 'react'
-import { Trophy, Clock, Calendar, BarChart3, ChevronRight } from 'lucide-react'
+import { Trophy, Clock, Calendar, BarChart3 } from 'lucide-react'
 import { GameStats, useGameStorage } from '@/hook/use-game-record'
 import { GAMES } from '@/lib/games'
+import { SharePoster } from '@/components/share-poster'
 
 export default function RecordsPage() {
   const { allStats } = useGameStorage()
@@ -53,8 +54,14 @@ export default function RecordsPage() {
           return (
             <div
               key={game.slug}
-              className="group bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300"
+              className="group relative bg-white rounded-2xl p-5 border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-lg"
             >
+              {stats?.bestRecord && (
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <SharePoster game={game} stats={stats} />
+                </div>
+              )}
+
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <span className="text-3xl p-2 bg-gray-50 rounded-lg group-hover:scale-110 transition-transform">
@@ -62,12 +69,8 @@ export default function RecordsPage() {
                   </span>
                   <div>
                     <h2 className="font-bold text-gray-800">{game.name}</h2>
-                    {/* <p className="text-xs text-gray-400">{game.category || '休闲益智'}</p> */}
                   </div>
                 </div>
-                <button className="text-gray-300 hover:text-indigo-500">
-                  <ChevronRight size={20} />
-                </button>
               </div>
 
               {hasData ? (
