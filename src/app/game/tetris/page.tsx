@@ -1,5 +1,6 @@
 'use client'
 
+import { useGameStorage } from '@/hook/use-game-record'
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 // Tetromino shapes and their rotations
@@ -94,6 +95,7 @@ const rotate = (matrix: number[][]): number[][] => {
 }
 
 export default function TetrisGame() {
+  const { saveRecord, currentGameData } = useGameStorage('tetris')
   const [board, setBoard] = useState<Board>(createEmptyBoard)
   const [currentPiece, setCurrentPiece] = useState<Piece | null>(null)
   const [nextPiece, setNextPiece] = useState<{ shape: number[][]; color: string } | null>(null)
@@ -103,6 +105,9 @@ export default function TetrisGame() {
   const [gameOver, setGameOver] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [gameStarted, setGameStarted] = useState(false)
+
+  const startTimeRef = useRef<number>(0)
+  const hasSavedRef = useRef<boolean>(false)
 
   const boardRef = useRef<Board>(board)
   const currentPieceRef = useRef<Piece | null>(currentPiece)
@@ -406,7 +411,17 @@ export default function TetrisGame() {
     }
     setCurrentPiece(initialPiece)
     lastDropTimeRef.current = 0
+    startTimeRef.current = Date.now()
+    hasSavedRef.current = false
   }, [])
+
+  useEffect(() => {
+    if (gameOver && !hasSavedRef.current && gameStarted) {
+      const duration = Math.floor((Date.now() - startTimeRef.current) / 1000)
+      saveRecord(score, duration, true)
+      hasSavedRef.current = true
+    }
+  }, [gameOver, score, gameStarted, saveRecord])
 
   // Render board with current piece
   const renderBoard = () => {
@@ -492,6 +507,11 @@ export default function TetrisGame() {
                   <>
                     <h2 className="text-3xl font-bold text-red-400 mb-4">游戏结束</h2>
                     <p className="text-xl text-white mb-4">最终得分: {score}</p>
+                    {currentGameData?.bestRecord && (
+                      <p className="text-sm text-slate-400 mb-4">
+                        历史最高: {Math.max(currentGameData.bestRecord.score, score)}
+                      </p>
+                    )}
                     <button
                       onClick={startGame}
                       className="px-6 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
@@ -553,6 +573,12 @@ export default function TetrisGame() {
           {/* Stats */}
           <div className="bg-slate-800/80 p-4 rounded-lg shadow-xl">
             <div className="space-y-3">
+              <div>
+                <p className="text-slate-400 text-sm">历史最高</p>
+                <p className="text-2xl font-bold text-white">
+                  {Math.max(currentGameData?.bestRecord?.score ?? 0, score)}
+                </p>
+              </div>
               <div>
                 <p className="text-slate-400 text-sm">得分</p>
                 <p className="text-2xl font-bold text-white">{score.toLocaleString()}</p>
