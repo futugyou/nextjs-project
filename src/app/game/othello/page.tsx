@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
-import { RotateCcw, Trophy, Circle } from 'lucide-react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import { RotateCcw, Trophy, Circle, History } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useGameStorage } from '@/hook/use-game-record'
 
 type CellState = 'empty' | 'black' | 'white'
 type Player = 'black' | 'white'
@@ -34,6 +35,9 @@ function createInitialBoard(): CellState[][] {
 }
 
 export default function OthelloGame() {
+  const { saveRecord, currentGameData } = useGameStorage('othello')
+  const hasSaved = useRef(false)
+  const [startTime, setStartTime] = useState<number | null>(null)
   const [board, setBoard] = useState<CellState[][]>(createInitialBoard)
   const [currentPlayer, setCurrentPlayer] = useState<Player>('black')
   const [gameOver, setGameOver] = useState(false)
@@ -56,6 +60,20 @@ export default function OthelloGame() {
   }, [])
 
   const scores = countDiscs(board)
+
+  useEffect(() => {
+    if (gameOver && !hasSaved.current && startTime) {
+      const duration = Math.floor((Date.now() - startTime) / 1000)
+      let finalScore = scores.black
+      let status = winner === 'black'
+
+      if (winner === 'black') finalScore += 1000
+      else if (winner === 'tie') finalScore += 500
+
+      saveRecord(finalScore, duration, status)
+      hasSaved.current = true
+    }
+  }, [gameOver, winner, scores.black, startTime, saveRecord])
 
   // Check if a position is valid
   const isValidPosition = (row: number, col: number): boolean => {
@@ -131,6 +149,7 @@ export default function OthelloGame() {
       if (gameOver) return
       if (!isValidMove(board, row, col, currentPlayer)) return
 
+      if (!startTime) setStartTime(Date.now())
       const cellsToFlip = getCellsToFlip(board, row, col, currentPlayer)
 
       // Start flip animation
@@ -176,7 +195,16 @@ export default function OthelloGame() {
         }
       }, 300)
     },
-    [board, currentPlayer, gameOver, getCellsToFlip, getValidMoves, isValidMove, countDiscs],
+    [
+      board,
+      currentPlayer,
+      gameOver,
+      getCellsToFlip,
+      getValidMoves,
+      startTime,
+      isValidMove,
+      countDiscs,
+    ],
   )
 
   // Reset game
@@ -188,6 +216,8 @@ export default function OthelloGame() {
     setFlippingCells(new Set())
     setLastMove(null)
     setPassMessage(null)
+    setStartTime(null)
+    hasSaved.current = false
   }, [])
 
   // Check if cell is a valid move
@@ -198,6 +228,15 @@ export default function OthelloGame() {
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center justify-center p-4">
       {/* Header */}
+      {currentGameData?.bestRecord && (
+        <div className="mb-4 flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-4 py-1.5 rounded-full border border-emerald-500/20">
+          <History className="w-4 h-4" />
+          <span className="text-xs font-medium uppercase tracking-wider">
+            最佳战绩: {currentGameData.bestRecord.score} 分 (
+            {Math.floor(currentGameData.bestRecord.duration)}s)
+          </span>
+        </div>
+      )}
       <div className="text-center mb-6">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">黑白棋</h1>
         <p className="text-slate-400 text-sm">Othello / Reversi</p>
