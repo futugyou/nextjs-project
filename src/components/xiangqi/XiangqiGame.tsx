@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   Board,
   Position,
@@ -21,6 +21,7 @@ import { ChessBoard } from './ChessBoard'
 import { GameSidebar } from './GameSidebar'
 import { WinModal } from './WinModal'
 import { cn } from '@/lib/utils'
+import { useGameStorage } from '@/hook/use-game-record'
 
 // 音效占位函数
 function playMoveSound() {
@@ -31,6 +32,9 @@ function playCaptureSound() {
 }
 
 export function XiangqiGame() {
+  const { saveRecord, currentGameData } = useGameStorage('xiangqi')
+  const gameStartTime = useRef<number>(Date.now())
+  const hasSaved = useRef<boolean>(false)
   const [board, setBoard] = useState<Board>(createInitialBoard)
   const [selectedPos, setSelectedPos] = useState<Position | null>(null)
   const [currentTurn, setCurrentTurn] = useState<PieceColor>('red')
@@ -55,6 +59,22 @@ export function XiangqiGame() {
     }
     return { capturedByRed: byRed, capturedByBlack: byBlack }
   }, [moveHistory])
+
+  const calculateScore = useCallback((isWin: boolean, moves: number) => {
+    if (!isWin) return moves * 2
+    return Math.max(100, 1000 - moves * 10)
+  }, [])
+
+  useEffect(() => {
+    if (winner && !hasSaved.current) {
+      const duration = Math.floor((Date.now() - gameStartTime.current) / 1000)
+      const isWin = winner === 'red'
+      const score = calculateScore(isWin, moveHistory.length)
+
+      saveRecord(score, duration, isWin)
+      hasSaved.current = true
+    }
+  }, [winner, moveHistory.length, saveRecord, calculateScore])
 
   // 执行一步棋
   const executeMove = useCallback((move: Move, newBoard: Board) => {
@@ -181,6 +201,8 @@ export function XiangqiGame() {
     setWinner(null)
     setInCheck(null)
     setIsAIThinking(false)
+    gameStartTime.current = Date.now()
+    hasSaved.current = false
   }, [])
 
   return (
@@ -189,6 +211,12 @@ export function XiangqiGame() {
       <header className="text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-widest">象棋对弈</h1>
         <p className="text-muted-foreground text-sm mt-1 tracking-wider">人机对弈 · 红方先行</p>
+        {currentGameData?.bestRecord && (
+          <p className="text-xs text-muted-foreground mt-1">
+            历史最高记录:{' '}
+            <span className="text-accent font-mono">{currentGameData.bestRecord.score}</span>
+          </p>
+        )}
       </header>
 
       {/* 将军提示 */}
