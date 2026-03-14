@@ -1,7 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { Star, Heart, Moon, Sun, Cloud, Zap, Flame, Leaf, type LucideIcon } from 'lucide-react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import {
+  Star,
+  Heart,
+  Moon,
+  Sun,
+  Cloud,
+  Zap,
+  Flame,
+  Leaf,
+  type LucideIcon,
+  Trophy,
+} from 'lucide-react'
+import { useGameStorage } from '@/hook/use-game-record'
 
 interface Card {
   id: number
@@ -33,34 +45,64 @@ function createCards(): Card[] {
 }
 
 export default function MemoryMatchGame() {
+  const { saveRecord, currentGameData } = useGameStorage('memory')
   const [cards, setCards] = useState<Card[]>([])
   const [flippedCards, setFlippedCards] = useState<number[]>([])
   const [moves, setMoves] = useState(0)
   const [isChecking, setIsChecking] = useState(false)
   const [isWon, setIsWon] = useState(false)
+  const startTimeRef = useRef<number | null>(null)
+  const hasSavedRef = useRef(false)
 
-  const initializeGame = useCallback(() => {
-    setCards(createCards())
-    setFlippedCards([])
-    setMoves(0)
-    setIsChecking(false)
-    setIsWon(false)
-  }, [])
+  const initializeGame = useCallback(
+    (isReset = false) => {
+      if (isReset && startTimeRef.current !== null && !hasSavedRef.current && !isWon) {
+        const duration = Math.floor((Date.now() - startTimeRef.current) / 1000)
+        saveRecord(0, duration, false)
+        hasSavedRef.current = true
+      }
+
+      // 执行重置 UI 逻辑
+      setCards(createCards())
+      setFlippedCards([])
+      setMoves(0)
+      setIsChecking(false)
+      setIsWon(false)
+      startTimeRef.current = null
+      hasSavedRef.current = false
+    },
+    [isWon, saveRecord],
+  )
 
   useEffect(() => {
     initializeGame()
   }, [initializeGame])
 
   useEffect(() => {
-    if (cards.length > 0 && cards.every((card) => card.isMatched)) {
+    if (cards.length > 0 && cards.every((card) => card.isMatched) && !isWon) {
       setIsWon(true)
+
+      if (!hasSavedRef.current) {
+        const endTime = Date.now()
+        const duration = startTimeRef.current
+          ? Math.floor((endTime - startTimeRef.current) / 1000)
+          : 0
+
+        const calculatedScore = Math.max(100, 2000 - moves * 50)
+
+        saveRecord(calculatedScore, duration, true)
+        hasSavedRef.current = true
+      }
     }
-  }, [cards])
+  }, [cards, moves, isWon, saveRecord])
 
   const handleCardClick = (cardId: number) => {
-    if (isChecking) return
-    if (flippedCards.length === 2) return
+    if (isChecking || flippedCards.length === 2) return
     if (cards[cardId].isFlipped || cards[cardId].isMatched) return
+
+    if (startTimeRef.current === null) {
+      startTimeRef.current = Date.now()
+    }
 
     const newCards = cards.map((card) => (card.id === cardId ? { ...card, isFlipped: true } : card))
     setCards(newCards)
@@ -108,7 +150,10 @@ export default function MemoryMatchGame() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-lg font-semibold text-white">记忆配对</h1>
-                <p className="text-xs text-slate-400 mt-0.5">找到所有匹配的卡片</p>
+                <div className="flex items-center gap-1.5 text-xs text-amber-400 mt-0.5">
+                  <Trophy className="w-3 h-3" />
+                  <span>最高分: {currentGameData?.bestRecord?.score || 0}</span>
+                </div>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
@@ -116,8 +161,8 @@ export default function MemoryMatchGame() {
                   <p className="text-2xl font-bold text-white tabular-nums">{moves}</p>
                 </div>
                 <button
-                  onClick={initializeGame}
-                  className="px-4 py-2 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
+                  onClick={() => initializeGame(true)}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-all active:scale-95"
                 >
                   重新开始
                 </button>
@@ -218,7 +263,7 @@ export default function MemoryMatchGame() {
                 你用 <span className="text-white font-semibold">{moves}</span> 步完成了游戏！
               </p>
               <button
-                onClick={initializeGame}
+                onClick={() => initializeGame(false)}
                 className="px-6 py-3 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
               >
                 再玩一次
