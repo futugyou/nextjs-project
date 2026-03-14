@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RotateCcw, ChevronDown, Trophy, Footprints } from 'lucide-react'
+import { useGameStorage } from '@/hook/use-game-record'
 
 // ─── 类型定义 ────────────────────────────────────────────────────────────────
 
@@ -190,6 +191,7 @@ const PIECE_STYLES: Record<
 // ─── 主组件 ───────────────────────────────────────────────────────────────────
 
 export default function KlotskiGame() {
+  const { saveRecord, currentGameData } = useGameStorage('klotski')
   const [levelIdx, setLevelIdx] = useState(0)
   const [pieces, setPieces] = useState<Piece[]>(() => initPieces(0))
   const [selected, setSelected] = useState<number | null>(null)
@@ -198,7 +200,8 @@ export default function KlotskiGame() {
   const [showLevelMenu, setShowLevelMenu] = useState(false)
   const [animating, setAnimating] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-
+  const [startTime, setStartTime] = useState<number | null>(null)
+  const hasSaved = useRef(false)
   // 关闭下拉菜单
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -215,6 +218,8 @@ export default function KlotskiGame() {
     setSelected(null)
     setMoves(0)
     setWon(false)
+    setStartTime(null)
+    hasSaved.current = false
   }, [levelIdx])
 
   const selectLevel = useCallback((idx: number) => {
@@ -224,11 +229,23 @@ export default function KlotskiGame() {
     setMoves(0)
     setWon(false)
     setShowLevelMenu(false)
+    setStartTime(null)
+    hasSaved.current = false
   }, [])
+
+  const calculateScore = (moves: number, duration: number) => {
+    const difficultyMultiplier = (levelIdx + 1) * 1000
+    return Math.floor(
+      difficultyMultiplier / (Math.log10(moves + 1) + Math.log10(duration + 1) * 0.5),
+    )
+  }
 
   const movePiece = useCallback(
     (pieceId: number, dr: number, dc: number) => {
       if (animating || won) return
+
+      if (startTime === null) setStartTime(Date.now())
+
       setPieces((prev) => {
         const piece = prev.find((p) => p.id === pieceId)
         if (!piece || !canMove(piece, dr, dc, prev)) return prev
@@ -243,8 +260,19 @@ export default function KlotskiGame() {
       setMoves((m) => m + 1)
       setSelected(null)
     },
-    [animating, won],
+    [animating, won, startTime],
   )
+
+  useEffect(() => {
+    if (won && !hasSaved.current) {
+      const endTime = Date.now()
+      const duration = startTime ? Math.floor((endTime - startTime) / 1000) : 0
+      const score = calculateScore(moves, duration)
+
+      saveRecord(score, duration, true)
+      hasSaved.current = true
+    }
+  }, [won, moves, startTime, saveRecord])
 
   const handlePieceClick = useCallback(
     (pieceId: number) => {
@@ -331,6 +359,12 @@ export default function KlotskiGame() {
         <p style={{ color: THEME.textMuted, fontSize: '14px', letterSpacing: '0.05em' }}>
           帮助曹操从底部中门逃脱
         </p>
+        {currentGameData?.bestRecord && (
+          <p style={{ color: THEME.primary, fontSize: '12px', marginTop: '4px' }}>
+            最佳记录: {currentGameData.bestRecord.score} 分 ({currentGameData.bestRecord.duration}
+            秒)
+          </p>
+        )}
       </header>
 
       {/* 控制栏 */}
