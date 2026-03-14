@@ -111,7 +111,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
       </aside>
 
       <main className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto p-10">{children}</div>
+        <div className="mx-auto p-10">{children}</div>
       </main>
     </div>
   )
