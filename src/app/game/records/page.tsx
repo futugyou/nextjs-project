@@ -6,10 +6,10 @@ import { GameStats, useGameStorage } from '@/hook/use-game-record'
 import { GAMES } from '@/lib/games'
 import { SharePoster } from '@/components/share-poster'
 import { formatDuration, getRelativeTime } from '@/lib/utils'
+import Link from 'next/link'
 
 export default function RecordsPage() {
   const { allStats } = useGameStorage()
-
   const globalSummary = useMemo(() => {
     let totalGames = 0
     let totalDuration = 0
@@ -144,9 +144,11 @@ export default function RecordsPage() {
               ) : (
                 <div className="py-10 text-center">
                   <p className="text-sm text-gray-400 italic mb-3">尚未解锁成就</p>
-                  <button className="text-xs bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full font-medium hover:bg-indigo-100 transition-colors">
-                    立即开启挑战
-                  </button>
+                  <Link href={'/game/' + game.slug} className="btn-style">
+                    <button className="text-xs bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full font-medium hover:bg-indigo-100 transition-colors">
+                      立即开启挑战
+                    </button>
+                  </Link>
                 </div>
               )}
             </div>
