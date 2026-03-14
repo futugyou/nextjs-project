@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useMinesweeper, DIFFICULTY_CONFIG, type Difficulty } from '@/hook/use-minesweeper'
 import { Board } from './board'
 import { StatusBar } from './status-bar'
 import { DifficultySelector } from './difficulty-selector'
 import { GameOverlay } from './game-overlay'
 import { Bomb, MousePointerClick, Flag } from 'lucide-react'
+import { useGameStorage } from '@/hook/use-game-record'
 
 // Determine ideal cell size based on difficulty
 function getCellSize(difficulty: Difficulty): number {
@@ -20,10 +21,24 @@ export function Minesweeper() {
   const { board, gameStatus, minesRemaining, time, revealCell, toggleFlag, resetGame } =
     useMinesweeper(difficulty)
 
+  const { saveRecord, currentGameData } = useGameStorage('minesweeper')
+  const hasSavedRef = useRef(false)
+
   const cellSize = useMemo(() => getCellSize(difficulty), [difficulty])
   const cfg = DIFFICULTY_CONFIG[difficulty]
 
   const boardWidth = cfg.cols * cellSize
+  useEffect(() => {
+    if (gameStatus === 'playing') {
+      hasSavedRef.current = false
+    }
+
+    if ((gameStatus === 'won' || gameStatus === 'lost') && !hasSavedRef.current) {
+      const score = gameStatus === 'won' ? DIFFICULTY_CONFIG[difficulty].mines : 0
+      saveRecord(score, time, gameStatus === 'won')
+      hasSavedRef.current = true
+    }
+  }, [gameStatus, time, difficulty, saveRecord])
 
   return (
     <div className="flex flex-col items-center gap-5 w-full">
@@ -35,6 +50,22 @@ export function Minesweeper() {
         </div>
         <p className="text-xs text-muted-foreground">左键揭示 · 右键标旗</p>
       </div>
+
+      {currentGameData?.bestRecord && (
+        <div className="flex gap-4 text-[11px] bg-secondary/50 px-3 py-1 rounded-full text-muted-foreground">
+          <span>
+            最佳纪录:{' '}
+            <span className="text-foreground font-medium">
+              {currentGameData?.bestRecord.duration}s
+            </span>
+          </span>
+          <span className="opacity-30">|</span>
+          <span>
+            总局数:{' '}
+            <span className="text-foreground font-medium">{currentGameData.history.length}</span>
+          </span>
+        </div>
+      )}
 
       {/* Difficulty selector */}
       <DifficultySelector current={difficulty} onChange={setDifficulty} />
