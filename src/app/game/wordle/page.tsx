@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useGameStorage } from '@/hook/use-game-record'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 const WORDS = [
   'APPLE',
@@ -71,6 +72,7 @@ interface TileData {
 }
 
 export default function WordleGame() {
+  const { saveRecord, currentGameData } = useGameStorage('wordle')
   const [targetWord, setTargetWord] = useState('')
   const [guesses, setGuesses] = useState<TileData[][]>(
     Array(6)
@@ -89,11 +91,30 @@ export default function WordleGame() {
   const [showModal, setShowModal] = useState(false)
   const [shake, setShake] = useState(false)
   const [message, setMessage] = useState('')
+  const [startTime, setStartTime] = useState<number | null>(null)
+  const hasSaved = useRef(false)
 
   // Initialize game
   useEffect(() => {
     setTargetWord(WORDS[Math.floor(Math.random() * WORDS.length)])
+    hasSaved.current = false
+    setStartTime(null)
   }, [])
+
+  const handleGameEnd = useCallback(
+    (isWon: boolean, finalRow: number) => {
+      if (hasSaved.current) return
+
+      const endTime = Date.now()
+      const durationInSeconds = startTime ? Math.floor((endTime - startTime) / 1000) : 0
+
+      const score = isWon ? Math.max(100, 3600 - durationInSeconds) : 0
+
+      saveRecord(score, durationInSeconds, isWon)
+      hasSaved.current = true
+    },
+    [startTime, saveRecord],
+  )
 
   const showMessage = useCallback((msg: string, duration = 1500) => {
     setMessage(msg)
@@ -174,9 +195,11 @@ export default function WordleGame() {
               setGameWon(true)
               setGameOver(true)
               setShowModal(true)
+              handleGameEnd(true, currentRow)
             } else if (currentRow === 5) {
               setGameOver(true)
               setShowModal(true)
+              handleGameEnd(false, currentRow)
             } else {
               setCurrentRow((prev) => prev + 1)
               setCurrentTile(0)
@@ -204,7 +227,7 @@ export default function WordleGame() {
         }
       }
     },
-    [currentRow, currentTile, gameOver, guesses, keyStates, showMessage, targetWord],
+    [currentRow, currentTile, gameOver, guesses, keyStates, showMessage, targetWord, handleGameEnd],
   )
 
   // Keyboard event listener
@@ -242,6 +265,8 @@ export default function WordleGame() {
     setGameOver(false)
     setGameWon(false)
     setShowModal(false)
+    hasSaved.current = false
+    setStartTime(null)
   }
 
   const shareResult = () => {
@@ -313,10 +338,18 @@ export default function WordleGame() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center py-4 px-2">
       {/* Header */}
-      <header className="w-full max-w-lg border-b border-border pb-3 mb-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center tracking-wider text-foreground">
-          WORDLE
-        </h1>
+      <header className="w-full max-w-lg border-b border-border pb-3 mb-4 flex justify-between items-center px-4">
+        <div className="w-10"></div>
+        <h1 className="text-3xl font-bold tracking-wider text-foreground">WORDLE</h1>
+        <div className="text-xs text-muted-foreground text-right">
+          {currentGameData?.bestRecord && (
+            <div>
+              最高分:{' '}
+              <span className="font-mono text-primary">{currentGameData.bestRecord.score}</span>
+            </div>
+          )}
+          <div>已玩: {currentGameData?.history?.length || 0} 次</div>
+        </div>
       </header>
 
       {/* Message Toast */}
