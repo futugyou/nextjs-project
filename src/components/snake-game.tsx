@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useGameStorage } from '@/hook/use-game-record'
 
 const GRID_SIZE = 20
 const INITIAL_SPEED = 150
@@ -21,6 +22,7 @@ interface GameState {
   isGameOver: boolean
   isPlaying: boolean
   isPaused: boolean
+  startTime: number | null
 }
 
 const getRandomPosition = (snake: Position[]): Position => {
@@ -45,6 +47,7 @@ const initialState: GameState = {
   isGameOver: false,
   isPlaying: false,
   isPaused: false,
+  startTime: null,
 }
 
 export function SnakeGame() {
@@ -52,6 +55,7 @@ export function SnakeGame() {
   const [showStartScreen, setShowStartScreen] = useState(true)
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { saveRecord, currentGameData } = useGameStorage('snake')
 
   const getSpeed = useCallback((level: number) => {
     return Math.max(50, INITIAL_SPEED - (level - 1) * 15)
@@ -64,6 +68,7 @@ export function SnakeGame() {
       highScore: prev.highScore,
       food: newFood,
       isPlaying: true,
+      startTime: Date.now(),
     }))
     setShowStartScreen(false)
   }, [])
@@ -142,6 +147,22 @@ export function SnakeGame() {
       }
     })
   }, [])
+
+  useEffect(() => {
+    if (gameState.isGameOver && gameState.startTime) {
+      const duration = Math.floor((Date.now() - gameState.startTime) / 1000)
+      saveRecord(gameState.score, duration, false)
+    }
+  }, [gameState.isGameOver, saveRecord])
+
+  useEffect(() => {
+    if (currentGameData?.bestRecord) {
+      setGameState((prev) => ({
+        ...prev,
+        highScore: currentGameData.bestRecord!.score,
+      }))
+    }
+  }, [currentGameData?.bestRecord])
 
   // Handle keyboard input
   useEffect(() => {
@@ -369,6 +390,11 @@ export function SnakeGame() {
             <div className="text-5xl font-bold text-primary mb-2 font-mono tracking-tight">
               SNAKE
             </div>
+            {currentGameData?.bestRecord && (
+              <p className="text-xs text-muted-foreground mb-4 font-mono">
+                LAST BEST: {currentGameData.bestRecord.score} PTS
+              </p>
+            )}
             <p className="text-muted-foreground mb-8 text-sm font-mono">Use arrow keys to move</p>
             <Button
               onClick={startGame}
