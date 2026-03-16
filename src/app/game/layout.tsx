@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { GAMES } from '@/lib/games'
 import { useGameStorage } from '@/hook/use-game-record'
+import ExitGameHandler from '@/components/ExitGameHandler'
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -11,6 +12,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
+      <ExitGameHandler></ExitGameHandler>
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm sticky top-0 h-screen">
         <div className="p-6">
           <Link href="/game" className="group flex items-center gap-2">

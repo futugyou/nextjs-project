@@ -70,7 +70,9 @@ export default function RecordsPage() {
                     {game.icon}
                   </span>
                   <div>
-                    <h2 className="font-bold text-gray-800">{game.name}</h2>
+                    <Link href={'/game/' + game.slug} className="btn-style">
+                      <h2 className="font-bold text-gray-800">{game.name}</h2>
+                    </Link>
                   </div>
                 </div>
               </div>
