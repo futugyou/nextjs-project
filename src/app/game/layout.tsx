@@ -5,10 +5,12 @@ import { usePathname } from 'next/navigation'
 import { GAMES } from '@/lib/games'
 import { useGameStorage } from '@/hook/use-game-record'
 import ExitGameHandler from '@/components/ExitGameHandler'
+import { useTranslations } from 'next-intl'
 
 export default function GameLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const { allStats } = useGameStorage()
+  const t = useTranslations('gamelayout')
 
   return (
     <div className="flex min-h-screen bg-slate-50 text-slate-900">
@@ -20,7 +22,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
               G
             </div>
             <h2 className="text-xl font-bold bg-linear-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
-              Arcade Hub
+              {t('title')}
             </h2>
           </Link>
         </div>
@@ -38,7 +40,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             }`}
           >
             <span className="mr-3 text-lg">📊</span>
-            <span className="font-semibold text-sm">战绩统计</span>
+            <span className="font-semibold text-sm">{t('statistics')}</span>
           </Link>
 
           <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
@@ -107,7 +109,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
 
           <div className="p-4 rounded-2xl bg-linear-to-br from-slate-800 to-slate-900 text-white text-xs">
             <p className="font-bold mb-1 opacity-90">Pro Tip:</p>
-            <p className="opacity-70 leading-relaxed">按下 ESC 键可以快速退出当前游戏。</p>
+            <p className="opacity-70 leading-relaxed">{t('tip')}</p>
           </div>
         </div>
       </aside>
