@@ -3,5 +3,20 @@
     "title": "游戏中心",
     "tip": "按下 ESC 键可以快速退出当前游",
     "statistics": "战绩统计"
+  },
+  "records": {
+    "count": "总游玩次数",
+    "count_unit": "场",
+    "totaltime": "累计投入时长",
+    "totaltime_unit": "分钟",
+    "detailed_performance": "详细战绩分析",
+    "highest_score": "最高分",
+    "win_rate": "胜率",
+    "no_achievements": "尚未解锁成就",
+    "start_challenge": "立即开启挑战",
+    "recent_challenges": "最近挑战",
+    "failure": "遗憾失败",
+    "successful": "挑战成功",
+    "last_played": "最后玩过"
   }
 }

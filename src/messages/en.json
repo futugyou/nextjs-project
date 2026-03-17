@@ -1,7 +1,22 @@
 {
   "gamelayout": {
-    "title": "Arcade Hub",
-    "tip": "Pressing the ESC key will quickly exit the current game.",
-    "statistics": "Match Statistics"
+    "title": "Game Center",
+    "tip": "Press ESC to quickly exit the current game",
+    "statistics": "Statistics"
+  },
+  "records": {
+    "count": "Total Plays",
+    "count_unit": "Matches",
+    "totaltime": "Total Time Played",
+    "totaltime_unit": "Mins",
+    "detailed_performance": "Detailed Performance Analysis",
+    "highest_score": "High Score",
+    "win_rate": "Win Rate",
+    "no_achievements": "No achievements unlocked yet",
+    "start_challenge": "Start Challenge Now",
+    "recent_challenges": "Recent Challenges",
+    "failure": "Defeat",
+    "successful": "Victory",
+    "last_played": "Last Played"
   }
 }

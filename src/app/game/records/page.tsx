@@ -7,8 +7,10 @@ import { GAMES } from '@/lib/games'
 import { SharePoster } from '@/components/share-poster'
 import { formatDuration, getRelativeTime } from '@/lib/utils'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function RecordsPage() {
+  const t = useTranslations('records')
   const { allStats } = useGameStorage()
   const globalSummary = useMemo(() => {
     let totalGames = 0
@@ -24,22 +26,23 @@ export default function RecordsPage() {
     <div className="p-8 max-w-7xl mx-auto bg-gray-50 min-h-screen">
       <div className="flex flex-col md:flex-row gap-6 mb-10">
         <div className="flex-1 bg-linear-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
-          <p className="opacity-80 text-sm">总游玩次数</p>
+          <p className="opacity-80 text-sm">{t('count')}</p>
           <h2 className="text-4xl font-bold mt-1">
-            {globalSummary.totalGames} <span className="text-lg font-normal">场</span>
+            {globalSummary.totalGames}{' '}
+            <span className="text-lg font-normal">{t('count_unit')}</span>
           </h2>
         </div>
         <div className="flex-1 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-          <p className="text-gray-500 text-sm">累计投入时长</p>
+          <p className="text-gray-500 text-sm">{t('totaltime')}</p>
           <h2 className="text-4xl font-bold mt-1 text-gray-800">
             {globalSummary.totalDuration}{' '}
-            <span className="text-lg font-normal text-gray-400">分钟</span>
+            <span className="text-lg font-normal text-gray-400">{t('totaltime_unit')}</span>
           </h2>
         </div>
       </div>
 
       <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
-        <BarChart3 className="text-indigo-600" /> 详细战绩分析
+        <BarChart3 className="text-indigo-600" /> {t('detailed_performance')}
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,7 +86,9 @@ export default function RecordsPage() {
                     <div className="bg-orange-50 p-3 rounded-xl">
                       <div className="flex items-center gap-1 text-orange-600 mb-1">
                         <Trophy size={14} />
-                        <span className="text-[10px] font-bold uppercase">最高分</span>
+                        <span className="text-[10px] font-bold uppercase">
+                          {t('highest_score')}
+                        </span>
                       </div>
                       <p className="text-xl font-black text-orange-700">
                         {stats.bestRecord?.score}
@@ -92,7 +97,7 @@ export default function RecordsPage() {
                     <div className="bg-blue-50 p-3 rounded-xl">
                       <div className="flex items-center gap-1 text-blue-600 mb-1">
                         <Clock size={14} />
-                        <span className="text-[10px] font-bold uppercase">胜率</span>
+                        <span className="text-[10px] font-bold uppercase">{t('win_rate')}</span>
                       </div>
                       <p className="text-xl font-black text-blue-700">{winRate}%</p>
                     </div>
@@ -100,7 +105,7 @@ export default function RecordsPage() {
 
                   <div className="space-y-2 mt-4">
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">
-                      最近挑战
+                      {t('recent_challenges')}
                     </p>
                     {stats.history.slice(0, 5).map((record) => (
                       <div
@@ -115,7 +120,7 @@ export default function RecordsPage() {
                           </span>
                           <div className="flex flex-col">
                             <span className="text-[11px] font-medium text-gray-700 leading-none">
-                              {record.completed ? '挑战成功' : '遗憾失败'}
+                              {record.completed ? t('successful') : t('failure')}
                             </span>
                             <span className="text-[9px] text-gray-400 mt-1">
                               {getRelativeTime(record.timestamp)}
@@ -139,16 +144,17 @@ export default function RecordsPage() {
                   <div className="pt-3 border-t border-gray-50 flex justify-between items-center text-[11px] text-gray-400">
                     <span className="flex items-center gap-1">
                       <Calendar size={12} />
-                      最后玩过: {new Date(stats.history[0].timestamp).toLocaleDateString()}
+                      {t('last_played')}:{' '}
+                      {new Date(stats.history[0].timestamp).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
               ) : (
                 <div className="py-10 text-center">
-                  <p className="text-sm text-gray-400 italic mb-3">尚未解锁成就</p>
+                  <p className="text-sm text-gray-400 italic mb-3">{t('no_achievements')}</p>
                   <Link href={'/game/' + game.slug} className="btn-style">
                     <button className="text-xs bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full font-medium hover:bg-indigo-100 transition-colors">
-                      立即开启挑战
+                      {t('start_challenge')}
                     </button>
                   </Link>
                 </div>
