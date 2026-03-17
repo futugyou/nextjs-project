@@ -43,5 +43,28 @@
     "failure": "遗憾失败",
     "successful": "挑战成功",
     "last_played": "最后玩过"
+  },
+  "snake": {
+    "title": "贪吃蛇",
+    "desc": "吃食物，变长，别撞墙！",
+    "footer": "速度每50点提升一次",
+    "score": "分数",
+    "level": "等级",
+    "high_score": "最高分",
+    "last_best": "最佳分数",
+    "tip": "使用方向键移动",
+    "start_game": "开始游戏",
+    "start_game_desc": "按空格键开始",
+    "game_over": "游戏结束",
+    "new_high_score": "新高分!",
+    "restart": "再来一局",
+    "restart_desc": "按空格键重新开始",
+    "paused": "暂停",
+    "resume": "继续",
+    "resume_desc": "按空格键继续",
+    "move": "移动",
+    "next": "下一个",
+    "space": "空格",
+    "pause": "暂停"
   }
 }

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 const GRID_SIZE = 20
 const INITIAL_SPEED = 150
@@ -51,6 +52,7 @@ const initialState: GameState = {
 }
 
 export function SnakeGame() {
+  const t = useTranslations('snake')
   const [gameState, setGameState] = useState<GameState>(initialState)
   const [showStartScreen, setShowStartScreen] = useState(true)
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null)
@@ -353,19 +355,19 @@ export function SnakeGame() {
       <div className="flex items-center justify-between w-full max-w-100 px-2">
         <div className="flex flex-col">
           <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-            Score
+            {t('score')}
           </span>
           <span className="text-2xl font-bold text-foreground font-mono">{gameState.score}</span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-            Level
+            {t('level')}
           </span>
           <span className="text-2xl font-bold text-primary font-mono">{gameState.level}</span>
         </div>
         <div className="flex flex-col items-end">
           <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
-            High Score
+            {t('high_score')}
           </span>
           <span className="text-2xl font-bold text-accent font-mono">{gameState.highScore}</span>
         </div>
@@ -388,35 +390,37 @@ export function SnakeGame() {
         {showStartScreen && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/90 rounded-lg backdrop-blur-sm animate-in fade-in duration-300">
             <div className="text-5xl font-bold text-primary mb-2 font-mono tracking-tight">
-              SNAKE
+              {t('title')}
             </div>
             {currentGameData?.bestRecord && (
               <p className="text-xs text-muted-foreground mb-4 font-mono">
-                LAST BEST: {currentGameData.bestRecord.score} PTS
+                {t('last_best')}: {currentGameData.bestRecord.score} PTS
               </p>
             )}
-            <p className="text-muted-foreground mb-8 text-sm font-mono">Use arrow keys to move</p>
+            <p className="text-muted-foreground mb-8 text-sm font-mono">{t('tip')}</p>
             <Button
               onClick={startGame}
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono text-lg px-8 py-6 transition-transform hover:scale-105"
             >
-              Start Game
+              {t('start_game')}
             </Button>
-            <p className="text-xs text-muted-foreground mt-4 font-mono">Press SPACE to start</p>
+            <p className="text-xs text-muted-foreground mt-4 font-mono">{t('start_game_desc')}</p>
           </div>
         )}
 
         {/* Game Over Overlay */}
         {gameState.isGameOver && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/90 rounded-lg backdrop-blur-sm animate-in fade-in zoom-in-95 duration-300">
-            <div className="text-3xl font-bold text-destructive mb-2 font-mono">GAME OVER</div>
+            <div className="text-3xl font-bold text-destructive mb-2 font-mono">
+              {t('game_over')}
+            </div>
             <div className="text-xl text-foreground mb-1 font-mono">
-              Score: <span className="text-primary">{gameState.score}</span>
+              {t('score')}: <span className="text-primary">{gameState.score}</span>
             </div>
             {gameState.score >= gameState.highScore && gameState.score > 0 && (
               <div className="text-sm text-accent mb-4 font-mono animate-pulse">
-                New High Score!
+                {t('new_high_score')}
               </div>
             )}
             <Button
@@ -424,24 +428,24 @@ export function SnakeGame() {
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono text-lg px-8 py-6 transition-transform hover:scale-105"
             >
-              Play Again
+              {t('restart')}
             </Button>
-            <p className="text-xs text-muted-foreground mt-4 font-mono">Press SPACE to restart</p>
+            <p className="text-xs text-muted-foreground mt-4 font-mono">{t('restart_desc')}</p>
           </div>
         )}
 
         {/* Pause Overlay */}
         {gameState.isPaused && !gameState.isGameOver && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 rounded-lg backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="text-3xl font-bold text-foreground mb-4 font-mono">PAUSED</div>
+            <div className="text-3xl font-bold text-foreground mb-4 font-mono">{t('paused')}</div>
             <Button
               onClick={togglePause}
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono"
             >
-              Resume
+              {t('resume')}
             </Button>
-            <p className="text-xs text-muted-foreground mt-4 font-mono">Press SPACE to resume</p>
+            <p className="text-xs text-muted-foreground mt-4 font-mono">{t('resume_desc')}</p>
           </div>
         )}
       </div>
@@ -453,19 +457,23 @@ export function SnakeGame() {
           <kbd className="px-2 py-0.5 bg-muted rounded text-foreground">↓</kbd>
           <kbd className="px-2 py-0.5 bg-muted rounded text-foreground">←</kbd>
           <kbd className="px-2 py-0.5 bg-muted rounded text-foreground">→</kbd>
-          <span>Move</span>
+          <span>{t('move')}</span>
         </div>
         <div className="flex items-center gap-2 bg-secondary/50 px-3 py-1.5 rounded-md">
-          <kbd className="px-2 py-0.5 bg-muted rounded text-foreground">Space</kbd>
-          <span>Pause</span>
+          <kbd className="px-2 py-0.5 bg-muted rounded text-foreground">{t('space')}</kbd>
+          <span>{t('pause')}</span>
         </div>
       </div>
 
       {/* Level Progress */}
       <div className="w-full max-w-100">
         <div className="flex justify-between text-xs text-muted-foreground mb-1 font-mono">
-          <span>Level {gameState.level}</span>
-          <span>Next: {50 - (gameState.score % 50)} pts</span>
+          <span>
+            {t('level')} {gameState.level}
+          </span>
+          <span>
+            {t('next')}: {50 - (gameState.score % 50)} pts
+          </span>
         </div>
         <div className="h-2 bg-secondary rounded-full overflow-hidden">
           <div

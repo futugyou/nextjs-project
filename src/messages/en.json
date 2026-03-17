@@ -43,5 +43,28 @@
     "failure": "Defeat",
     "successful": "Victory",
     "last_played": "Last Played"
+  },
+  "snake": {
+    "title": "SNAKE GAME",
+    "desc": "Eat food, grow longer, don&apos;t hit the walls!",
+    "footer": "Speed increases every 50 points",
+    "score": "Score",
+    "level": "Level",
+    "high_score": "High Score",
+    "last_best": "LAST BEST",
+    "tip": "Use arrow keys to move",
+    "start_game": "Start Game",
+    "start_game_desc": "Press SPACE to start",
+    "game_over": "GAME OVER",
+    "new_high_score": "New High Score!",
+    "restart": "Play Again",
+    "restart_desc": "Press SPACE to restart",
+    "paused": "PAUSED",
+    "resume": "Resume",
+    "resume_desc": "Press SPACE to resume",
+    "move": "Move",
+    "next": "Next",
+    "space": "Space",
+    "pause": "Pause"
   }
 }
