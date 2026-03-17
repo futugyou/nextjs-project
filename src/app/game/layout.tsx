@@ -29,7 +29,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
 
         <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
           <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
-            Dashboard
+            {t('dashboard')}
           </p>
           <Link
             href="/game/records"
@@ -44,7 +44,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           </Link>
 
           <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
-            Game Library
+            {t('game_library')}
           </p>
 
           {GAMES.map((game) => {
@@ -71,9 +71,11 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
                   {game.icon}
                 </span>
                 <div className="flex flex-col">
-                  <span className="font-semibold text-sm leading-none">{game.name}</span>
+                  <span className="font-semibold text-sm leading-none">{t(game.nameKey)}</span>
                   {bestScore !== undefined && !isActive && (
-                    <span className="text-[10px] opacity-50 mt-1">Best: {bestScore}</span>
+                    <span className="text-[10px] opacity-50 mt-1">
+                      {t('best')}: {bestScore}
+                    </span>
                   )}
                 </div>
 
@@ -101,14 +103,14 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
 
         <div className="p-4 space-y-3">
           <div className="p-3 rounded-xl bg-blue-50 border border-blue-100">
-            <p className="text-[10px] text-blue-500 font-bold uppercase">Total Games Played</p>
+            <p className="text-[10px] text-blue-500 font-bold uppercase">{t('total_played')}</p>
             <p className="text-lg font-bold text-blue-700">
               {Object.values(allStats).reduce((acc, curr) => acc + curr.history.length, 0)}
             </p>
           </div>
 
           <div className="p-4 rounded-2xl bg-linear-to-br from-slate-800 to-slate-900 text-white text-xs">
-            <p className="font-bold mb-1 opacity-90">Pro Tip:</p>
+            <p className="font-bold mb-1 opacity-90">{t('protip')}:</p>
             <p className="opacity-70 leading-relaxed">{t('tip')}</p>
           </div>
         </div>

@@ -2,68 +2,79 @@ export interface Game {
   name: string
   slug: string
   icon: string
-  description: string
+  nameKey: string
+  descriptionKey: string
 }
 
 export const GAMES: Game[] = [
   {
-    name: 'Snake',
+    name: 'snake',
     slug: 'snake',
     icon: '🐍',
-    description: 'A classic retro game that will challenge your reflexes.',
+    nameKey: 'snake',
+    descriptionKey: 'snake_desc',
   },
   {
-    name: 'Gomoku',
     slug: 'gomoku',
+    name: 'gomoku',
     icon: '⚪',
-    description: 'Strategy game, the player who connects five in a row wins.',
+    nameKey: 'gomoku',
+    descriptionKey: 'gomoku_desc',
   },
   {
-    name: '2048',
     slug: '2048',
+    name: '2048',
     icon: '🔢',
-    description: 'Slide the tiles and try to create a tile with the number 2048.',
+    nameKey: '2048',
+    descriptionKey: '2048_desc',
   },
   {
-    name: 'Minesweeper',
     slug: 'minesweeper',
+    name: 'minesweeper',
     icon: '💣',
-    description: 'Uncover all the safe squares without detonating any mines.',
+    nameKey: 'minesweeper',
+    descriptionKey: 'minesweeper_desc',
   },
   {
-    name: 'Tetris',
     slug: 'tetris',
+    name: 'tetris',
     icon: '🧩',
-    description: 'A classic puzzle game where you stack falling blocks.',
+    nameKey: 'tetris',
+    descriptionKey: 'tetris_desc',
   },
   {
-    name: 'Wordle',
     slug: 'wordle',
+    name: 'wordle',
     icon: '🔤',
-    description: 'A word guessing game where you have six attempts to guess a five-letter word.',
+    nameKey: 'wordle',
+    descriptionKey: 'wordle_desc',
   },
   {
-    name: 'Memory Match',
     slug: 'memory',
+    name: 'memory',
     icon: '🧠',
-    description: 'A matching game where you need to find pairs of identical cards.',
+    nameKey: 'memory',
+    descriptionKey: 'memory_desc',
   },
   {
-    name: 'Othello',
     slug: 'othello',
+    name: 'othello',
     icon: '⚫',
-    description: 'A strategy game where players take turns placing discs on a board.',
+    nameKey: 'othello',
+    descriptionKey: 'othello_desc',
   },
   {
-    name: 'Chinese Chess',
     slug: 'xiangqi',
+    name: 'xiangqi',
     icon: '🐎',
-    description: 'A traditional Chinese strategy game played on a grid.',
+    nameKey: 'xiangqi',
+    descriptionKey: 'xiangqi_desc',
   },
   {
-    name: 'Klotski',
     slug: 'klotski',
+    name: 'klotski',
     icon: '🏃',
-    description: 'A sliding block puzzle game where you need to move blocks to create a path.',
+    nameKey: 'klotski',
+    descriptionKey: 'klotski_desc',
   },
 ]

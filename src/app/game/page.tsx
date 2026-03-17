@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { GAMES } from '@/lib/games'
+import { useTranslations } from 'next-intl'
 
 export default function GameIndexPage() {
+  const t = useTranslations('gamelayout')
   return (
     <div>
       <h1>Welcome to the Game Center</h1>
@@ -41,8 +43,8 @@ export default function GameIndexPage() {
               }}
             >
               <span style={{ fontSize: '3rem' }}>{game.icon}</span>
-              <h3>{game.name}</h3>
-              <p style={{ fontSize: '0.9rem', color: '#888' }}>{game.description}</p>
+              <h3>{t(game.nameKey)}</h3>
+              <p style={{ fontSize: '0.9rem', color: '#888' }}>{t(game.descriptionKey)}</p>
             </div>
           </Link>
         ))}
