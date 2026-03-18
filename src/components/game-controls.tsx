@@ -16,9 +16,9 @@ interface GameControlsProps {
 }
 
 const difficultyLabels: Record<Difficulty, string> = {
-  beginner: '初级',
-  intermediate: '中级',
-  advanced: '高级',
+  beginner: 'beginner',
+  intermediate: 'intermediate',
+  advanced: 'advanced',
 }
 
 const difficultyColors: Record<Difficulty, string> = {
@@ -114,7 +114,7 @@ export default function GameControls({
                   : 'bg-muted text-muted-foreground border-border hover:bg-secondary'
               }`}
             >
-              {difficultyLabels[d]}
+              {t(difficultyLabels[d])}
             </button>
           ))}
         </div>

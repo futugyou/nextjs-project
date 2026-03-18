@@ -90,6 +90,9 @@
     "draw_count": "平局",
     "ai_won_count": "AI",
     "change_color": "换色",
-    "restart": "重新开始"
+    "restart": "重新开始",
+    "beginner": "初级",
+    "intermediate": "中级",
+    "advanced": "高级"
   }
 }

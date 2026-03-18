@@ -21,9 +21,9 @@ export interface DifficultyConfig {
 }
 
 export const DIFFICULTY_CONFIG: Record<Difficulty, DifficultyConfig> = {
-  beginner: { rows: 9, cols: 9, mines: 10, label: '初级' },
-  intermediate: { rows: 16, cols: 16, mines: 40, label: '中级' },
-  expert: { rows: 16, cols: 30, mines: 99, label: '高级' },
+  beginner: { rows: 9, cols: 9, mines: 10, label: 'beginner' },
+  intermediate: { rows: 16, cols: 16, mines: 40, label: 'intermediate' },
+  expert: { rows: 16, cols: 30, mines: 99, label: 'expert' },
 }
 
 type Board = Cell[][]

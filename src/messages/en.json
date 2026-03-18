@@ -90,6 +90,9 @@
     "draw_count": "Draws",
     "ai_won_count": "AI",
     "change_color": "Switch Color",
-    "restart": "Restart"
+    "restart": "Restart",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
   }
 }
