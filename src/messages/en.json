@@ -94,5 +94,17 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced"
+  },
+  "2048": {
+    "score": "Score",
+    "best_score": "Best Score",
+    "new_game": "New Game",
+    "game_over": "Game Over!",
+    "final_score": "Final Score",
+    "congratulation": "Congratulations!",
+    "congratulation_desc": "You reached 2048!",
+    "continue_game": "Continue Game",
+    "op_title": "Operation Instructions",
+    "op_desc": "Use <kbd>Arrow Keys</kbd> or <bold>Swipe</bold> to move the tiles"
   }
 }

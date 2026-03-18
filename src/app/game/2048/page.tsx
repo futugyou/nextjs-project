@@ -7,12 +7,14 @@ import { GameTile } from '@/components/game-tile'
 import { Button } from '@/components/ui/button'
 import { RotateCcw, Trophy } from 'lucide-react'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 const CELL_SIZE = 80
 const GAP = 12
 const BOARD_SIZE = CELL_SIZE * 4 + GAP * 3
 
 export default function Page() {
+  const t = useTranslations('2048')
   const { tiles, score, gameOver, won, move, resetGame } = useGame2048()
   const { saveRecord, currentGameData } = useGameStorage('2048')
   const boardRef = useRef<HTMLDivElement>(null)
@@ -86,14 +88,16 @@ export default function Page() {
         {/* Score Board */}
         <div className="flex gap-4 w-full">
           <div className="flex-1 bg-slate-700 rounded-lg p-3 text-center">
-            <p className="text-slate-400 text-xs font-semibold uppercase tracking-wide">Score</p>
+            <p className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
+              {t('score')}
+            </p>
             <p className="text-2xl font-bold text-white">{score}</p>
           </div>
           <div className="flex-1 bg-slate-700 rounded-lg p-3 text-center">
             <div className="flex items-center justify-center gap-1">
               <Trophy className="w-3 h-3 text-amber-400" />
               <p className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
-                Best Score
+                {t('best_score')}
               </p>
             </div>
             <p className="text-2xl font-bold text-amber-400">
@@ -107,7 +111,7 @@ export default function Page() {
           className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors"
         >
           <RotateCcw className="w-4 h-4 mr-2" />
-          New Game
+          {t('new_game')}
         </Button>
       </div>
 
@@ -141,14 +145,17 @@ export default function Page() {
 
         {gameOver && (
           <div className="absolute inset-0 bg-slate-800/80 rounded-xl flex flex-col items-center justify-center gap-4 backdrop-blur-sm">
-            <p className="text-3xl font-bold text-white">Game Over!</p>
-            <p className="text-xl text-slate-300">Final Score: {score}</p>
+            <p className="text-3xl font-bold text-white"> {t('game_over')}</p>
+            <p className="text-xl text-slate-300">
+              {' '}
+              {t('final_score')}: {score}
+            </p>
             <Button
               onClick={handleReset}
               className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
-              New Game
+              {t('new_game')}
             </Button>
           </div>
         )}
@@ -157,21 +164,21 @@ export default function Page() {
         {won && !gameOver && (
           <div className="absolute inset-0 bg-amber-500/90 rounded-xl flex flex-col items-center justify-center gap-4 backdrop-blur-sm">
             <Trophy className="w-16 h-16 text-white" />
-            <p className="text-3xl font-bold text-white">Congratulations!</p>
-            <p className="text-lg text-white/90">You reached 2048!</p>
+            <p className="text-3xl font-bold text-white"> {t('congratulation')}</p>
+            <p className="text-lg text-white/90"> {t('congratulation_desc')}</p>
             <div className="flex gap-3">
               <Button
                 onClick={() => {}}
                 variant="outline"
                 className="bg-white/20 border-white/30 text-white hover:bg-white/30 font-semibold px-6 py-3 rounded-lg"
               >
-                Continue Game
+                {t('continue_game')}
               </Button>
               <Button
                 onClick={resetGame}
                 className="bg-white text-amber-600 hover:bg-white/90 font-semibold px-6 py-3 rounded-lg"
               >
-                New Game
+                {t('new_game')}
               </Button>
             </div>
           </div>
@@ -180,10 +187,14 @@ export default function Page() {
 
       {/* Instructions */}
       <div className="text-center text-slate-500 text-sm max-w-xs">
-        <p className="font-medium mb-1">Operation Instructions</p>
+        <p className="font-medium mb-1">{t('op_title')}</p>
         <p>
-          Use <span className="font-mono bg-slate-200 px-1 rounded">Arrow Keys</span> or{' '}
-          <span className="font-semibold">Swipe</span> to move the tiles
+          {t.rich('op_desc', {
+            kbd: (chunks) => (
+              <span className="font-mono bg-slate-200 px-1 rounded text-slate-700">{chunks}</span>
+            ),
+            bold: (chunks) => <span className="font-semibold text-slate-900">{chunks}</span>,
+          })}
         </p>
       </div>
     </div>

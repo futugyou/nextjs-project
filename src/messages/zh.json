@@ -94,5 +94,17 @@
     "beginner": "初级",
     "intermediate": "中级",
     "advanced": "高级"
+  },
+  "2048": {
+    "score": "分数",
+    "best_score": "最高分数",
+    "new_game": "新游戏",
+    "game_over": "游戏结束!",
+    "final_score": "最终得分",
+    "congratulation": "恭喜!",
+    "congratulation_desc": "你达到了2048!",
+    "continue_game": "继续游戏",
+    "op_title": "操作说明",
+    "op_desc": "使用 <kbd>方向键</kbd> 或 <bold>滑动</bold> 来移动方块"
   }
 }

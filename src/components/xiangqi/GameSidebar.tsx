@@ -5,6 +5,7 @@ import { MoveRecord } from '@/lib/xiangqi'
 import { Difficulty } from '@/lib/xiangqi-ai'
 import { cn } from '@/lib/utils'
 import { RotateCcw, Flag, ChevronDown } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface GameSidebarProps {
   moveHistory: MoveRecord[]
@@ -19,9 +20,9 @@ interface GameSidebarProps {
 }
 
 const difficultyLabels: Record<Difficulty, string> = {
-  beginner: '初级',
-  intermediate: '中级',
-  advanced: '高级',
+  beginner: 'beginner',
+  intermediate: 'intermediate',
+  advanced: 'advanced',
 }
 
 const difficultyColors: Record<Difficulty, string> = {
@@ -42,6 +43,7 @@ export function GameSidebar({
   capturedByBlack,
 }: GameSidebarProps) {
   const historyRef = useRef<HTMLDivElement>(null)
+  const t = useTranslations('gomoku')
 
   useEffect(() => {
     if (historyRef.current) {
@@ -90,7 +92,7 @@ export function GameSidebar({
             >
               {(Object.keys(difficultyLabels) as Difficulty[]).map((d) => (
                 <option key={d} value={d} className="text-foreground bg-secondary">
-                  {difficultyLabels[d]}
+                  {t(difficultyLabels[d])}
                 </option>
               ))}
             </select>
