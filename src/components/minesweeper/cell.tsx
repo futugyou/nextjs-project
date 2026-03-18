@@ -3,6 +3,7 @@
 import { Flag, Bomb } from 'lucide-react'
 import type { Cell as CellType } from '@/hook/use-minesweeper'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface CellProps {
   cell: CellType
@@ -24,6 +25,7 @@ const NUMBER_COLORS: Record<number, string> = {
 }
 
 export function Cell({ cell, size, onReveal, onFlag, gameOver }: CellProps) {
+  const t = useTranslations('minesweeper')
   const handleClick = () => {
     if (!gameOver) onReveal(cell.row, cell.col)
   }
@@ -65,14 +67,14 @@ export function Cell({ cell, size, onReveal, onFlag, gameOver }: CellProps) {
       onContextMenu={handleContextMenu}
       aria-label={
         isFlagged
-          ? '已标记格子'
+          ? t('flagged')
           : isRevealed
             ? isMine
-              ? '地雷'
+              ? t('mine')
               : cell.neighborCount > 0
-                ? `${cell.neighborCount} 个相邻地雷`
-                : '空格'
-            : '未揭示格子'
+                ? t('neighbor_count', { count: cell.neighborCount })
+                : t('empty')
+            : t('unrevealed')
       }
     >
       {/* Flagged */}

@@ -4,6 +4,7 @@ import { Bomb, Flag, RotateCcw, Trophy, Frown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { GameStatus } from '@/hook/use-minesweeper'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface StatusBarProps {
   minesRemaining: number
@@ -54,6 +55,7 @@ function SegmentDisplay({
 }
 
 export function StatusBar({ minesRemaining, time, gameStatus, onReset }: StatusBarProps) {
+  const t = useTranslations('minesweeper')
   const ResetIcon = gameStatus === 'won' ? Trophy : gameStatus === 'lost' ? Frown : RotateCcw
 
   const iconClass =
@@ -74,7 +76,7 @@ export function StatusBar({ minesRemaining, time, gameStatus, onReset }: StatusB
         size="sm"
         onClick={onReset}
         className="h-8 w-8 p-0 rounded-md"
-        aria-label="重新开始游戏"
+        aria-label={t('restart')}
       >
         <ResetIcon size={15} className={iconClass} strokeWidth={2} />
       </Button>

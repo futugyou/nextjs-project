@@ -106,5 +106,27 @@
     "continue_game": "Continue Game",
     "op_title": "Operation Instructions",
     "op_desc": "Use <kbd>Arrow Keys</kbd> or <bold>Swipe</bold> to move the tiles"
+  },
+  "minesweeper": {
+    "title": "Minesweeper",
+    "sub_title": "Left Click to Reveal · Right Click to Flag",
+    "best_record": "Best Record",
+    "total_played": "Total Games",
+    "left_tip": "Left-click to reveal cells",
+    "right_tip": "Right-click to flag mines",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "expert": "Expert",
+    "win": "Congratulations! You cleared the level!",
+    "fail": "Too bad—you hit a mine.",
+    "use": "Time Taken",
+    "use_unit": "seconds",
+    "again": "Play Again",
+    "restart": "Restart Game",
+    "flagged": "Flagged cell",
+    "mine": "Mine",
+    "neighbor_count": "{count} adjacent {count, plural, one {mine} other {mines}}",
+    "empty": "Empty cell",
+    "unrevealed": "Unrevealed cell"
   }
 }

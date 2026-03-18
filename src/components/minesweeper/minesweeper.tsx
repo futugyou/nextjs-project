@@ -8,6 +8,7 @@ import { DifficultySelector } from './difficulty-selector'
 import { GameOverlay } from './game-overlay'
 import { Bomb, MousePointerClick, Flag } from 'lucide-react'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 // Determine ideal cell size based on difficulty
 function getCellSize(difficulty: Difficulty): number {
@@ -17,6 +18,7 @@ function getCellSize(difficulty: Difficulty): number {
 }
 
 export function Minesweeper() {
+  const t = useTranslations('minesweeper')
   const [difficulty, setDifficulty] = useState<Difficulty>('beginner')
   const { board, gameStatus, minesRemaining, time, revealCell, toggleFlag, resetGame } =
     useMinesweeper(difficulty)
@@ -46,22 +48,24 @@ export function Minesweeper() {
       <div className="flex flex-col items-center gap-1">
         <div className="flex items-center gap-2">
           <Bomb size={20} className="text-foreground" strokeWidth={1.5} />
-          <h1 className="text-xl font-bold tracking-tight text-foreground text-balance">扫雷</h1>
+          <h1 className="text-xl font-bold tracking-tight text-foreground text-balance">
+            {t('title')}
+          </h1>
         </div>
-        <p className="text-xs text-muted-foreground">左键揭示 · 右键标旗</p>
+        <p className="text-xs text-muted-foreground">{t('sub_title')}</p>
       </div>
 
       {currentGameData?.bestRecord && (
         <div className="flex gap-4 text-[11px] bg-secondary/50 px-3 py-1 rounded-full text-muted-foreground">
           <span>
-            最佳纪录:{' '}
+            {t('best_record')}:{' '}
             <span className="text-foreground font-medium">
               {currentGameData?.bestRecord.duration}s
             </span>
           </span>
           <span className="opacity-30">|</span>
           <span>
-            总局数:{' '}
+            {t('total_played')}:{' '}
             <span className="text-foreground font-medium">{currentGameData.history.length}</span>
           </span>
         </div>
@@ -96,12 +100,12 @@ export function Minesweeper() {
         <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
           <span className="flex items-center gap-1">
             <MousePointerClick size={11} strokeWidth={1.5} />
-            左键揭示格子
+            {t('left_tip')}
           </span>
           <span className="w-px h-3 bg-border" />
           <span className="flex items-center gap-1">
             <Flag size={11} strokeWidth={1.5} />
-            右键插旗标记
+            {t('right_tip')}
           </span>
         </div>
       </div>

@@ -106,5 +106,27 @@
     "continue_game": "继续游戏",
     "op_title": "操作说明",
     "op_desc": "使用 <kbd>方向键</kbd> 或 <bold>滑动</bold> 来移动方块"
+  },
+  "minesweeper": {
+    "title": "扫雷",
+    "sub_title": "左键揭示 · 右键标旗",
+    "best_record": "最佳纪录",
+    "total_played": "总局数",
+    "left_tip": "左键揭示格子",
+    "right_tip": "右键插旗标记",
+    "beginner": "初级",
+    "intermediate": "中级",
+    "expert": "专家",
+    "win": "恭喜通关！",
+    "fail": "很遗憾，踩雷了",
+    "use": "用时",
+    "use_unit": "秒",
+    "again": "再来一局",
+    "restart": "重新开始游戏",
+    "flagged": "已标记格子",
+    "mine": "地雷",
+    "neighbor_count": "{count} 个相邻地雷",
+    "empty": "空格",
+    "unrevealed": "未揭示格子"
   }
 }

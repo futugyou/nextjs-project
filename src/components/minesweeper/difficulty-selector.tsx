@@ -2,6 +2,7 @@
 
 import { DIFFICULTY_CONFIG, type Difficulty } from '@/hook/use-minesweeper'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface DifficultySelectorProps {
   current: Difficulty
@@ -11,6 +12,7 @@ interface DifficultySelectorProps {
 const difficulties: Difficulty[] = ['beginner', 'intermediate', 'expert']
 
 export function DifficultySelector({ current, onChange }: DifficultySelectorProps) {
+  const t = useTranslations('minesweeper')
   return (
     <div className="flex items-center gap-1 p-1 rounded-lg bg-secondary/60 border border-border">
       {difficulties.map((d) => {
@@ -27,7 +29,7 @@ export function DifficultySelector({ current, onChange }: DifficultySelectorProp
                 : 'text-muted-foreground hover:text-foreground hover:bg-background/60',
             )}
           >
-            <span>{cfg.label}</span>
+            <span>{t(cfg.label)}</span>
             {isActive && (
               <span className="ml-1.5 text-[10px] opacity-70">
                 {cfg.cols}×{cfg.rows}

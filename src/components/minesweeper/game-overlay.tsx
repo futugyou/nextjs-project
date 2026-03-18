@@ -4,6 +4,7 @@ import { Trophy, Frown, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { GameStatus } from '@/hook/use-minesweeper'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface GameOverlayProps {
   status: GameStatus
@@ -12,6 +13,7 @@ interface GameOverlayProps {
 }
 
 export function GameOverlay({ status, time, onReset }: GameOverlayProps) {
+  const t = useTranslations('minesweeper')
   if (status !== 'won' && status !== 'lost') return null
 
   const isWon = status === 'won'
@@ -42,12 +44,11 @@ export function GameOverlay({ status, time, onReset }: GameOverlayProps) {
         </div>
 
         <div className="text-center">
-          <p className="text-base font-semibold text-foreground">
-            {isWon ? '恭喜通关！' : '很遗憾，踩雷了'}
-          </p>
+          <p className="text-base font-semibold text-foreground">{isWon ? t('win') : t('fail')}</p>
           {isWon && (
             <p className="mt-1 text-sm text-muted-foreground">
-              用时 <span className="font-mono font-bold text-foreground">{time}</span> 秒
+              {t('use')} <span className="font-mono font-bold text-foreground">{time}</span>
+              {t('use_unit')}
             </p>
           )}
         </div>
@@ -59,7 +60,7 @@ export function GameOverlay({ status, time, onReset }: GameOverlayProps) {
           className="gap-2"
         >
           <RotateCcw size={13} strokeWidth={2} />
-          再来一局
+          {t('again')}
         </Button>
       </div>
     </div>
