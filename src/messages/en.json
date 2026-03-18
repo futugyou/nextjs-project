@@ -128,5 +128,27 @@
     "neighbor_count": "{count} adjacent {count, plural, one {mine} other {mines}}",
     "empty": "Empty cell",
     "unrevealed": "Unrevealed cell"
+  },
+  "tetris": {
+    "title": "Tetris",
+    "game_over": "Game Over",
+    "final_score": "Final Score",
+    "best_score": "Best Score",
+    "restart": "Restart",
+    "paused": "Paused",
+    "paused_desc": "Press P or ESC to Resume",
+    "start": "Start Game",
+    "next": "Next",
+    "scor": "Score",
+    "level": "Level",
+    "clear_count": "Lines Cleared",
+    "op": "Controls",
+    "left_right": "Move Left/Right",
+    "speed_down": "Soft Drop",
+    "rotation": "Rotate",
+    "space": "Space",
+    "direct_down": "Hard Drop",
+    "continue_game": "Resume Game",
+    "pause_game": "Pause Game"
   }
 }

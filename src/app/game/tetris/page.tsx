@@ -1,6 +1,7 @@
 'use client'
 
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 // Tetromino shapes and their rotations
@@ -95,6 +96,7 @@ const rotate = (matrix: number[][]): number[][] => {
 }
 
 export default function TetrisGame() {
+  const t = useTranslations('tetris')
   const { saveRecord, currentGameData } = useGameStorage('tetris')
   const [board, setBoard] = useState<Board>(createEmptyBoard)
   const [currentPiece, setCurrentPiece] = useState<Piece | null>(null)
@@ -505,35 +507,37 @@ export default function TetrisGame() {
               <div className="text-center">
                 {gameOver ? (
                   <>
-                    <h2 className="text-3xl font-bold text-red-400 mb-4">游戏结束</h2>
-                    <p className="text-xl text-white mb-4">最终得分: {score}</p>
+                    <h2 className="text-3xl font-bold text-red-400 mb-4">{t('game_over')}</h2>
+                    <p className="text-xl text-white mb-4">
+                      {t('final_score')}: {score}
+                    </p>
                     {currentGameData?.bestRecord && (
                       <p className="text-sm text-slate-400 mb-4">
-                        历史最高: {Math.max(currentGameData.bestRecord.score, score)}
+                        {t('best_score')}: {Math.max(currentGameData.bestRecord.score, score)}
                       </p>
                     )}
                     <button
                       onClick={startGame}
                       className="px-6 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
                     >
-                      重新开始
+                      {t('restart')}
                     </button>
                   </>
                 ) : isPaused ? (
                   <>
-                    <h2 className="text-3xl font-bold text-yellow-400 mb-4">暂停</h2>
-                    <p className="text-white mb-4">按 P 或 ESC 继续</p>
+                    <h2 className="text-3xl font-bold text-yellow-400 mb-4">{t('paused')}</h2>
+                    <p className="text-white mb-4">{t('paused_desc')}</p>
                   </>
                 ) : (
                   <>
                     <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 mb-6">
-                      俄罗斯方块
+                      {t('title')}
                     </h2>
                     <button
                       onClick={startGame}
                       className="px-8 py-4 bg-linear-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-lg hover:from-cyan-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/30"
                     >
-                      开始游戏
+                      {t('start')}
                     </button>
                   </>
                 )}
@@ -546,7 +550,7 @@ export default function TetrisGame() {
         <div className="flex flex-col gap-4">
           {/* Next Piece Preview */}
           <div className="bg-slate-800/80 p-4 rounded-lg shadow-xl">
-            <h3 className="text-white font-bold mb-3 text-center">下一个</h3>
+            <h3 className="text-white font-bold mb-3 text-center">{t('next')}</h3>
             <div
               className="grid gap-px bg-slate-900 p-2 rounded"
               style={{
@@ -574,21 +578,21 @@ export default function TetrisGame() {
           <div className="bg-slate-800/80 p-4 rounded-lg shadow-xl">
             <div className="space-y-3">
               <div>
-                <p className="text-slate-400 text-sm">历史最高</p>
+                <p className="text-slate-400 text-sm">{t('best_score')}</p>
                 <p className="text-2xl font-bold text-white">
                   {Math.max(currentGameData?.bestRecord?.score ?? 0, score)}
                 </p>
               </div>
               <div>
-                <p className="text-slate-400 text-sm">得分</p>
+                <p className="text-slate-400 text-sm">{t('scor')}</p>
                 <p className="text-2xl font-bold text-white">{score.toLocaleString()}</p>
               </div>
               <div>
-                <p className="text-slate-400 text-sm">等级</p>
+                <p className="text-slate-400 text-sm">{t('level')}</p>
                 <p className="text-2xl font-bold text-cyan-400">{level}</p>
               </div>
               <div>
-                <p className="text-slate-400 text-sm">消除行数</p>
+                <p className="text-slate-400 text-sm">{t('clear_count')}</p>
                 <p className="text-2xl font-bold text-purple-400">{lines}</p>
               </div>
             </div>
@@ -596,27 +600,27 @@ export default function TetrisGame() {
 
           {/* Controls */}
           <div className="bg-slate-800/80 p-4 rounded-lg shadow-xl">
-            <h3 className="text-white font-bold mb-3">操作说明</h3>
+            <h3 className="text-white font-bold mb-3">{t('op')}</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between text-slate-300">
                 <span>← →</span>
-                <span>左右移动</span>
+                <span>{t('left_right')}</span>
               </div>
               <div className="flex justify-between text-slate-300">
                 <span>↓</span>
-                <span>加速下落</span>
+                <span>{t('speed_down')}</span>
               </div>
               <div className="flex justify-between text-slate-300">
                 <span>↑</span>
-                <span>旋转</span>
+                <span>{t('rotation')}</span>
               </div>
               <div className="flex justify-between text-slate-300">
-                <span>空格</span>
-                <span>直接落下</span>
+                <span>{t('space')}</span>
+                <span>{t('direct_down')}</span>
               </div>
               <div className="flex justify-between text-slate-300">
                 <span>P / ESC</span>
-                <span>暂停</span>
+                <span>{t('paused')}</span>
               </div>
             </div>
           </div>
@@ -627,7 +631,7 @@ export default function TetrisGame() {
               onClick={() => setIsPaused((prev) => !prev)}
               className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition-colors"
             >
-              {isPaused ? '继续游戏' : '暂停游戏'}
+              {isPaused ? t('continue_game') : t('pause_game')}
             </button>
           )}
         </div>
