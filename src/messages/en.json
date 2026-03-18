@@ -66,5 +66,30 @@
     "next": "Next",
     "space": "Space",
     "pause": "Pause"
+  },
+  "gomoku": {
+    "title": "Gomoku",
+    "best_score_desc": "Best Score",
+    "use_time": "Time",
+    "use_time_unit": "s",
+    "aria-label": "Gomoku Board",
+    "draw": "Draw",
+    "player_won": "Congratulations, You Won!",
+    "ai_won": "AI Wins",
+    "draw_1": "The board is full. It's a draw!",
+    "player_won_1": "You got five in a row! Amazing job!",
+    "ai_won_1": "AI got five in a row. Better luck next time!",
+    "again": "Play Again",
+    "keys": "Arrow Keys",
+    "mouse": "Mouse",
+    "thinking": "AI is thinking...",
+    "user_turn": "Your Turn",
+    "ai_turn": "AI's Turn",
+    "difficulty_choose": "Select Difficulty",
+    "user_won_count": "User",
+    "draw_count": "Draws",
+    "ai_won_count": "AI",
+    "change_color": "Switch Color",
+    "restart": "Restart"
   }
 }

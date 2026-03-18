@@ -66,5 +66,30 @@
     "next": "下一个",
     "space": "空格",
     "pause": "暂停"
+  },
+  "gomoku": {
+    "title": "五子棋",
+    "best_score_desc": "历史最佳得分",
+    "use_time": "用时",
+    "use_time_unit": "秒",
+    "aria-label": "五子棋棋盘",
+    "draw": "平局",
+    "player_won": "恭喜你赢了！",
+    "ai_won": "AI 获胜",
+    "draw_1": "棋盘已满，双方势均力敌。",
+    "player_won_1": "你成功连成了五子，太厉害了！",
+    "ai_won_1": "AI 成功连成了五子，再接再厉！",
+    "again": "再来一局",
+    "keys": "方向键",
+    "mouse": "鼠标",
+    "thinking": "AI 思考中...",
+    "user_turn": "轮到你了",
+    "ai_turn": "AI 回合",
+    "difficulty_choose": "难度选择",
+    "user_won_count": "用户",
+    "draw_count": "平局",
+    "ai_won_count": "AI",
+    "change_color": "换色",
+    "restart": "重新开始"
   }
 }

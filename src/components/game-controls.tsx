@@ -2,6 +2,7 @@
 
 import type { CellValue, Difficulty } from '@/lib/gomoku-ai'
 import { RotateCcw, Keyboard, Mouse } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface GameControlsProps {
   currentPlayer: CellValue
@@ -37,19 +38,20 @@ export default function GameControls({
   onColorSwitch,
 }: GameControlsProps) {
   const difficulties: Difficulty[] = ['beginner', 'intermediate', 'advanced']
+  const t = useTranslations('gomoku')
 
   return (
     <div className="w-full max-w-150 mx-auto flex flex-col gap-4">
       {/* Score & Status */}
       <div className="bg-card border border-border rounded-xl p-4 shadow-md">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold text-foreground">五子棋</h2>
+          <h2 className="text-lg font-bold text-foreground">{t('title')}</h2>
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <Keyboard className="w-3 h-3" /> 方向键
+              <Keyboard className="w-3 h-3" /> {t('keys')}
             </span>
             <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <Mouse className="w-3 h-3" /> 鼠标
+              <Mouse className="w-3 h-3" /> {t('mouse')}
             </span>
           </div>
         </div>
@@ -64,7 +66,11 @@ export default function GameControls({
             }`}
           />
           <span className="text-sm font-medium text-secondary-foreground">
-            {isThinking ? 'AI 思考中...' : currentPlayer === playerColor ? '轮到你了' : 'AI 回合'}
+            {isThinking
+              ? t('thinking')
+              : currentPlayer === playerColor
+                ? t('user_turn')
+                : t('ai_turn')}
           </span>
           <div
             className={`w-5 h-5 rounded-full border-2 transition-all duration-300 ${
@@ -78,15 +84,15 @@ export default function GameControls({
         {/* Scores */}
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="bg-secondary rounded-lg p-2">
-            <div className="text-xs text-muted-foreground mb-0.5">你</div>
+            <div className="text-xs text-muted-foreground mb-0.5">{t('user_won_count')}</div>
             <div className="text-xl font-bold text-foreground">{scores.player}</div>
           </div>
           <div className="bg-secondary rounded-lg p-2">
-            <div className="text-xs text-muted-foreground mb-0.5">平局</div>
+            <div className="text-xs text-muted-foreground mb-0.5">{t('draw_count')}</div>
             <div className="text-xl font-bold text-muted-foreground">{scores.draw}</div>
           </div>
           <div className="bg-secondary rounded-lg p-2">
-            <div className="text-xs text-muted-foreground mb-0.5">AI</div>
+            <div className="text-xs text-muted-foreground mb-0.5">{t('ai_won_count')}</div>
             <div className="text-xl font-bold text-foreground">{scores.ai}</div>
           </div>
         </div>
@@ -94,7 +100,9 @@ export default function GameControls({
 
       {/* Difficulty Selector */}
       <div className="bg-card border border-border rounded-xl p-4 shadow-md">
-        <div className="text-xs text-muted-foreground mb-2 font-medium">难度选择</div>
+        <div className="text-xs text-muted-foreground mb-2 font-medium">
+          {t('difficulty_choose')}
+        </div>
         <div className="flex gap-2">
           {difficulties.map((d) => (
             <button
@@ -127,14 +135,14 @@ export default function GameControls({
               className={`w-3.5 h-3.5 rounded-full ${playerColor === 1 ? 'bg-card border border-muted-foreground' : 'bg-foreground'}`}
             />
           </div>
-          换色
+          {t('change_color')}
         </button>
         <button
           onClick={onRestart}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
         >
           <RotateCcw className="w-4 h-4" />
-          重新开始
+          {t('restart')}
         </button>
       </div>
     </div>

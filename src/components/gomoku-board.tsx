@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback, useState } from 'react'
 import type { Board, CellValue } from '@/lib/gomoku-ai'
+import { useTranslations } from 'next-intl'
 
 const BOARD_SIZE = 15
 const STAR_POINTS = [
@@ -39,6 +40,7 @@ export default function GomokuBoard({
   onCursorMove,
   newPieces,
 }: GomokuBoardProps) {
+  const t = useTranslations('gomoku')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [canvasSize, setCanvasSize] = useState(600)
@@ -349,7 +351,7 @@ export default function GomokuBoard({
         onClick={handleClick}
         onTouchStart={handleTouch}
         role="img"
-        aria-label="五子棋棋盘"
+        aria-label={t('aria-label')}
       />
     </div>
   )

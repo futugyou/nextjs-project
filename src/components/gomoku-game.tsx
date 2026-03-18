@@ -15,12 +15,14 @@ import {
   type CellValue,
   type Difficulty,
 } from '@/lib/gomoku-ai'
+import { useTranslations } from 'next-intl'
 
 const BOARD_SIZE = 15
 const BASE_SCORE = 1000
 const PENALTY_PER_MOVE = 10
 
 export default function GomokuGame() {
+  const t = useTranslations('gomoku')
   const { saveRecord, currentGameData } = useGameStorage('gomoku')
 
   const [board, setBoard] = useState<Board>(() => createEmptyBoard())
@@ -242,10 +244,13 @@ export default function GomokuGame() {
         <div className="w-full lg:w-[320px] order-2 lg:order-1 space-y-4">
           {currentGameData?.bestRecord && (
             <div className="p-4 bg-card rounded-lg border border-yellow-500/20 shadow-sm">
-              <p className="text-xs font-bold text-yellow-600 uppercase mb-1">历史最佳得分</p>
+              <p className="text-xs font-bold text-yellow-600 uppercase mb-1">
+                {t('best_score_desc')}
+              </p>
               <p className="text-2xl font-black">{currentGameData.bestRecord.score}</p>
               <p className="text-[10px] text-muted-foreground">
-                用时: {currentGameData.bestRecord.duration}秒 |{' '}
+                {t('use_time')}: {currentGameData.bestRecord.duration}
+                {t('use_time_unit')} |{' '}
                 {new Date(currentGameData.bestRecord.timestamp).toLocaleDateString()}
               </p>
             </div>
