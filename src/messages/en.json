@@ -163,5 +163,16 @@
     "result": "You guessed the word in <kbd>{count}</kbd> {count, plural, one {try} other {tries}}!",
     "win": "🎉 Congratulations!",
     "fail": "😔 Game Over"
+  },
+  "memory": {
+    "title": "Memory Match",
+    "best_score": "Best Score",
+    "step_count": "Step Count",
+    "restart": "Restart",
+    "matched": "{count} / 8 pairs matched",
+    "finish": "finish",
+    "again": "Play Again",
+    "congratulation": "Congratulations, You Won!",
+    "result": "You completed the game in <kbd>{count}</kbd> step!"
   }
 }

@@ -14,6 +14,7 @@ import {
   Trophy,
 } from 'lucide-react'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 interface Card {
   id: number
@@ -45,6 +46,7 @@ function createCards(): Card[] {
 }
 
 export default function MemoryMatchGame() {
+  const t = useTranslations('memory')
   const { saveRecord, currentGameData } = useGameStorage('memory')
   const [cards, setCards] = useState<Card[]>([])
   const [flippedCards, setFlippedCards] = useState<number[]>([])
@@ -62,7 +64,6 @@ export default function MemoryMatchGame() {
         hasSavedRef.current = true
       }
 
-      // 执行重置 UI 逻辑
       setCards(createCards())
       setFlippedCards([])
       setMoves(0)
@@ -149,22 +150,26 @@ export default function MemoryMatchGame() {
           <div className="px-6 py-4 border-b border-slate-700/50 bg-slate-800/30">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-lg font-semibold text-white">记忆配对</h1>
+                <h1 className="text-lg font-semibold text-white">{t('title')}</h1>
                 <div className="flex items-center gap-1.5 text-xs text-amber-400 mt-0.5">
                   <Trophy className="w-3 h-3" />
-                  <span>最高分: {currentGameData?.bestRecord?.score || 0}</span>
+                  <span>
+                    {t('best_score')}: {currentGameData?.bestRecord?.score || 0}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider">步数</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider">
+                    {t('step_count')}
+                  </p>
                   <p className="text-2xl font-bold text-white tabular-nums">{moves}</p>
                 </div>
                 <button
                   onClick={() => initializeGame(true)}
                   className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-all active:scale-95"
                 >
-                  重新开始
+                  {t('restart')}
                 </button>
               </div>
             </div>
@@ -232,11 +237,11 @@ export default function MemoryMatchGame() {
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-xs text-slate-400">
-                  已匹配 {cards.filter((c) => c.isMatched).length / 2} / 8 对
+                  {t('matched', { count: cards.filter((c) => c.isMatched).length || 0 })}
                 </span>
               </div>
               <div className="text-xs text-slate-500">
-                {Math.round((cards.filter((c) => c.isMatched).length / 16) * 100)}% 完成
+                {Math.round((cards.filter((c) => c.isMatched).length / 16) * 100)}% {t('finish')}
               </div>
             </div>
             {/* Progress Bar */}
@@ -258,15 +263,17 @@ export default function MemoryMatchGame() {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
                 <Star className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">恭喜你！</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">{t('congratulation')}</h2>
               <p className="text-slate-400 mb-6">
-                你用 <span className="text-white font-semibold">{moves}</span> 步完成了游戏！
+                {t.rich('result', {
+                  kbd: (chunks) => <span className="text-white font-semibold">{chunks}</span>,
+                })}
               </p>
               <button
                 onClick={() => initializeGame(false)}
                 className="px-6 py-3 bg-linear-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 active:scale-95"
               >
-                再玩一次
+                {t('again')}
               </button>
             </div>
           </div>
