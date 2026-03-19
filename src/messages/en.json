@@ -174,5 +174,18 @@
     "again": "Play Again",
     "congratulation": "Congratulations, You Won!",
     "result": "You completed the game in <kbd>{count}</kbd> step!"
+  },
+  "othello": {
+    "title": "Othello",
+    "sub_title": "Othello / Reversi",
+    "best_score": "Best Score: {count} points",
+    "black": "Black",
+    "white": "White",
+    "round": "Round",
+    "restart": "Restart",
+    "game_over": "Game Over!",
+    "draw": "Draw",
+    "win": "Win",
+    "again": "Play Again"
   }
 }

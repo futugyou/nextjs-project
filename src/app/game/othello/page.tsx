@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { RotateCcw, Trophy, Circle, History } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 type CellState = 'empty' | 'black' | 'white'
 type Player = 'black' | 'white'
@@ -35,6 +36,7 @@ function createInitialBoard(): CellState[][] {
 }
 
 export default function OthelloGame() {
+  const t = useTranslations('othello')
   const { saveRecord, currentGameData } = useGameStorage('othello')
   const hasSaved = useRef(false)
   const [startTime, setStartTime] = useState<number | null>(null)
@@ -232,14 +234,16 @@ export default function OthelloGame() {
         <div className="mb-4 flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-4 py-1.5 rounded-full border border-emerald-500/20">
           <History className="w-4 h-4" />
           <span className="text-xs font-medium uppercase tracking-wider">
-            最佳战绩: {currentGameData.bestRecord.score} 分 (
+            {t('best_score', { count: currentGameData.bestRecord.score })} (
             {Math.floor(currentGameData.bestRecord.duration)}s)
           </span>
         </div>
       )}
       <div className="text-center mb-6">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">黑白棋</h1>
-        <p className="text-slate-400 text-sm">Othello / Reversi</p>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">
+          {t('title')}
+        </h1>
+        <p className="text-slate-400 text-sm">{t('sub_title')}</p>
       </div>
 
       {/* Scoreboard */}
@@ -255,7 +259,7 @@ export default function OthelloGame() {
           <div className="w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-600 shadow-lg" />
           <div className="text-right">
             <div className="text-2xl font-bold text-white">{scores.black}</div>
-            <div className="text-xs text-slate-400 uppercase tracking-wider">黑棋</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider">{t('black')}</div>
           </div>
         </div>
 
@@ -273,7 +277,7 @@ export default function OthelloGame() {
           <div className="w-8 h-8 rounded-full bg-white border-2 border-slate-300 shadow-lg" />
           <div className="text-right">
             <div className="text-2xl font-bold text-white">{scores.white}</div>
-            <div className="text-xs text-slate-400 uppercase tracking-wider">白棋</div>
+            <div className="text-xs text-slate-400 uppercase tracking-wider">{t('white')}</div>
           </div>
         </div>
       </div>
@@ -296,7 +300,7 @@ export default function OthelloGame() {
             />
           </div>
           <span className="text-white font-medium">
-            {currentPlayer === 'black' ? '黑棋' : '白棋'}回合
+            {currentPlayer === 'black' ? t('black') : t('white')} {t('round')}
           </span>
         </div>
       )}
@@ -393,7 +397,7 @@ export default function OthelloGame() {
         className="mt-8 gap-2 bg-slate-800 border-slate-600 text-white hover:bg-slate-700 hover:text-white"
       >
         <RotateCcw className="w-4 h-4" />
-        重新开始
+        {t('restart')}
       </Button>
 
       {/* Game Over Overlay */}
@@ -404,10 +408,10 @@ export default function OthelloGame() {
               <Trophy className="w-16 h-16 mx-auto text-yellow-400" />
             </div>
 
-            <h2 className="text-3xl font-bold text-white mb-2">游戏结束</h2>
+            <h2 className="text-3xl font-bold text-white mb-2">{t('game_over')}</h2>
 
             {winner === 'tie' ? (
-              <p className="text-xl text-slate-300 mb-6">平局！</p>
+              <p className="text-xl text-slate-300 mb-6">{t('draw')}</p>
             ) : (
               <div className="mb-6">
                 <div className="flex items-center justify-center gap-3 mb-2">
@@ -419,7 +423,7 @@ export default function OthelloGame() {
                     }`}
                   />
                   <span className="text-xl text-white font-semibold">
-                    {winner === 'black' ? '黑棋' : '白棋'}获胜！
+                    {winner === 'black' ? t('black') : t('white')} {t('win')}
                   </span>
                 </div>
               </div>
@@ -444,7 +448,7 @@ export default function OthelloGame() {
               size="lg"
             >
               <RotateCcw className="w-4 h-4" />
-              再来一局
+              {t('again')}
             </Button>
           </div>
         </div>

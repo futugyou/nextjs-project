@@ -174,5 +174,18 @@
     "again": "再玩一次",
     "congratulation": "恭喜你！",
     "result": "你用<kbd>{count}</kbd> 步完成了游戏！"
+  },
+  "othello": {
+    "title": "黑白棋",
+    "sub_title": "奥赛罗 / 黑白棋",
+    "best_score": "最佳战绩: {count} 分",
+    "black": "黑棋",
+    "white": "白棋",
+    "round": "回合",
+    "restart": "重新开始",
+    "game_over": "游戏结束",
+    "draw": "平局",
+    "win": "获胜",
+    "again": "再来一局"
   }
 }
