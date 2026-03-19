@@ -2,6 +2,7 @@
 
 import { Piece, PIECE_CHARS } from '@/lib/xiangqi'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface ChessPieceProps {
   piece: Piece
@@ -12,6 +13,7 @@ interface ChessPieceProps {
 }
 
 export function ChessPiece({ piece, isSelected, isLastMove, onClick, size = 48 }: ChessPieceProps) {
+  const t = useTranslations('xiangqi')
   const char = PIECE_CHARS[piece.color][piece.type]
   const isRed = piece.color === 'red'
 
@@ -33,7 +35,7 @@ export function ChessPiece({ piece, isSelected, isLastMove, onClick, size = 48 }
         fontSize: size * 0.44,
         lineHeight: 1,
       }}
-      aria-label={`${piece.color === 'red' ? '红方' : '黑方'}${char}`}
+      aria-label={`${piece.color === 'red' ? t('red_piece') : t('black_piece')}${char}`}
     >
       {/* 外圈装饰 */}
       <span

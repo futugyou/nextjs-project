@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Trophy, RotateCcw } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 interface WinModalProps {
   winner: 'red' | 'black' | null
@@ -9,6 +10,7 @@ interface WinModalProps {
 }
 
 export function WinModal({ winner, onPlayAgain }: WinModalProps) {
+  const t = useTranslations('xiangqi')
   if (!winner) return null
 
   const isRedWin = winner === 'red'
@@ -34,16 +36,16 @@ export function WinModal({ winner, onPlayAgain }: WinModalProps) {
 
         <div className="mt-6 space-y-4">
           <h2 className={cn('text-3xl font-bold', isRedWin ? 'text-piece-red' : 'text-foreground')}>
-            {isRedWin ? '红方胜' : '黑方胜'}
+            {isRedWin ? t('red_win') : t('black_win')}
           </h2>
           <p className="text-muted-foreground text-sm">
-            {isRedWin ? '恭喜！您击败了AI对手。' : '很遗憾，本局您被AI击败。再接再厉！'}
+            {isRedWin ? t('red_win_desc') : t('black_win_desc')}
           </p>
 
           {/* 装饰分隔线 */}
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-muted-foreground text-xs">将</span>
+            <span className="text-muted-foreground text-xs">{t('check')}</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
@@ -56,7 +58,7 @@ export function WinModal({ winner, onPlayAgain }: WinModalProps) {
             )}
           >
             <RotateCcw className="w-5 h-5" />
-            再来一局
+            {t('again')}
           </button>
         </div>
       </div>

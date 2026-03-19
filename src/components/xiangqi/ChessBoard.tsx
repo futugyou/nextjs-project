@@ -4,6 +4,7 @@ import { useMemo, useRef, useEffect } from 'react'
 import { Board, Position, Piece, getLegalMoves } from '@/lib/xiangqi'
 import { ChessPiece } from './ChessPiece'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 interface ChessBoardProps {
   board: Board
@@ -48,6 +49,7 @@ export function ChessBoard({
 }: ChessBoardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const t = useTranslations('xiangqi')
 
   // 计算当前选中棋子的合法移动
   const legalMoves = useMemo<Position[]>(() => {
@@ -299,7 +301,7 @@ export function ChessBoard({
       {isAIThinking && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg z-20">
           <div className="bg-card/90 backdrop-blur px-6 py-3 rounded-full shadow-lg border border-border">
-            <span className="text-foreground font-bold animate-pulse">AI思考中...</span>
+            <span className="text-foreground font-bold animate-pulse">{t('thinking')}</span>
           </div>
         </div>
       )}

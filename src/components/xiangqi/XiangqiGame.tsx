@@ -22,6 +22,7 @@ import { GameSidebar } from './GameSidebar'
 import { WinModal } from './WinModal'
 import { cn } from '@/lib/utils'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 // 音效占位函数
 function playMoveSound() {
@@ -32,6 +33,7 @@ function playCaptureSound() {
 }
 
 export function XiangqiGame() {
+  const t = useTranslations('xiangqi')
   const { saveRecord, currentGameData } = useGameStorage('xiangqi')
   const gameStartTime = useRef<number>(Date.now())
   const hasSaved = useRef<boolean>(false)
@@ -209,11 +211,13 @@ export function XiangqiGame() {
     <div className="flex flex-col items-center gap-4 w-full min-h-screen p-4 md:p-6">
       {/* 标题 */}
       <header className="text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-widest">象棋对弈</h1>
-        <p className="text-muted-foreground text-sm mt-1 tracking-wider">人机对弈 · 红方先行</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground tracking-widest">
+          {t('title')}
+        </h1>
+        <p className="text-muted-foreground text-sm mt-1 tracking-wider">{t('sub_title')}</p>
         {currentGameData?.bestRecord && (
           <p className="text-xs text-muted-foreground mt-1">
-            历史最高记录:{' '}
+            {t('best_score')}:{' '}
             <span className="text-accent font-mono">{currentGameData.bestRecord.score}</span>
           </p>
         )}
@@ -229,7 +233,7 @@ export function XiangqiGame() {
               : 'bg-secondary border-border text-foreground',
           )}
         >
-          {inCheck === 'red' ? '红方被将军！' : '黑方被将军！'}
+          {inCheck === 'red' ? t('red_in_check') : t('black_in_check')}
         </div>
       )}
 
@@ -254,8 +258,8 @@ export function XiangqiGame() {
                 currentTurn === 'black' ? 'text-foreground' : 'text-muted-foreground',
               )}
             >
-              黑方（AI）
-              {isAIThinking && <span className="ml-1 text-xs animate-pulse">思考中...</span>}
+              {t('black')}
+              {isAIThinking && <span className="ml-1 text-xs animate-pulse">{t('thinking')}</span>}
             </span>
           </div>
 
@@ -284,7 +288,7 @@ export function XiangqiGame() {
                 currentTurn === 'red' ? 'text-piece-red' : 'text-muted-foreground',
               )}
             >
-              红方（您）
+              {t('red')}
             </span>
           </div>
         </div>
@@ -306,10 +310,10 @@ export function XiangqiGame() {
                   currentTurn === 'black' ? 'text-foreground' : 'text-muted-foreground',
                 )}
               >
-                黑方（AI）
+                {t('black')}
                 {isAIThinking && (
                   <span className="ml-1 text-xs animate-pulse text-muted-foreground">
-                    思考中...
+                    {t('thinking')}
                   </span>
                 )}
               </span>
@@ -328,7 +332,7 @@ export function XiangqiGame() {
                   currentTurn === 'red' ? 'text-piece-red' : 'text-muted-foreground',
                 )}
               >
-                红方（您）
+                {t('red')}
               </span>
             </div>
           </div>

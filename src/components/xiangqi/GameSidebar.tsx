@@ -43,7 +43,7 @@ export function GameSidebar({
   capturedByBlack,
 }: GameSidebarProps) {
   const historyRef = useRef<HTMLDivElement>(null)
-  const t = useTranslations('gomoku')
+  const t = useTranslations('xiangqi')
 
   useEffect(() => {
     if (historyRef.current) {
@@ -56,7 +56,7 @@ export function GameSidebar({
       {/* 当前回合状态 */}
       <div className="bg-card rounded-xl border border-border p-4 shadow-md">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-muted-foreground font-medium">当前回合</span>
+          <span className="text-sm text-muted-foreground font-medium">{t('turn')}</span>
           <div
             className={cn(
               'flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold',
@@ -71,15 +71,17 @@ export function GameSidebar({
                 currentTurn === 'red' ? 'bg-piece-red' : 'bg-foreground',
               )}
             />
-            {currentTurn === 'red' ? '红方' : '黑方'}
+            {currentTurn === 'red' ? t('red_piece') : t('black_piece')}
             {isAIThinking && currentTurn === 'black' && (
-              <span className="text-xs text-muted-foreground ml-1 animate-pulse">思考中</span>
+              <span className="text-xs text-muted-foreground ml-1 animate-pulse">
+                {t('thinking')}
+              </span>
             )}
           </div>
         </div>
         {/* 难度选择 */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">AI难度</span>
+          <span className="text-xs text-muted-foreground">{t('difficulty')}</span>
           <div className="relative flex-1">
             <select
               value={difficulty}
@@ -103,10 +105,10 @@ export function GameSidebar({
 
       {/* 被吃棋子展示 */}
       <div className="bg-card rounded-xl border border-border p-3 shadow-md">
-        <h3 className="text-xs text-muted-foreground mb-2 font-medium">被吃棋子</h3>
+        <h3 className="text-xs text-muted-foreground mb-2 font-medium">{t('captured_piece')}</h3>
         <div className="space-y-2">
           <div className="flex items-center gap-1 flex-wrap min-h-6">
-            <span className="text-xs text-piece-red mr-1 w-8">红方：</span>
+            <span className="text-xs text-piece-red mr-1 w-8">{t('red_piece')}：</span>
             {capturedByBlack.map((char, i) => (
               <span key={i} className="text-sm text-piece-red font-bold opacity-60">
                 {char}
@@ -114,7 +116,7 @@ export function GameSidebar({
             ))}
           </div>
           <div className="flex items-center gap-1 flex-wrap min-h-6">
-            <span className="text-xs text-muted-foreground mr-1 w-8">黑方：</span>
+            <span className="text-xs text-muted-foreground mr-1 w-8">{t('black_piece')}：</span>
             {capturedByRed.map((char, i) => (
               <span key={i} className="text-sm text-foreground font-bold opacity-60">
                 {char}
@@ -127,14 +129,14 @@ export function GameSidebar({
       {/* 棋谱记录 */}
       <div className="bg-card rounded-xl border border-border flex flex-col shadow-md flex-1 min-h-0">
         <div className="p-3 border-b border-border flex items-center justify-between">
-          <h3 className="text-sm font-bold text-foreground">棋谱记录</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('record')}</h3>
           <span className="text-xs text-muted-foreground">
-            {Math.ceil(moveHistory.length / 2)} 回
+            {Math.ceil(moveHistory.length / 2)} {t('times')}
           </span>
         </div>
         <div ref={historyRef} className="flex-1 overflow-y-auto p-2 min-h-0">
           {moveHistory.length === 0 ? (
-            <p className="text-center text-muted-foreground text-sm py-4">暂无记录</p>
+            <p className="text-center text-muted-foreground text-sm py-4">{t('no_record')}</p>
           ) : (
             <div className="space-y-0.5">
               {Array.from({ length: Math.ceil(moveHistory.length / 2) }, (_, i) => {
@@ -188,10 +190,10 @@ export function GameSidebar({
               ? 'bg-secondary border-border text-foreground hover:bg-accent/20 hover:border-accent active:scale-95'
               : 'bg-secondary/50 border-border/50 text-muted-foreground cursor-not-allowed',
           )}
-          aria-label="悔棋"
+          aria-label={t('undo')}
         >
           <RotateCcw className="w-4 h-4" />
-          <span>悔棋</span>
+          <span>{t('undo')}</span>
         </button>
         <button
           onClick={onNewGame}
@@ -200,10 +202,10 @@ export function GameSidebar({
             'bg-primary border-primary/80 text-primary-foreground',
             'hover:opacity-90 active:scale-95 transition-all duration-150 shadow-md',
           )}
-          aria-label="新游戏"
+          aria-label={t('new_game')}
         >
           <Flag className="w-4 h-4" />
-          <span>新游戏</span>
+          <span>{t('new_game')}</span>
         </button>
       </div>
     </div>
