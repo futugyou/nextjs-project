@@ -150,5 +150,18 @@
     "direct_down": "Hard Drop",
     "continue_game": "Resume Game",
     "pause_game": "Pause Game"
+  },
+  "wordle": {
+    "title": "Word Puzzle",
+    "not_enough_letters": "Not enough letters",
+    "copy": "Copied to clipboard!",
+    "best_score": "Best Score",
+    "played": "Played {count} times",
+    "share": "Share Results",
+    "again": "Play Again",
+    "correct": "The correct answer is",
+    "result": "You guessed the word in <kbd>{count}</kbd> {count, plural, one {try} other {tries}}!",
+    "win": "🎉 Congratulations!",
+    "fail": "😔 Game Over"
   }
 }

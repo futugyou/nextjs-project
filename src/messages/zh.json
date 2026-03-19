@@ -150,5 +150,18 @@
     "direct_down": "直接落下",
     "continue_game": "继续游戏",
     "pause_game": "暂停游戏"
+  },
+  "wordle": {
+    "title": "猜字谜",
+    "not_enough_letters": "字母不足",
+    "copy": "已复制到剪贴板！",
+    "best_score": "最高分",
+    "played": "已玩{count} 次",
+    "share": "分享结果",
+    "again": "再玩一次",
+    "correct": "正确答案是",
+    "result": "你在<kbd>{count}</kbd> 次尝试中猜出了单词！",
+    "win": "🎉 恭喜！",
+    "fail": "😔 游戏结束"
   }
 }

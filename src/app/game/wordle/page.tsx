@@ -1,6 +1,7 @@
 'use client'
 
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 import { useState, useEffect, useCallback, useRef } from 'react'
 
 const WORDS = [
@@ -72,6 +73,7 @@ interface TileData {
 }
 
 export default function WordleGame() {
+  const t = useTranslations('wordle')
   const { saveRecord, currentGameData } = useGameStorage('wordle')
   const [targetWord, setTargetWord] = useState('')
   const [guesses, setGuesses] = useState<TileData[][]>(
@@ -129,7 +131,7 @@ export default function WordleGame() {
         if (currentTile !== 5) {
           setShake(true)
           setTimeout(() => setShake(false), 500)
-          showMessage('字母不足')
+          showMessage('not_enough_letters')
           return
         }
 
@@ -290,7 +292,7 @@ export default function WordleGame() {
       navigator.share({ text: result })
     } else {
       navigator.clipboard.writeText(result)
-      showMessage('已复制到剪贴板！')
+      showMessage('copy')
     }
   }
 
@@ -340,22 +342,22 @@ export default function WordleGame() {
       {/* Header */}
       <header className="w-full max-w-lg border-b border-border pb-3 mb-4 flex justify-between items-center px-4">
         <div className="w-10"></div>
-        <h1 className="text-3xl font-bold tracking-wider text-foreground">WORDLE</h1>
+        <h1 className="text-3xl font-bold tracking-wider text-foreground">{t('title')}</h1>
         <div className="text-xs text-muted-foreground text-right">
           {currentGameData?.bestRecord && (
             <div>
-              最高分:{' '}
+              {t('best_score')}:{' '}
               <span className="font-mono text-primary">{currentGameData.bestRecord.score}</span>
             </div>
           )}
-          <div>已玩: {currentGameData?.history?.length || 0} 次</div>
+          <div>{t('played', { count: currentGameData?.history?.length || 0 })}</div>
         </div>
       </header>
 
       {/* Message Toast */}
       {message && (
         <div className="fixed top-20 bg-foreground text-background px-6 py-3 rounded-lg font-semibold z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-          {message}
+          {t(message)}
         </div>
       )}
 
@@ -374,12 +376,18 @@ export default function WordleGame() {
                 key={tileIndex}
                 className={getTileClasses(tile, rowIndex)}
                 style={{
-                  transform: tile.revealed ? 'rotateX(0deg)' : 'rotateX(0deg)',
-                  animation: tile.revealed
-                    ? `flip 0.5s ease-in-out`
+                  transform: 'rotateX(0deg)',
+                  animationName: tile.revealed
+                    ? 'flip'
                     : tile.letter && !tile.revealed
-                      ? 'pop 0.1s ease-in-out'
-                      : undefined,
+                      ? 'pop'
+                      : 'none',
+                  animationDuration: tile.revealed
+                    ? '0.5s'
+                    : tile.letter && !tile.revealed
+                      ? '0.1s'
+                      : '0s',
+                  animationTimingFunction: 'ease-in-out',
                   animationDelay: tile.revealed ? `${tileIndex * 0.3}s` : '0s',
                   animationFillMode: 'forwards',
                 }}
@@ -409,17 +417,19 @@ export default function WordleGame() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-in fade-in duration-200">
           <div className="bg-card border border-border rounded-xl p-6 sm:p-8 mx-4 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
             <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
-              {gameWon ? '🎉 恭喜！' : '😔 游戏结束'}
+              {gameWon ? t('win') : t('fail')}
             </h2>
 
             {gameWon ? (
               <p className="text-center text-muted-foreground mb-6">
-                你在 <span className="font-bold text-foreground">{currentRow + 1}</span>{' '}
-                次尝试中猜出了单词！
+                {t.rich('result', {
+                  count: currentRow + 1,
+                  kbd: (chunks) => <span className="font-bold text-foreground">{chunks}</span>,
+                })}
               </p>
             ) : (
               <p className="text-center text-muted-foreground mb-6">
-                正确答案是 <span className="font-bold text-foreground">{targetWord}</span>
+                {t('correct')} <span className="font-bold text-foreground">{targetWord}</span>
               </p>
             )}
 
@@ -451,13 +461,13 @@ export default function WordleGame() {
                 onClick={shareResult}
                 className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
               >
-                分享结果
+                {t('share')}
               </button>
               <button
                 onClick={resetGame}
                 className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-4 rounded-lg transition-colors"
               >
-                再玩一次
+                {t('again')}
               </button>
             </div>
           </div>
