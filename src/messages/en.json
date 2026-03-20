@@ -241,5 +241,16 @@
     "level2_desc": "Classic blockade; requires swapping horizontal blocks to create space.",
     "level3": "Deep Defense",
     "level3_desc": "Double horizontal blockades with a very high difficulty rating."
+  },
+  "poster": {
+    "name": "Achievement Poster",
+    "title": "Score Share Poster",
+    "description": "Showcase your high score and statistics in this game",
+    "best_score": "Highest Score",
+    "recent": "Recent Battles",
+    "copyright": "GAME STATION",
+    "qrcode": "Scan the QR Code to Challenge My High Score",
+    "save": "Save Exquisite Poster",
+    "return": "Not sharing for now, return to page."
   }
 }

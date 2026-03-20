@@ -6,6 +6,7 @@ import { Game } from '@/lib/games'
 import { Download, Share2 } from 'lucide-react'
 import { toPng } from 'html-to-image'
 import { formatDuration, getRelativeTime } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 const GAME_THEMES: Record<string, string> = {
   tetris: 'from-blue-600 via-blue-500 to-indigo-600',
@@ -16,6 +17,7 @@ const GAME_THEMES: Record<string, string> = {
 }
 
 export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) => {
+  const t = useTranslations('poster')
   const posterRef = useRef<HTMLDivElement>(null)
   const themeClass = GAME_THEMES[game.slug] || GAME_THEMES.default
 
@@ -26,7 +28,7 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
       pixelRatio: 2,
     })
     const link = document.createElement('a')
-    link.download = `${game.name}-成就海报.png`
+    link.download = `${game.name}-${t('name')}.png`
     link.href = dataUrl
     link.click()
   }
@@ -43,8 +45,10 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
         <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-sm z-100 animate-in fade-in" />
         <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-95 z-101 focus:outline-none">
           <VisuallyHidden.Root>
-            <Dialog.Title>{game.name} 战绩分享海报</Dialog.Title>
-            <Dialog.Description>展示你在该游戏中的最高分和统计数据</Dialog.Description>
+            <Dialog.Title>
+              {game.name} {t('title')}
+            </Dialog.Title>
+            <Dialog.Description>{t('description')}</Dialog.Description>
           </VisuallyHidden.Root>
 
           <div
@@ -66,7 +70,7 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
 
             <div className="relative z-10 text-center mb-8 py-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-sm">
               <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-2">
-                Highest Score
+                {t('best_score')}
               </p>
               <div className="text-6xl font-black italic tracking-tighter drop-shadow-lg leading-none">
                 {stats.bestRecord?.score || 0}
@@ -77,7 +81,7 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
               <div className="flex items-center gap-2 mb-4">
                 <div className="h-px flex-1 bg-white/20"></div>
                 <span className="text-[10px] font-bold opacity-50 uppercase tracking-widest">
-                  Recent Battles
+                  {t('recent')}
                 </span>
                 <div className="h-px flex-1 bg-white/20"></div>
               </div>
@@ -114,8 +118,8 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
 
             <div className="relative z-10 mt-6 pt-6 border-t border-white/10 flex justify-between items-end">
               <div className="space-y-1">
-                <p className="text-[10px] font-bold tracking-tight">GAME STATION</p>
-                <p className="text-[8px] opacity-50">扫描二维码 挑战我的最高纪录</p>
+                <p className="text-[10px] font-bold tracking-tight">{t('copyright')}</p>
+                <p className="text-[8px] opacity-50">{t('qrcode')}</p>
               </div>
               <div className="w-12 h-12 bg-white rounded-xl p-1 shadow-lg shadow-black/20">
                 <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center">
@@ -130,11 +134,11 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
               onClick={handleDownload}
               className="w-full bg-white text-black font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-transform"
             >
-              <Download size={20} /> 保存精美海报
+              <Download size={20} /> {t('save')}
             </button>
             <Dialog.Close asChild>
               <button className="mx-auto text-white/60 text-sm hover:text-white transition-colors">
-                暂不分享，返回页面
+                {t('return')}
               </button>
             </Dialog.Close>
           </div>
