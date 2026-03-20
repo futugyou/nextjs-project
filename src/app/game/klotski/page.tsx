@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RotateCcw, ChevronDown, Trophy, Footprints } from 'lucide-react'
 import { useGameStorage } from '@/hook/use-game-record'
+import { useTranslations } from 'next-intl'
 
 // ─── 类型定义 ────────────────────────────────────────────────────────────────
 
@@ -29,8 +30,8 @@ interface Level {
 
 const LEVELS: Level[] = [
   {
-    name: '兵分三路',
-    description: '全竖向长将布局，空间分布均匀',
+    name: 'level1',
+    description: 'level1_desc',
     pieces: [
       { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
       { type: 'general-v', col: 0, row: 0, w: 1, h: 2 },
@@ -44,8 +45,8 @@ const LEVELS: Level[] = [
     ],
   },
   {
-    name: '横刀立马',
-    description: '经典闸门布局，需通过横将置换空间',
+    name: 'level2',
+    description: 'level2_desc',
     pieces: [
       { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
       { type: 'general-v', col: 0, row: 0, w: 1, h: 2 },
@@ -60,8 +61,8 @@ const LEVELS: Level[] = [
     ],
   },
   {
-    name: '层层设防',
-    description: '双重横向封锁，难度系数极高',
+    name: 'level3',
+    description: 'level3_desc',
     pieces: [
       { type: 'caocao', col: 1, row: 0, w: 2, h: 2 },
       { type: 'general-h', col: 1, row: 2, w: 2, h: 1 },
@@ -191,6 +192,7 @@ const PIECE_STYLES: Record<
 // ─── 主组件 ───────────────────────────────────────────────────────────────────
 
 export default function KlotskiGame() {
+  const t = useTranslations('klotski')
   const { saveRecord, currentGameData } = useGameStorage('klotski')
   const [levelIdx, setLevelIdx] = useState(0)
   const [pieces, setPieces] = useState<Piece[]>(() => initPieces(0))
@@ -354,15 +356,17 @@ export default function KlotskiGame() {
             textShadow: `0 2px 8px oklch(0.15 0.05 45 / 0.6)`,
           }}
         >
-          华容道
+          {t('title')}
         </h1>
         <p style={{ color: THEME.textMuted, fontSize: '14px', letterSpacing: '0.05em' }}>
-          帮助曹操从底部中门逃脱
+          {t('sub_title')}
         </p>
         {currentGameData?.bestRecord && (
           <p style={{ color: THEME.primary, fontSize: '12px', marginTop: '4px' }}>
-            最佳记录: {currentGameData.bestRecord.score} 分 ({currentGameData.bestRecord.duration}
-            秒)
+            {t('best_record', {
+              score: currentGameData.bestRecord.score,
+              duration: currentGameData.bestRecord.duration,
+            })}{' '}
           </p>
         )}
       </header>
@@ -399,7 +403,7 @@ export default function KlotskiGame() {
               transition: 'background-color 0.2s',
             }}
           >
-            <span>{LEVELS[levelIdx].name}</span>
+            <span>{t(LEVELS[levelIdx].name)}</span>
             <ChevronDown className="w-4 h-4" style={{ color: THEME.textMuted }} />
           </button>
           <AnimatePresence>
@@ -443,8 +447,10 @@ export default function KlotskiGame() {
                     onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f3f4f6')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                   >
-                    <div style={{ fontWeight: '500' }}>{lv.name}</div>
-                    <div style={{ fontSize: '12px', color: THEME.textMuted }}>{lv.description}</div>
+                    <div style={{ fontWeight: '500' }}>{t(lv.name)}</div>
+                    <div style={{ fontSize: '12px', color: THEME.textMuted }}>
+                      {t(lv.description)}
+                    </div>
                   </button>
                 ))}
               </motion.div>
@@ -498,7 +504,7 @@ export default function KlotskiGame() {
             e.currentTarget.style.color = THEME.textMuted
             e.currentTarget.style.borderColor = '#e5e7eb'
           }}
-          title="重置关卡"
+          title={t('reset')}
         >
           <RotateCcw className="w-4 h-4" />
         </button>
@@ -517,9 +523,7 @@ export default function KlotskiGame() {
       <p
         style={{ marginTop: '16px', fontSize: '12px', color: THEME.textMuted, textAlign: 'center' }}
       >
-        {selected !== null
-          ? '点击箭头或使用方向键移动，再次点击取消选中'
-          : '点击棋子选中，然后点击箭头移动'}
+        {selected !== null ? t('tip') : t('tip1')}
       </p>
 
       {/* 胜利弹窗 */}
@@ -575,17 +579,20 @@ export default function KlotskiGame() {
                   fontFamily: 'serif',
                 }}
               >
-                曹操逃脱！
+                {t('result')}
               </h2>
               <p style={{ color: THEME.textMuted, fontSize: '14px', marginBottom: '4px' }}>
-                关卡：{LEVELS[levelIdx].name}
+                {t('level')}：{t(LEVELS[levelIdx].name)}
               </p>
               <p style={{ color: '#1f2937', fontWeight: '500', marginBottom: '24px' }}>
-                共用{' '}
-                <span style={{ color: THEME.primary, fontSize: '20px', fontWeight: 'bold' }}>
-                  {moves}
-                </span>{' '}
-                步
+                {t.rich('result_desc', {
+                  count: moves,
+                  kbd: (chunks) => (
+                    <span style={{ color: THEME.primary, fontSize: '20px', fontWeight: 'bold' }}>
+                      {chunks}
+                    </span>
+                  ),
+                })}
               </p>
               <button
                 onClick={reset}
@@ -606,7 +613,7 @@ export default function KlotskiGame() {
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
               >
-                再来一局
+                {t('again')}
               </button>
               <button
                 onClick={() => {
@@ -627,7 +634,7 @@ export default function KlotskiGame() {
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#e5e7eb')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#f3f4f6')}
               >
-                下一关卡
+                {t('next')}
               </button>
             </motion.div>
           </motion.div>
@@ -648,6 +655,7 @@ interface BoardProps {
 }
 
 function Board({ pieces, selected, moveDirs, onPieceClick, onMove }: BoardProps) {
+  const t = useTranslations('klotski')
   const CELL = 72
 
   const boardW = COLS * CELL
@@ -785,7 +793,7 @@ function Board({ pieces, selected, moveDirs, onPieceClick, onMove }: BoardProps)
                   }}
                   onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.95)')}
                   onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
-                  aria-label={`向${dir === 'up' ? '上' : dir === 'down' ? '下' : dir === 'left' ? '左' : '右'}移动`}
+                  aria-label={t('move', { dir: t(dir) })}
                 >
                   <ArrowIcon dir={dir as 'up' | 'down' | 'left' | 'right'} />
                 </motion.button>
@@ -808,7 +816,7 @@ function Board({ pieces, selected, moveDirs, onPieceClick, onMove }: BoardProps)
           opacity: 0.8,
         }}
       >
-        出口
+        {t('exit')}
       </div>
     </div>
   )

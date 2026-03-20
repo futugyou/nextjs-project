@@ -216,5 +216,30 @@
     "black_win_desc": "Unfortunately, you were defeated by the AI ​​in this game. Keep trying!",
     "check": "check",
     "again": "Play Again"
+  },
+  "klotski": {
+    "title": "Klotski",
+    "sub_title": "Help Cao Cao escape through the bottom-center gate.",
+    "best_record": "Best Record: {score} points ({duration} seconds)",
+    "reset": "Reset Game",
+    "tip": "Click the arrows or use the arrow keys to move; click again to deselect.",
+    "tip1": "Click a piece to select it, then click an arrow to move.",
+    "result": "Cao Cao Escapes!",
+    "level": "Level",
+    "result_desc": "Total steps: <kbd>{count}</kbd>",
+    "again": "Play Again",
+    "next": "Next Level",
+    "move": "Move to the {dir}",
+    "up": "up",
+    "down": "down",
+    "left": "left",
+    "right": "right",
+    "exit": "Exit",
+    "level1": "Triple Threat",
+    "level1_desc": "Symmetrical vertical layout with balanced spacing.",
+    "level2": "The Gatekeeper",
+    "level2_desc": "Classic blockade; requires swapping horizontal blocks to create space.",
+    "level3": "Deep Defense",
+    "level3_desc": "Double horizontal blockades with a very high difficulty rating."
   }
 }

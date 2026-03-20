@@ -216,5 +216,30 @@
     "black_win_desc": "很遗憾，本局您被AI击败。再接再厉！",
     "check": "将",
     "again": "再来一局"
+  },
+  "klotski": {
+    "title": "华容道",
+    "sub_title": "帮助曹操从底部中门逃脱",
+    "best_record": "最佳记录: {score} 分 ({duration} 秒)",
+    "reset": "重置关卡",
+    "tip": "点击箭头或使用方向键移动，再次点击取消选中",
+    "tip1": "点击棋子选中，然后点击箭头移动",
+    "result": "曹操逃脱！",
+    "level": "关卡",
+    "result_desc": "共用 <kbd>{count}</kbd> 步",
+    "again": "再来一局",
+    "next": "下一关卡",
+    "move": "向{dir}移动",
+    "up": "上",
+    "down": "下",
+    "left": "左",
+    "right": "右",
+    "exit": "出口",
+    "level1": "兵分三路",
+    "level1_desc": "全竖向长将布局，空间分布均匀",
+    "level2": "横刀立马",
+    "level2_desc": "经典闸门布局，需通过横将置换空间",
+    "level3": "层层设防",
+    "level3_desc": "双重横向封锁，难度系数极高"
   }
 }
