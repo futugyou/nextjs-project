@@ -1,12 +1,17 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function ExitGameHandler() {
   const router = useRouter()
+  const pathname = usePathname()
+
+  const excludedPaths = ['/game/records']
 
   useEffect(() => {
+    if (excludedPaths.includes(pathname)) return
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault()
@@ -15,11 +20,8 @@ export default function ExitGameHandler() {
     }
 
     window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [router])
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [router, pathname])
 
   return null
 }
