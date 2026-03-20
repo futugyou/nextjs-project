@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import { GameStats } from '@/hook/use-game-record'
@@ -7,6 +7,7 @@ import { Download, Share2 } from 'lucide-react'
 import { toPng } from 'html-to-image'
 import { formatDuration, getRelativeTime } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
+import { QRCodeCanvas } from 'qrcode.react'
 
 const GAME_THEMES: Record<string, string> = {
   tetris: 'from-blue-600 via-blue-500 to-indigo-600',
@@ -17,6 +18,7 @@ const GAME_THEMES: Record<string, string> = {
 }
 
 export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) => {
+  const [qrUrl, setQrUrl] = useState('')
   const t = useTranslations('poster')
   const posterRef = useRef<HTMLDivElement>(null)
   const themeClass = GAME_THEMES[game.slug] || GAME_THEMES.default
@@ -32,6 +34,11 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
     link.href = dataUrl
     link.click()
   }
+
+  useEffect(() => {
+    const host = window.location.origin
+    setQrUrl(`${host}/game/${game.slug}`)
+  }, [])
 
   return (
     <Dialog.Root>
@@ -121,10 +128,15 @@ export const SharePoster = ({ game, stats }: { game: Game; stats: GameStats }) =
                 <p className="text-[10px] font-bold tracking-tight">{t('copyright')}</p>
                 <p className="text-[8px] opacity-50">{t('qrcode')}</p>
               </div>
-              <div className="w-12 h-12 bg-white rounded-xl p-1 shadow-lg shadow-black/20">
-                <div className="w-full h-full bg-gray-900 rounded-lg flex items-center justify-center">
-                  <div className="w-4 h-4 bg-white rounded-sm rotate-45"></div>
-                </div>
+              <div className="w-12 h-12 bg-white p-1 shadow-lg shadow-black/20 flex items-center justify-center">
+                <QRCodeCanvas
+                  value={qrUrl}
+                  size={40}
+                  level={'H'}
+                  bgColor={'#FFFFFF'}
+                  fgColor={'#000000'}
+                  style={{ width: '100%', height: '100%' }}
+                />
               </div>
             </div>
           </div>
