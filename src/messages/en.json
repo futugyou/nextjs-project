@@ -42,7 +42,17 @@
     "recent_challenges": "Recent Challenges",
     "failure": "Defeat",
     "successful": "Victory",
-    "last_played": "Last Played"
+    "last_played": "Last Played",
+    "snake": "Snake",
+    "gomoku": "Gomoku",
+    "2048": "2048",
+    "minesweeper": "Minesweeper",
+    "tetris": "Tetris",
+    "wordle": "Wordle",
+    "memory": "Memory Match",
+    "othello": "Othello",
+    "xiangqi": "Chinese Chess",
+    "klotski": "Klotski"
   },
   "snake": {
     "title": "SNAKE GAME",

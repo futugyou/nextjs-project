@@ -74,7 +74,7 @@ export default function RecordsPage() {
                   </span>
                   <div>
                     <Link href={'/game/' + game.slug} className="btn-style">
-                      <h2 className="font-bold text-gray-800">{game.name}</h2>
+                      <h2 className="font-bold text-gray-800">{t(game.nameKey)}</h2>
                     </Link>
                   </div>
                 </div>

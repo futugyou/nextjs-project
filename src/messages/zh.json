@@ -42,7 +42,17 @@
     "recent_challenges": "最近挑战",
     "failure": "遗憾失败",
     "successful": "挑战成功",
-    "last_played": "最后玩过"
+    "last_played": "最后玩过",
+    "snake": "贪吃蛇",
+    "gomoku": "五子棋",
+    "2048": "2048",
+    "minesweeper": "扫雷",
+    "tetris": "俄罗斯方块",
+    "wordle": "猜字谜",
+    "memory": "神经衰弱",
+    "othello": "黑白棋",
+    "xiangqi": "中国象棋",
+    "klotski": "华容道"
   },
   "snake": {
     "title": "贪吃蛇",
