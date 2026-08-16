@@ -15,7 +15,7 @@
     "@copilotkit/runtime": "^1.66.2",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-slot": "^1.2.4",
-    "@vercel/functions": "^3.8.0",
+    "@vercel/functions": "^3.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
