@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@ag-ui/client": "^0.0.59",
-    "@copilotkit/react-core": "^1.71.0",
-    "@copilotkit/react-ui": "^1.71.0",
-    "@copilotkit/runtime": "^1.71.0",
+    "@copilotkit/react-core": "^1.72.0",
+    "@copilotkit/react-ui": "^1.72.0",
+    "@copilotkit/runtime": "^1.72.0",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-slot": "^1.2.4",
     "@vercel/functions": "^3.9.8",
