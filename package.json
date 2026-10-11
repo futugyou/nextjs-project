@@ -13,7 +13,7 @@
     "@copilotkit/react-core": "^1.75.2",
     "@copilotkit/react-ui": "^1.75.2",
     "@copilotkit/runtime": "^1.75.2",
-    "@radix-ui/react-dialog": "^1.1.23",
+    "@radix-ui/react-dialog": "^1.2.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@vercel/functions": "^3.9.11",
     "class-variance-authority": "^0.7.1",
